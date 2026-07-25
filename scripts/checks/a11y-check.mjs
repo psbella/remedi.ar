@@ -29,7 +29,24 @@ const MIME = {
 
 function servirEstaticos() {
     return http.createServer(async (req, res) => {
-        const filePath = path.join(ROOT, decodeURIComponent(req.url.split('?')[0]));
+        const rawPath = (req.url || '/').split('?')[0];
+        let decodedPath;
+        try {
+            decodedPath = decodeURIComponent(rawPath);
+        } catch {
+            res.writeHead(400);
+            res.end('bad request');
+            return;
+        }
+
+        const filePath = path.resolve(ROOT, `.${decodedPath}`);
+        const relativePath = path.relative(ROOT, filePath);
+        if (relativePath.startsWith('..') || path.isAbsolute(relativePath)) {
+            res.writeHead(403);
+            res.end('forbidden');
+            return;
+        }
+
         try {
             const data = await readFile(filePath);
             const ext = path.extname(filePath);
