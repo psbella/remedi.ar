@@ -2,7 +2,7 @@
 
 Todos los cambios notables de remedi.ar se documentan en este archivo.
 
-El formato está basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/) y el proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+El formato está basado en [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) y el proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [2.2.7] - 2026-07-22
 
