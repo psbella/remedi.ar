@@ -74,6 +74,10 @@
 
 ---
 
+> 🇬🇧 **[English version](./README.en.md)**
+
+---
+
 # 📋 Tabla de Contenidos
 
 - [✨ Demo en Vivo](#-demo-en-vivo)
@@ -650,6 +654,7 @@ remediar/
 ├── sw.js
 ├── privacidad.html
 ├── terminos.html
+├── about.html
 ├── README.md
 ├── _headers
 ├── .nojekyll
@@ -669,7 +674,8 @@ remediar/
 │   ├── filters.js
 │   ├── searchEngine.js
 │   ├── uiRenderer.js
-│   └── utils.js
+│   ├── utils.js
+│   └── about.js
 │
 ├── data/
 │   ├── medicamentos.json
@@ -1414,6 +1420,7 @@ Datos proporcionados por [SIAFAR / COFA](https://siafar.com/precios/pdf/). Cober
 | Sitemap | https://remedi.ar/sitemap.xml |
 | Política de privacidad | https://remedi.ar/privacidad.html |
 | Términos y condiciones | https://remedi.ar/terminos.html |
+| Cómo funciona | https://remedi.ar/about.html |
 
 ---
 
