@@ -4,6 +4,20 @@ Todos los cambios notables de remedi.ar se documentan en este archivo.
 
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.8] - 2026-07-25
+
+### Agregado
+- `about.html`: pagina "Sobre remedi.ar" con que es el proyecto, como funciona el pipeline, que lo hace distinto, que NO hace, numeros del proyecto (actualizados dinamicamente contra medicamentos.json), FAQ y quien lo sostiene. Linkeada desde el footer de index.html y agregada a sitemap.xml.
+- `js/about.js`: logica de carga de los numeros dinamicos de about.html, como archivo externo (no inline).
+- `README.en.md`: traduccion completa al ingles del README, con link reciproco desde README.md.
+
+### Corregido
+- La version original de about.html traia CSS embebido en un `<style>`, 7 atributos `style=` inline, y un `<script type="module">` inline. Los tres son incompatibles con la CSP del sitio (`style-src 'self'` y `script-src` con hashes especificos, sin `unsafe-inline`) -- de haberse desplegado asi, la pagina se hubiera visto sin estilo y los numeros dinamicos nunca hubieran cargado. Se movio el CSS a `style.css`, el JS a `js/about.js` externo, y se sacaron los inline styles.
+- `sw.js`: `CACHE_NAME` sube a `v8` para que los cambios en `index.html` (link nuevo del footer) y `style.css` (estilos de about.html) lleguen a usuarios con el sitio ya instalado.
+
+### Seguridad
+- `scripts/checks/a11y-check.mjs`: corregido path traversal (CWE-22, alerta de CodeQL) en el servidor local que usa el chequeo de accesibilidad. Fix generado por Copilot Autofix, verificado manualmente con requests HTTP crudas (sin normalizacion del lado cliente): el traversal real da 403, encoding malformado da 400, rutas legitimas siguen sirviendo 200.
+
 ## [2.2.7] - 2026-07-22
 
 ### 🐛 Corregido
