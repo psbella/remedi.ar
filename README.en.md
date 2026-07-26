@@ -131,11 +131,11 @@
 
 | Metric | Value |
 |---|---|
-| Records | ~12,100 |
-| Unique drugs | ~1,740 |
-| JSON size | ~2.5 MB |
-| Gzip size | ~520 KB |
-| With PAMI coverage | ~5,900 (49%) |
+| Records | ~13,400 |
+| Unique drugs | ~1,830 |
+| JSON size | ~3.8 MB |
+| Gzip size | ~345 KB |
+| With PAMI coverage | ~6,400 (48%) |
 | Blacklist entries | 569 |
 | Presentation parser coverage | ~99.5% |
 | Updates | 2x/day (Monday to Friday) |
@@ -751,7 +751,7 @@ remediar/
 - Static hosting at practically zero cost
 - Extremely efficient CDN
 - Lower operational complexity
-- The dataset (~12,000 records) fits perfectly in memory
+- The dataset (~13,400 records) fits perfectly in memory
 
 ## Why 8+ normalization layers?
 

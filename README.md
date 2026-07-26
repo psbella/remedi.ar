@@ -131,11 +131,11 @@
 
 | Métrica | Valor |
 |---|---|
-| Registros | ~12.100 |
-| Drogas únicas | ~1.740 |
-| Tamaño JSON | ~2.5 MB |
-| Tamaño gzip | ~520 KB |
-| Con cobertura PAMI | ~5.900 (49%) |
+| Registros | ~13.400 |
+| Drogas únicas | ~1.830 |
+| Tamaño JSON | ~3.8 MB |
+| Tamaño gzip | ~345 KB |
+| Con cobertura PAMI | ~6.400 (48%) |
 | Entradas en blacklist | 569 |
 | Cobertura parser de presentaciones | ~99.5% |
 | Actualizaciones | 2 veces/día (lunes a viernes) |
@@ -750,7 +750,7 @@ remediar/
 - Hosting estático con costo prácticamente cero
 - CDN extremadamente eficiente
 - Menor complejidad operacional
-- El dataset (~12.000 registros) cabe perfectamente en memoria
+- El dataset (~13.400 registros) cabe perfectamente en memoria
 
 ## ¿Por qué 8+ capas de normalización?
 
