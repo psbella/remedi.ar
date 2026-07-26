@@ -1,6 +1,9 @@
-// uiRenderer.js — Renderizado con badges de vigencia y escape seguro.
+// js/uiRenderer.js — Renderizado con badges de vigencia y escape seguro
 import { formatearPrecio, escapeHtml, extraerFiltros, normalizarLaboratorio, parsearPresentacion } from './utils.js';
 
+/**
+ * Muestra tarjetas placeholder animadas mientras cargan los datos reales.
+ */
 export function mostrarSkeleton() {
     const el = document.getElementById('resultados');
     if (!el || el.querySelector('.skeleton-card')) return;
@@ -13,6 +16,10 @@ export function mostrarSkeleton() {
         </div>`).join('');
 }
 
+/**
+ * Muestra el mensaje de bienvenida cuando todavía no hay búsqueda ni
+ * filtro activo.
+ */
 export function mostrarMensajeInicial() {
     const el = document.getElementById('resultados');
     if (!el) return;
@@ -27,6 +34,10 @@ export function mostrarMensajeInicial() {
     _ocultarChip();
 }
 
+/**
+ * Muestra un mensaje de error con botón de reintentar en el área de
+ * resultados (ej. cuando falla la carga inicial de datos).
+ */
 export function mostrarError(msg) {
     const el = document.getElementById('resultados');
     if (!el) return;
@@ -43,6 +54,11 @@ export function mostrarError(msg) {
     _ocultarChip();
 }
 
+/**
+ * Rellena los dropdowns de presentación y laboratorio con los valores
+ * únicos presentes en la lista, preservando la selección activa si sigue
+ * siendo válida.
+ */
 export function cargarOpcionesFiltros(medicamentos, filtrosActivos = {}) {
     const { presentaciones, laboratorios } = extraerFiltros(medicamentos);
     const selP = document.getElementById('filtroPresentacion');
@@ -72,6 +88,10 @@ export function cargarOpcionesFiltros(medicamentos, filtrosActivos = {}) {
     }
 }
 
+/**
+ * Escribe la fecha de última actualización del dataset en los elementos
+ * de footer correspondientes, formateada como dd/mm/aaaa hh:mm.
+ */
 export function actualizarFechaEnFooter(fecha) {
     const ids = ['fecha-actualizacion', 'fecha-actualizacion-footer'];
     ids.forEach(id => {
@@ -86,6 +106,9 @@ export function actualizarFechaEnFooter(fecha) {
     });
 }
 
+/**
+ * Muestra u oculta el chip que indica el criterio de orden activo.
+ */
 export function actualizarSortChip(texto) {
     const chip  = document.getElementById('sortChip');
     const label = document.getElementById('sortChipLabel');
@@ -100,6 +123,10 @@ function _ocultarChip() {
 }
 
 // ── Hash de medicamento para compartir ────────────────────────────────
+/**
+ * Genera un hash legible y estable (slug de droga/marca/laboratorio/
+ * presentación) para identificar un medicamento en la URL al compartirlo.
+ */
 export function hashMedicamento(med) {
     const slug = s => (s || '').toLowerCase()
         .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
@@ -108,11 +135,20 @@ export function hashMedicamento(med) {
     return `${slug(med.droga)}--${slug(med.marca)}--${slug(med.laboratorio)}--${slug(med.presentacion)}`;
 }
 
+/**
+ * Busca en la lista el medicamento cuyo hash (ver hashMedicamento) coincide
+ * con el recibido, para resolver un link compartido.
+ */
 export function buscarPorHash(todos, hash) {
     return todos.find(m => hashMedicamento(m) === hash) || null;
 }
 
 // ── Compartir ─────────────────────────────────────────────────────────
+/**
+ * Comparte un medicamento vía Web Share API si está disponible, o copia
+ * el link al portapapeles como fallback. Registra el evento en GA4 si
+ * gtag está presente.
+ */
 export async function compartirMedicamento(med) {
     const hash = hashMedicamento(med);
     const url  = `${location.origin}${location.pathname}#${hash}`;
@@ -178,6 +214,11 @@ function renderBotonCompartir() {
 }
 
 // ── Presentación y precios ────────────────────────────────────────────
+/**
+ * Arma los chips de dosis/forma/cantidad para una tarjeta. Prioriza los
+ * campos pres_forma/pres_dosis/pres_cantidad ya extraídos por el ETL; si
+ * no están, cae a parsear el campo presentacion crudo en el cliente.
+ */
 function renderPresentacion(med) {
     const p = (med.pres_forma || med.pres_dosis)
         ? { forma: med.pres_forma || null, dosis: med.pres_dosis ? `${med.pres_dosis}${med.pres_unidad ? ' ' + med.pres_unidad : ''}` : null, cantidad: med.pres_cantidad || null }
@@ -190,6 +231,10 @@ function renderPresentacion(med) {
     </div>`;
 }
 
+/**
+ * Renderiza el precio público y, si aplica, el copago PAMI calculado.
+ * Con soloPami activo, prioriza mostrar el precio con cobertura primero.
+ */
 function renderPrecios(med, soloPami) {
     const copago = med.pami_cobertura
         ? Math.round(med.precio * (1 - med.pami_cobertura / 100))
@@ -208,6 +253,11 @@ function renderPrecios(med, soloPami) {
 }
 
 // ── Tarjeta ───────────────────────────────────────────────────────────
+/**
+ * Arma el HTML completo de una tarjeta de medicamento: header, principio
+ * activo, presentación, precios y botón de compartir. Todo el contenido
+ * dinámico pasa por escapeHtml antes de insertarse.
+ */
 function renderizarTarjeta(med, soloPami = false, destacada = false) {
     const esSosp = (med.vigencia_score ?? 100) < 50;
     const clases = [
@@ -252,6 +302,11 @@ function renderizarTarjeta(med, soloPami = false, destacada = false) {
 }
 
 // ── Render principal ──────────────────────────────────────────────────
+/**
+ * Renderiza la lista de resultados: mensaje de "sin resultados" si está
+ * vacía, contador con aviso de sospechosos si corresponde, y hasta 300
+ * tarjetas (el medicamento destacado, si hay, siempre primero).
+ */
 export function mostrarResultados(lista, termino = '', soloPami = false, medDestacada = null) {
     const cont = document.getElementById('resultados');
     const ctr  = document.getElementById('contador');
@@ -297,7 +352,12 @@ export function mostrarResultados(lista, termino = '', soloPami = false, medDest
     _ocultarChip();
 }
 
-// Badge vigencia (definición movida después de las funciones que la usan)
+/**
+ * Genera el badge de vigencia (precio sospechoso/desactualizado/a verificar)
+ * según vigencia_score y flags calculados por el ETL. Sin badge si el score
+ * es alto y no hay flags. Definición ubicada después de las funciones que
+ * la usan para mantener el archivo en orden de "flujo de renderizado".
+ */
 function badgeVigencia(med) {
     const flags = med.flags || [];
     const score = med.vigencia_score ?? 100;

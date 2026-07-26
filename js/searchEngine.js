@@ -1,9 +1,14 @@
-// searchEngine.js — Índice invertido + ranking por relevancia y vigencia
+// js/searchEngine.js — Índice invertido + ranking por relevancia y vigencia
 import { normalizar } from './utils.js';
 
 let indice = {};
 let _todos  = [];
 
+/**
+ * Construye el índice invertido por prefijos de palabra (droga, marca,
+ * laboratorio normalizados) para permitir búsqueda por coincidencia parcial
+ * desde 2 caracteres. Reemplaza el índice anterior por completo.
+ */
 export function construirIndice(medicamentos) {
     _todos  = medicamentos;
     indice  = {};
@@ -95,4 +100,7 @@ export function buscar(texto) {
     });
 }
 
+/**
+ * Devuelve la lista completa de medicamentos cargados en el índice actual.
+ */
 export function getTodos() { return _todos; }
