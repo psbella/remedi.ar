@@ -4,6 +4,11 @@ Todos los cambios notables de remedi.ar se documentan en este archivo.
 
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2026-07-25
+
+### Housekeeping
+- El tag `v2.2.9` en git quedo apuntando al commit del bump de version (`0ca8dcf`), publicado antes de que el fix real (Ruff E701 + esta misma entrada de CHANGELOG) se subiera en `f76da86`. En vez de reescribir el tag `v2.2.9` ya publicado, se sube como `v2.3.0` sobre el commit correcto. Sin cambios de codigo respecto a lo que 2.2.9 debia contener.
+
 ## [2.2.9] - 2026-07-25
 
 ### Limpieza
