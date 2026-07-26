@@ -1,4 +1,8 @@
-// utils.js - Utilidades y normalización
+// js/utils.js — Utilidades y normalización
+
+/**
+ * Normaliza texto para comparación/búsqueda: minúsculas y sin acentos.
+ */
 export function normalizar(texto) {
     if (!texto) return '';
     return texto.toLowerCase()
@@ -6,6 +10,10 @@ export function normalizar(texto) {
         .trim();
 }
 
+/**
+ * Formatea un precio como moneda argentina (es-AR, ARS). Devuelve 'N/D'
+ * si el valor es nulo o no numérico.
+ */
 export function formatearPrecio(precio) {
     if (precio == null || isNaN(precio)) return 'N/D';
     return precio.toLocaleString('es-AR', {
@@ -14,6 +22,10 @@ export function formatearPrecio(precio) {
     });
 }
 
+/**
+ * Escapa caracteres especiales de HTML para insertar texto de forma
+ * segura en el DOM (previene inyección de markup).
+ */
 export function escapeHtml(str) {
     if (!str) return '';
     return String(str)
@@ -24,14 +36,16 @@ export function escapeHtml(str) {
 		.replace(/'/g, '&#039;');
 }
 
+/**
+ * Calcula el porcentaje de ahorro del precio PAMI contra el precio público.
+ * Devuelve null si falta algún precio o si PAMI no es más barato.
+ */
 export function calcularAhorroPami(pub, pami) {
     if (!pub || !pami || pub <= 0 || pami >= pub) return null;
     return Math.round(((pub - pami) / pub) * 100).toString();
 }
 
-// ============================================================
-// NORMALIZACIÓN DE LABORATORIOS TRUNCADOS
-// ============================================================
+// ── Normalización de laboratorios truncados ───────────────────────────
 const LAB_CORRECCIONES = {
     "abbvie (ex alle": "Abbvie / Recalcine",
     "alef medical ar": "Alef Medical Argentina",
@@ -64,12 +78,22 @@ const LAB_CORRECCIONES = {
     "vannier - grune": "Vannier - Grünenthal"
 };
 
+/**
+ * Reemplaza nombres de laboratorio truncados por el PDF de origen (ej.
+ * "abbvie (ex alle" -> "Abbvie / Recalcine") usando el mapa de correcciones
+ * conocidas. Si no hay corrección registrada, devuelve el valor original.
+ */
 export function normalizarLaboratorio(lab) {
     if (!lab) return "Desconocido";
     const clave = lab.toLowerCase().trim().replace(/\.$/, '');
     return LAB_CORRECCIONES[clave] || lab;
 }
 
+/**
+ * Detecta laboratorios corruptos por mal parseo (precios o dosis que
+ * terminaron en el campo laboratorio), vía blacklist de valores conocidos
+ * más heurísticas de dígitos/unidades.
+ */
 function esLaboratorioCorrupto(valor) {
     if (!valor) return true;
     const limpio = valor.toString().trim();
@@ -85,6 +109,10 @@ function esLaboratorioCorrupto(valor) {
     return false;
 }
 
+/**
+ * Extrae los valores únicos de presentación y laboratorio (normalizado, sin
+ * corruptos) presentes en la lista, para poblar los dropdowns de filtro.
+ */
 export function extraerFiltros(medicamentos) {
     const pres = new Set();
     const labs = new Set();
@@ -100,9 +128,7 @@ export function extraerFiltros(medicamentos) {
     };
 }
 
-// ============================================================
-// PARSEO DE PRESENTACIÓN EN COMPONENTES (dosis / forma / cantidad)
-// ============================================================
+// ── Parseo de presentación en componentes ─────────────────────────────
 const FORMAS_MAP = {
     // Comprimidos
     'comp':              'Comprimidos',
@@ -202,6 +228,12 @@ const FORMAS_MAP = {
     'crema':             'Crema',
 };
 
+/**
+ * Descompone una presentación en sus componentes: dosis, forma farmacéutica
+ * y cantidad (ej. "500mg comp.rec.x30" -> dosis "500mg", forma
+ * "Comprimidos recubiertos", cantidad "30"). Devuelve null si no matchea
+ * ninguno de los tres.
+ */
 export function parsearPresentacion(texto) {
     if (!texto) return null;
     const t = texto.trim().toLowerCase();
