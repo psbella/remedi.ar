@@ -1,5 +1,9 @@
-// filters.js — Filtros y ordenamiento con soporte de vigencia
+// js/filters.js — Filtros y ordenamiento con soporte de vigencia
 
+/**
+ * Detecta si un valor de laboratorio quedó corrupto por un mal parseo del PDF
+ * (por ejemplo, un precio o una dosis que terminó en el campo equivocado).
+ */
 function esValorCorrupto(valor) {
     if (!valor) return true;
     const limpio = valor.toString().trim();
@@ -9,6 +13,11 @@ function esValorCorrupto(valor) {
     return false;
 }
 
+/**
+ * Aplica los filtros de presentación, laboratorio y cobertura PAMI sobre la
+ * lista de medicamentos. Los laboratorios con valor corrupto (ver
+ * esValorCorrupto) nunca matchean, aunque coincida el texto.
+ */
 export function aplicarFiltros(lista, presentacion = '', laboratorio = '', mostrarSospechosos = true, soloPami = false) {
     let r = [...lista];
     if (presentacion) r = r.filter(m => m.presentacion === presentacion);
@@ -51,6 +60,11 @@ export function ordenar(lista, modo = 'relevancia') {
     });
 }
 
+/**
+ * Devuelve la lista de laboratorios únicos y ordenados alfabéticamente,
+ * excluyendo los que parecen corruptos (ver esValorCorrupto). Se usa para
+ * poblar el dropdown de filtro por laboratorio.
+ */
 export function obtenerLaboratoriosValidos(lista) {
     const labs = new Set();
     lista.forEach(m => {
