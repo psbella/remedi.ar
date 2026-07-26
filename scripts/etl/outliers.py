@@ -13,6 +13,10 @@ from .config import OUTLIER_CONFIG, OUTLIER_REPORT, AR_TZ
 # DETECCION DE OUTLIERS
 # ─────────────────────────────────────────────────────────────────────────────
 def calcular_stats_por_droga(medicamentos):
+    """Agrupa los precios validos (>0) por droga y calcula mediana, cuartiles
+    y el fence inferior de Tukey (q1 - IQR_FACTOR * iqr) para cada grupo.
+    Devuelve un dict {droga: stats} usado como base para evaluar_outlier.
+    """
     grupos = defaultdict(list)
     for m in medicamentos:
         droga  = (m.get('droga') or '').strip().lower()
@@ -39,6 +43,12 @@ def calcular_stats_por_droga(medicamentos):
     return stats
 
 def evaluar_outlier(med, stats_droga):
+    """Evalua un medicamento contra las stats de su droga (ver
+    calcular_stats_por_droga) y devuelve (score, flags, tipo, razones).
+    Un precio invalido o <= 0 se marca directo como outlier. Los demas
+    casos se comparan contra el precio minimo absoluto, un umbral critico
+    respecto a la mediana, un umbral relativo y el fence de Tukey.
+    """
     precio   = med.get('precio')
     droga    = (med.get('droga') or '').strip().lower()
     flags    = []
@@ -81,6 +91,13 @@ def evaluar_outlier(med, stats_droga):
     return score, flags, tipo, razones
 
 def detectar_escala(medicamentos, stats_droga):
+    """Detecta inconsistencias de escala dentro de una misma droga+marca:
+    agrupa por precio-por-unidad (ppu = precio / cantidad extraida de la
+    presentacion) y marca como sospechosos los registros cuyo ppu es menos
+    del 20% de la mediana del grupo (ej. un envase mal cargado con la
+    cantidad de otra presentacion). Modifica medicamentos in-place y
+    devuelve la cantidad de registros marcados.
+    """
     def extraer_cant(pres):
         nums = re.findall(r'\b(\d+)\b', str(pres or ''))
         return int(nums[0]) if nums else None
@@ -118,6 +135,12 @@ def detectar_escala(medicamentos, stats_droga):
     return marcados
 
 def calcular_vigencia(medicamentos):
+    """Orquesta el calculo de vigencia completo: stats por droga, evaluacion
+    de outlier por registro (evaluar_outlier) y deteccion de inconsistencias
+    de escala (detectar_escala). Escribe el reporte de outliers en
+    OUTLIER_REPORT y devuelve la lista de medicamentos con vigencia_score,
+    flags, precio_outlier_tipo y outlier_razones seteados.
+    """
     print("\nCalculando estadisticas de outliers...")
     stats = calcular_stats_por_droga(medicamentos)
     print(f"   {len(stats)} drogas distintas")
