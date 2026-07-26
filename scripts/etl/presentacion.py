@@ -522,9 +522,13 @@ def _parsear_presentacion(pres: str) -> dict:
             s = s[m2.end():]
     else:
         m = _RE_PD.match(s)
-        if m: r['dosis'] = m.group(1); s = s[m.end():]
+        if m:
+            r['dosis'] = m.group(1)
+            s = s[m.end():]
         m = _RE_PU.match(s)
-        if m: r['unidad'] = _UNI_MAP.get(m.group(1).lower(), m.group(1).upper()); s = s[m.end():]
+        if m:
+            r['unidad'] = _UNI_MAP.get(m.group(1).lower(), m.group(1).upper())
+            s = s[m.end():]
     # Patrón "forma N% x cantidad" → ej: "gel 0.1% x 30 g"
     # El % aparece DESPUÉS de la forma: primero buscamos la forma, luego el %
     if not r['dosis']:
@@ -575,8 +579,10 @@ def _parsear_presentacion(pres: str) -> dict:
     s_sk = _RE_PKV.sub('', s)
     m = _RE_PCA.search(s_sk)
     if m:
-        cant = m.group(1); uc = (m.group(2) or '').strip().rstrip('.')
-        if uc == 'dosis': uc = 'ds.'
+        cant = m.group(1)
+        uc = (m.group(2) or '').strip().rstrip('.')
+        if uc == 'dosis':
+            uc = 'ds.'
         r['cantidad'] = (cant + (' ' + uc if uc else '')).strip()
         s = (s_sk[:m.start()] + s_sk[m.end():]).strip(' .,+')
     else:
@@ -592,16 +598,22 @@ def _parsear_presentacion(pres: str) -> dict:
         if mod in _MODS_PRES:
             mapa = _MODS_PRES[mod]
             fr = mapa.get(fkr) or mapa.get(None)
-            if fr: r['forma'] = fr; s = ''
-            elif mapa.get(None) is None: s = ''
+            if fr:
+                r['forma'] = fr
+                s = ''
+            elif mapa.get(None) is None:
+                s = ''
     s = s.strip(' .,+-')
     if not r['forma'] and not s and r['cantidad']:
-        if r['unidad'] == 'ML': r['forma'] = 'LÍQUIDO'
-        elif r['unidad'] == 'G': r['forma'] = 'TÓPICO'
+        if r['unidad'] == 'ML':
+            r['forma'] = 'LÍQUIDO'
+        elif r['unidad'] == 'G':
+            r['forma'] = 'TÓPICO'
     # Appendear modificador a la forma si corresponde (SR, LP, Flash, Niños…)
     if _mod_forma and r['forma']:
         r['forma'] = f"{r['forma']} {_mod_forma}"
-    if s: r['resto'] = s
+    if s:
+        r['resto'] = s
     # Si el string original contiene 'vial' explícito pero la forma capturada es
     # un modificador (liof, pvo, IV, fco, sol), forzar forma = VIAL
     _FORMAS_VIAL_OVERRIDE = {
@@ -633,10 +645,13 @@ def generar_debug_presentaciones(medicamentos: list) -> None:
         writer.writeheader()
         for m in medicamentos:
             pres = (m.get('presentacion') or '').strip()
-            if not pres: continue
+            if not pres:
+                continue
             r = _parsear_presentacion(pres)
-            if not r['forma']:   sin_forma += 1
-            if r['resto']:       con_resto += 1
+            if not r['forma']:
+                sin_forma += 1
+            if r['resto']:
+                con_resto += 1
             total += 1
             writer.writerow({
                 'debug_generado': debug_generado,
@@ -650,4 +665,3 @@ def generar_debug_presentaciones(medicamentos: list) -> None:
     print(f"   Total: {total} | Limpio: {limpios} ({100*limpios/max(total,1):.1f}%) | "
           f"Sin forma: {sin_forma} | Con resto: {con_resto}")
     print(f"   Debug: {PRES_DEBUG_PATH}")
-

@@ -50,10 +50,14 @@ def enriquecer_dosis(medicamentos: list) -> None:
             continue
         r = _parsear_presentacion(pres)
         if r['forma'] or r['dosis']:
-            if r['forma']:    m['pres_forma']    = r['forma']
-            if r['dosis']:    m['pres_dosis']    = r['dosis']
-            if r['unidad']:   m['pres_unidad']   = r['unidad']
-            if r['cantidad']: m['pres_cantidad'] = r['cantidad']
+            if r['forma']:
+                m['pres_forma'] = r['forma']
+            if r['dosis']:
+                m['pres_dosis'] = r['dosis']
+            if r['unidad']:
+                m['pres_unidad'] = r['unidad']
+            if r['cantidad']:
+                m['pres_cantidad'] = r['cantidad']
             n_enriquecidos += 1
         # Fallback: buscar dosis en el nombre de marca si presentacion no la tiene
         if not m.get('pres_dosis'):
@@ -116,7 +120,8 @@ def enriquecer_dosis(medicamentos: list) -> None:
         return bool(f1 and f2 and f1.group(1).lower()[:3] == f2.group(1).lower()[:3])
 
     def _cant_compat(ps, pp):
-        c1 = _RE_CANT_PAMI.search(ps); c2 = _RE_CANT_PAMI.search(pp)
+        c1 = _RE_CANT_PAMI.search(ps)
+        c2 = _RE_CANT_PAMI.search(pp)
         return (c1.group(1) == c2.group(1)) if (c1 and c2) else True
 
     n_dosis_pami = 0
@@ -133,4 +138,3 @@ def enriquecer_dosis(medicamentos: list) -> None:
                 n_dosis_pami += 1
                 break
     print(f"   Dosis rescatadas de PAMI: {n_dosis_pami}")
-

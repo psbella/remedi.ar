@@ -4,6 +4,11 @@ Todos los cambios notables de remedi.ar se documentan en este archivo.
 
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.9] - 2026-07-25
+
+### Limpieza
+- scripts/etl/parser.py, enriquecimiento.py, presentacion.py: se separan los 24 statements compuestos (if x: y; continue) que quedaban como backlog de estilo desde 2.2.5 (Ruff E701). Ruff baja de 24 a 0 findings. Sin cambio de comportamiento: verificado con los 28 tests y una corrida de Ruff sobre el repo completo. Cierra #25.
+
 ## [2.2.8] - 2026-07-25
 
 ### Agregado

@@ -52,9 +52,11 @@ def parsear_pdf(pdf_bytes: bytes) -> list:
         while i < len(lineas):
             linea = lineas[i]
             if 'MONODROGA' in linea or 'pag' in linea.lower():
-                i += 1; continue
+                i += 1
+                continue
             if es_precio(linea):
-                i += 1; continue
+                i += 1
+                continue
 
             # ── CAPA 1: detección de desplazamiento en tiempo de parse ──
             #
@@ -91,7 +93,8 @@ def parsear_pdf(pdf_bytes: bytes) -> list:
                 precio_str   = lineas[i+4]
                 avance       = 5
             else:
-                i += 1; continue
+                i += 1
+                continue
 
             if es_precio(precio_str):
                 precio = limpiar_precio(precio_str)
@@ -103,7 +106,8 @@ def parsear_pdf(pdf_bytes: bytes) -> list:
                         'laboratorio':  laboratorio if not es_precio(laboratorio) else 'Desconocido',
                         'precio':       precio,
                     })
-                i += avance; continue
+                i += avance
+                continue
 
             i += 1
 
