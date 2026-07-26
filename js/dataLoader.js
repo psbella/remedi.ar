@@ -1,7 +1,14 @@
-// dataLoader.js — Carga con cache y compresión
+// js/dataLoader.js — Carga con cache y compresión
 const CACHE_KEY = 'remedios_data_v2';
 const CACHE_TTL_MS = 2 * 60 * 60 * 1000; // 2 horas
 
+/**
+ * Carga el dataset de medicamentos, sirviendo desde sessionStorage si hay
+ * una copia vigente (TTL de 2 horas) o pidiéndolo por fetch en caso
+ * contrario. La copia obtenida se guarda en cache para la próxima llamada.
+ * @returns {Promise<Object>} Datos crudos de data/medicamentos.json
+ * @throws {Error} Si el fetch responde con un status no-ok
+ */
 export async function cargarDatos() {
     // Intentar cache en sessionStorage (sin IndexedDB ni localStorage)
     try {
