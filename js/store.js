@@ -31,6 +31,10 @@ let state = {
 // ── Suscriptores ──────────────────────────────────────────────────────
 const suscriptores = [];
 
+/**
+ * Registra una función que se ejecuta con el estado completo cada vez que
+ * el store cambia (ver notificar).
+ */
 export function suscribirse(fn) {
     suscriptores.push(fn);
 }
@@ -40,6 +44,8 @@ function notificar() {
 }
 
 // ── Getters ───────────────────────────────────────────────────────────
+// Todos devuelven una copia superficial (spread), nunca la referencia
+// interna, para que nadie mute el estado del store desde afuera.
 export function getState()     { return { ...state }; }
 export function getFiltros()   { return { ...state.filtros }; }
 export function getResultados(){ return [...state.resultados]; }
@@ -47,6 +53,13 @@ export function getResultadosSinFiltros(){ return [...state.resultadosSinFiltros
 export function getTodos()     { return [...state.todos]; }
 
 // ── Recalcular resultados ─────────────────────────────────────────────
+/**
+ * Recalcula state.resultados a partir de los filtros actuales: sin texto
+ * ni filtro activo deja resultados vacío (para el mensaje inicial en UI);
+ * si no, busca (o parte del dataset completo), guarda una copia pre-filtro
+ * en resultadosSinFiltros (para poblar los dropdowns), aplica filtros y,
+ * si el orden no es "relevancia", reordena explícitamente.
+ */
 function recalcularResultados() {
     const { texto, presentacion, laboratorio, orden, soloPami } = state.filtros;
     const hayTexto  = texto && texto.trim().length >= 2;
@@ -76,6 +89,8 @@ function recalcularResultados() {
 }
 
 // ── Acciones ──────────────────────────────────────────────────────────
+// Todas siguen el mismo patrón: mutar el filtro correspondiente,
+// recalcular resultados y notificar a los suscriptores.
 export function setFiltroTexto(texto) {
     state.filtros.texto = texto;
     recalcularResultados();
@@ -105,17 +120,30 @@ export function setSoloPami(valor) {
     recalcularResultados();
     notificar();
 }
+/**
+ * Resetea todos los filtros a su valor inicial y vacía resultados
+ * directamente (no llama a recalcularResultados: volver al estado inicial
+ * siempre implica mostrar el mensaje de bienvenida, no una búsqueda).
+ */
 export function limpiarFiltros() {
 state.filtros = { texto: '', presentacion: '', laboratorio: '', orden: 'relevancia', soloPami: false };
     state.resultados = [];
     notificar();
 }
 
+/**
+ * Marca el estado de carga inicial (usado antes de que initStore() reciba
+ * el dataset).
+ */
 export function setLoading(loading) {
     state.estaCargando = loading;
     notificar();
 }
 
+/**
+ * Registra un error de carga y apaga el estado de "cargando" (se muestran
+ * mutuamente excluyentes en la UI).
+ */
 export function setError(error) {
     state.error        = error;
     state.estaCargando = false;
@@ -123,6 +151,11 @@ export function setError(error) {
 }
 
 // ── Inicialización ────────────────────────────────────────────────────
+/**
+ * Carga el dataset inicial en el store: setea todos, limpia resultados
+ * (para mostrar el mensaje inicial en vez de la lista completa), apaga
+ * el loading y calcula las opciones de filtro disponibles.
+ */
 export function initStore(medicamentos) {
     state.todos            = medicamentos;
     state.resultados       = [];   // ← vacío: muestra mensaje inicial
@@ -133,6 +166,11 @@ export function initStore(medicamentos) {
 
 
 // ── Privado ───────────────────────────────────────────────────────────
+/**
+ * Extrae los valores únicos de presentación y laboratorio del dataset
+ * completo (sin filtrar), excluyendo laboratorio "Desconocido", para
+ * poblar los dropdowns de filtro al iniciar.
+ */
 function _extraerFiltros(meds) {
     const presentaciones = new Set();
     const laboratorios   = new Set();
