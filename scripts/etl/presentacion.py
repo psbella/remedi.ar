@@ -500,6 +500,15 @@ _UNI_MAP = {'mg':'MG','mcg':'MCG','ug':'MCG','g':'G','ml':'ML',
 
 
 def _parsear_presentacion(pres: str) -> dict:
+    """
+    Descompone un string de presentacion crudo (tal como viene del PDF) en
+    sus componentes: forma, dosis, unidad, cantidad y resto (lo que no se
+    pudo clasificar). Aplica una serie de patrones en cascada -- primero
+    concentracion tipo mg/ml, luego dosis+unidad simple, luego %, luego
+    forma farmaceutica (con sus modificadores como SR/LP/Flash) y por
+    ultimo cantidad -- con varios casos especiales para resolver ambiguedad
+    entre dosis y cantidad cuando el patron mg/ml aparece corrido de lugar.
+    """
     r = {'forma': None, 'dosis': None, 'unidad': None, 'cantidad': None, 'resto': None}
     s = pres.strip().lower()
     # Capturar modificador de forma antes de strippear prefijos (SR, LP, Flash, Niños, etc.)
@@ -635,6 +644,13 @@ def _parsear_presentacion(pres: str) -> dict:
 
 
 def generar_debug_presentaciones(medicamentos: list) -> None:
+    """
+    Corre _parsear_presentacion sobre todo el dataset y vuelca el resultado
+    a PRES_DEBUG_PATH (CSV) para inspeccion manual: presentacion original
+    junto a forma/dosis/unidad/cantidad/resto parseados. Imprime cuantos
+    registros quedaron sin forma detectada y cuantos tienen "resto" (texto
+    no clasificado), como indicadores rapidos de cobertura del parser.
+    """
     import csv as _csv
     PRES_DEBUG_PATH.parent.mkdir(parents=True, exist_ok=True)
     debug_generado = datetime.now(AR_TZ).strftime("%Y-%m-%d %H:%M:%S")
