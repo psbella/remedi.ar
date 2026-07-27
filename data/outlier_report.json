@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-07-24T19:37:08.911079-03:00",
+  "timestamp": "2026-07-26T16:32:04.497010-03:00",
   "total_registros": 13376,
-  "total_outliers": 284,
+  "total_outliers": 287,
   "outliers": [
     {
       "droga": "abacavir, lamivudina",
@@ -24,7 +24,7 @@
       "precio": 4458857.48,
       "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "precio $4,458,857.48 < fence_low $6,102,661.33"
+        "precio $4,458,857.48 < fence_low $5,316,483.60"
       ],
       "mediana_droga": 11573421.64,
       "n_droga": 20
@@ -225,7 +225,7 @@
       "razones": [
         "ppu $14.60 << mediana_grupo $105.00"
       ],
-      "mediana_droga": 11379.0,
+      "mediana_droga": 11393.0,
       "n_droga": 116
     },
     {
@@ -238,7 +238,7 @@
       "razones": [
         "ppu $12.76 << mediana_grupo $165.70"
       ],
-      "mediana_droga": 11379.0,
+      "mediana_droga": 11393.0,
       "n_droga": 116
     },
     {
@@ -251,7 +251,7 @@
       "razones": [
         "ppu $16.97 << mediana_grupo $122.38"
       ],
-      "mediana_droga": 11379.0,
+      "mediana_droga": 11393.0,
       "n_droga": 116
     },
     {
@@ -669,9 +669,9 @@
       "precio": 112791.2,
       "precio_outlier_tipo": "bajo_relativo",
       "razones": [
-        "precio $112,791.20 < 25% mediana $455,471.54 (n=22)"
+        "precio $112,791.20 < 25% mediana $489,963.00 (n=22)"
       ],
-      "mediana_droga": 455471.54,
+      "mediana_droga": 489963.0,
       "n_droga": 22
     },
     {
@@ -1547,9 +1547,9 @@
       "precio": 3829696.53,
       "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "precio $3,829,696.53 < fence_low $4,314,286.71"
+        "precio $3,829,696.53 < fence_low $4,515,936.40"
       ],
-      "mediana_droga": 5494427.38,
+      "mediana_droga": 5555837.45,
       "n_droga": 10
     },
     {
@@ -2501,15 +2501,54 @@
     },
     {
       "droga": "paclitaxel",
+      "marca": "PACLITAXEL GLENMARK",
+      "presentacion": "30 mg f.a.x 1 x 5 ml",
+      "laboratorio": "Glenmark",
+      "precio": 334739.98,
+      "precio_outlier_tipo": "bajo_relativo",
+      "razones": [
+        "precio $334,739.98 < 25% mediana $1,370,835.00 (n=50)"
+      ],
+      "mediana_droga": 1370835.0,
+      "n_droga": 50
+    },
+    {
+      "droga": "paclitaxel",
+      "marca": "PANATAXEL",
+      "presentacion": "30 mg f.a.x 1 x 5 ml",
+      "laboratorio": "Bioprofarma Bag",
+      "precio": 336427.35,
+      "precio_outlier_tipo": "bajo_relativo",
+      "razones": [
+        "precio $336,427.35 < 25% mediana $1,370,835.00 (n=50)"
+      ],
+      "mediana_droga": 1370835.0,
+      "n_droga": 50
+    },
+    {
+      "droga": "paclitaxel",
+      "marca": "PACLITAXEL MICROSULES",
+      "presentacion": "30 mg iny.f.a.x 1 x 5 ml",
+      "laboratorio": "Microsules Arg.",
+      "precio": 334988.79,
+      "precio_outlier_tipo": "bajo_relativo",
+      "razones": [
+        "precio $334,988.79 < 25% mediana $1,370,835.00 (n=50)"
+      ],
+      "mediana_droga": 1370835.0,
+      "n_droga": 50
+    },
+    {
+      "droga": "paclitaxel",
       "marca": "PACLINOVA",
       "presentacion": "30 mg vial x 1 x 5 ml",
       "laboratorio": "Elea",
       "precio": 299625.36,
       "precio_outlier_tipo": "bajo_relativo",
       "razones": [
-        "precio $299,625.36 < 25% mediana $1,315,607.81 (n=50)"
+        "precio $299,625.36 < 25% mediana $1,370,835.00 (n=50)"
       ],
-      "mediana_droga": 1315607.81,
+      "mediana_droga": 1370835.0,
       "n_droga": 50
     },
     {
@@ -2520,9 +2559,9 @@
       "precio": 5484732.0,
       "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "precio $5,484,732.00 < fence_low $6,517,913.36"
+        "precio $5,484,732.00 < fence_low $6,507,355.29"
       ],
-      "mediana_droga": 9195471.9,
+      "mediana_droga": 9274635.44,
       "n_droga": 36
     },
     {
@@ -2533,9 +2572,9 @@
       "precio": 5484732.0,
       "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "precio $5,484,732.00 < fence_low $6,517,913.36"
+        "precio $5,484,732.00 < fence_low $6,507,355.29"
       ],
-      "mediana_droga": 9195471.9,
+      "mediana_droga": 9274635.44,
       "n_droga": 36
     },
     {
@@ -2546,9 +2585,9 @@
       "precio": 5484732.0,
       "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "precio $5,484,732.00 < fence_low $6,517,913.36"
+        "precio $5,484,732.00 < fence_low $6,507,355.29"
       ],
-      "mediana_droga": 9195471.9,
+      "mediana_droga": 9274635.44,
       "n_droga": 36
     },
     {
