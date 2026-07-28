@@ -126,7 +126,7 @@ export function setSoloPami(valor) {
  * siempre implica mostrar el mensaje de bienvenida, no una búsqueda).
  */
 export function limpiarFiltros() {
-state.filtros = { texto: '', presentacion: '', laboratorio: '', orden: 'relevancia', soloPami: false };
+    state.filtros = { texto: '', presentacion: '', laboratorio: '', orden: 'relevancia', soloPami: false };
     state.resultados = [];
     notificar();
 }

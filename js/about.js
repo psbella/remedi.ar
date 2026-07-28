@@ -2,6 +2,7 @@
 (async () => {
     try {
         const response = await fetch('data/medicamentos.json');
+        if (!response.ok) throw new Error(`Error al cargar datos: ${response.status}`);
         const data = await response.json();
 
         const medicamentos = data.medicamentos || [];

@@ -1,8 +1,9 @@
 // sw.js — Service Worker remedi.ar
-const CACHE_NAME   = 'remediar-v8';
+const CACHE_NAME   = 'remediar-v9';
 const CACHE_STATIC = [
     '/',
     '/index.html',
+    '/about.html',
     '/style.css',
     '/manifest.json',
     '/img/favicon.svg',
@@ -11,6 +12,7 @@ const CACHE_STATIC = [
     '/img/icon-512.png',
     '/img/og-image.png',
     '/js/main.js',
+    '/js/about.js',
     '/js/store.js',
     '/js/dataLoader.js',
     '/js/filters.js',
