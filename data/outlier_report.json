@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-07-28T19:36:06.153627-03:00",
+  "timestamp": "2026-07-29T12:31:55.301382-03:00",
   "total_registros": 13376,
-  "total_outliers": 287,
+  "total_outliers": 286,
   "outliers": [
     {
       "droga": "abacavir, lamivudina",
@@ -225,7 +225,7 @@
       "razones": [
         "ppu $14.60 << mediana_grupo $105.00"
       ],
-      "mediana_droga": 11393.0,
+      "mediana_droga": 11420.0,
       "n_droga": 116
     },
     {
@@ -238,7 +238,7 @@
       "razones": [
         "ppu $12.76 << mediana_grupo $165.70"
       ],
-      "mediana_droga": 11393.0,
+      "mediana_droga": 11420.0,
       "n_droga": 116
     },
     {
@@ -251,7 +251,7 @@
       "razones": [
         "ppu $16.97 << mediana_grupo $122.38"
       ],
-      "mediana_droga": 11393.0,
+      "mediana_droga": 11420.0,
       "n_droga": 116
     },
     {
@@ -276,9 +276,9 @@
       "precio_outlier_tipo": "bajo_critico",
       "razones": [
         "precio $1,706.89 < minimo $1,800",
-        "precio $1,706.89 < 10% mediana $20,508.68"
+        "precio $1,706.89 < 10% mediana $20,709.97"
       ],
-      "mediana_droga": 20508.68,
+      "mediana_droga": 20709.97,
       "n_droga": 4
     },
     {
@@ -1298,9 +1298,9 @@
       "precio": 73800.0,
       "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "precio $73,800.00 < fence_low $75,210.26"
+        "precio $73,800.00 < fence_low $76,480.13"
       ],
-      "mediana_droga": 99401.51,
+      "mediana_droga": 100257.38,
       "n_droga": 20
     },
     {
@@ -1387,10 +1387,10 @@
       "marca": "ESOMAX",
       "presentacion": "20 mg cáps.x 7",
       "laboratorio": "Eurofarma",
-      "precio": 7049.26,
+      "precio": 7183.2,
       "precio_outlier_tipo": "bajo_relativo",
       "razones": [
-        "precio $7,049.26 < 25% mediana $35,464.34 (n=68)"
+        "precio $7,183.20 < 25% mediana $35,464.34 (n=68)"
       ],
       "mediana_droga": 35464.34,
       "n_droga": 68
@@ -1531,10 +1531,10 @@
       "marca": "LIFECELL",
       "presentacion": "150UIf.a.liof.x1+solv.x1",
       "laboratorio": "Eurofarma",
-      "precio": 297428.7,
+      "precio": 303079.85,
       "precio_outlier_tipo": "bajo_relativo",
       "razones": [
-        "precio $297,428.70 < 25% mediana $1,674,809.02 (n=6)"
+        "precio $303,079.85 < 25% mediana $1,674,809.02 (n=6)"
       ],
       "mediana_droga": 1674809.02,
       "n_droga": 6
@@ -1625,9 +1625,9 @@
       "precio": 9530.89,
       "precio_outlier_tipo": "bajo_relativo",
       "razones": [
-        "precio $9,530.89 < 25% mediana $60,399.02 (n=3)"
+        "precio $9,530.89 < 25% mediana $61,546.60 (n=3)"
       ],
-      "mediana_droga": 60399.02,
+      "mediana_droga": 61546.6,
       "n_droga": 3
     },
     {
@@ -1917,7 +1917,7 @@
       "razones": [
         "precio $23,842.04 < fence_low $26,626.72"
       ],
-      "mediana_droga": 34208.24,
+      "mediana_droga": 34532.77,
       "n_droga": 8
     },
     {
@@ -1941,7 +1941,7 @@
       "precio": 10559.48,
       "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "precio $10,559.48 < fence_low $10,862.77"
+        "precio $10,559.48 < fence_low $10,927.09"
       ],
       "mediana_droga": 20624.06,
       "n_droga": 42
@@ -2077,9 +2077,9 @@
       "precio": 7009.0,
       "precio_outlier_tipo": "bajo_relativo",
       "razones": [
-        "precio $7,009.00 < 25% mediana $35,998.41 (n=36)"
+        "precio $7,009.00 < 25% mediana $36,001.07 (n=36)"
       ],
-      "mediana_droga": 35998.41,
+      "mediana_droga": 36001.07,
       "n_droga": 36
     },
     {
@@ -2090,9 +2090,9 @@
       "precio": 16190.0,
       "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "precio $16,190.00 < fence_low $22,539.68"
+        "precio $16,190.00 < fence_low $23,043.26"
       ],
-      "mediana_droga": 35998.41,
+      "mediana_droga": 36001.07,
       "n_droga": 36
     },
     {
@@ -2103,9 +2103,9 @@
       "precio": 6335.41,
       "precio_outlier_tipo": "bajo_relativo",
       "razones": [
-        "precio $6,335.41 < 25% mediana $35,998.41 (n=36)"
+        "precio $6,335.41 < 25% mediana $36,001.07 (n=36)"
       ],
-      "mediana_droga": 35998.41,
+      "mediana_droga": 36001.07,
       "n_droga": 36
     },
     {
@@ -2837,7 +2837,7 @@
       "razones": [
         "precio $52,210.08 < fence_low $63,732.18"
       ],
-      "mediana_droga": 112088.45,
+      "mediana_droga": 112160.42,
       "n_droga": 54
     },
     {
@@ -2850,7 +2850,7 @@
       "razones": [
         "precio $53,803.09 < fence_low $63,732.18"
       ],
-      "mediana_droga": 112088.45,
+      "mediana_droga": 112160.42,
       "n_droga": 54
     },
     {
@@ -2863,7 +2863,7 @@
       "razones": [
         "precio $53,359.00 < fence_low $63,732.18"
       ],
-      "mediana_droga": 112088.45,
+      "mediana_droga": 112160.42,
       "n_droga": 54
     },
     {
@@ -2876,7 +2876,7 @@
       "razones": [
         "precio $55,277.16 < fence_low $63,732.18"
       ],
-      "mediana_droga": 112088.45,
+      "mediana_droga": 112160.42,
       "n_droga": 54
     },
     {
@@ -2889,7 +2889,7 @@
       "razones": [
         "precio $58,547.44 < fence_low $63,732.18"
       ],
-      "mediana_droga": 112088.45,
+      "mediana_droga": 112160.42,
       "n_droga": 54
     },
     {
@@ -2902,7 +2902,7 @@
       "razones": [
         "precio $58,943.18 < fence_low $63,732.18"
       ],
-      "mediana_droga": 112088.45,
+      "mediana_droga": 112160.42,
       "n_droga": 54
     },
     {
@@ -2927,9 +2927,9 @@
       "precio_outlier_tipo": "bajo_critico",
       "razones": [
         "precio $186.40 < minimo $1,800",
-        "precio $186.40 < 10% mediana $15,509.21"
+        "precio $186.40 < 10% mediana $15,803.88"
       ],
-      "mediana_droga": 15509.21,
+      "mediana_droga": 15803.88,
       "n_droga": 92
     },
     {
@@ -2942,7 +2942,7 @@
       "razones": [
         "ppu $135.87 << mediana_grupo $871.31"
       ],
-      "mediana_droga": 15509.21,
+      "mediana_droga": 15803.88,
       "n_droga": 92
     },
     {
@@ -2953,9 +2953,9 @@
       "precio": 2893.54,
       "precio_outlier_tipo": "bajo_relativo",
       "razones": [
-        "precio $2,893.54 < 25% mediana $15,509.21 (n=92)"
+        "precio $2,893.54 < 25% mediana $15,803.88 (n=92)"
       ],
-      "mediana_droga": 15509.21,
+      "mediana_droga": 15803.88,
       "n_droga": 92
     },
     {
@@ -2968,7 +2968,7 @@
       "razones": [
         "ppu $135.70 << mediana_grupo $871.31"
       ],
-      "mediana_droga": 15509.21,
+      "mediana_droga": 15803.88,
       "n_droga": 92
     },
     {
@@ -2979,10 +2979,10 @@
       "precio": 3433.07,
       "precio_outlier_tipo": "bajo_relativo",
       "razones": [
-        "precio $3,433.07 < 25% mediana $15,509.21 (n=92)",
+        "precio $3,433.07 < 25% mediana $15,803.88 (n=92)",
         "ppu $68.66 << mediana_grupo $443.12"
       ],
-      "mediana_droga": 15509.21,
+      "mediana_droga": 15803.88,
       "n_droga": 92
     },
     {
@@ -2995,7 +2995,7 @@
       "razones": [
         "ppu $124.00 << mediana_grupo $676.18"
       ],
-      "mediana_droga": 15509.21,
+      "mediana_droga": 15803.88,
       "n_droga": 92
     },
     {
@@ -3008,7 +3008,7 @@
       "razones": [
         "ppu $353.32 << mediana_grupo $2,096.89"
       ],
-      "mediana_droga": 15509.21,
+      "mediana_droga": 15803.88,
       "n_droga": 92
     },
     {
@@ -3276,10 +3276,10 @@
       "marca": "VORST 36",
       "presentacion": "20 mg comp.rec.x 1",
       "laboratorio": "Laboratorios Be",
-      "precio": 13170.95,
+      "precio": 13302.66,
       "precio_outlier_tipo": "bajo_relativo",
       "razones": [
-        "precio $13,170.95 < 25% mediana $67,182.51 (n=81)"
+        "precio $13,302.66 < 25% mediana $67,182.51 (n=81)"
       ],
       "mediana_droga": 67182.51,
       "n_droga": 81
@@ -3544,20 +3544,6 @@
       ],
       "mediana_droga": 11627561.62,
       "n_droga": 16
-    },
-    {
-      "droga": "tramadol, paracetamol",
-      "marca": "TRAMA KLOSIDOL PLUS",
-      "presentacion": "comp.rec.x 20",
-      "laboratorio": "Bagó",
-      "precio": 130.52,
-      "precio_outlier_tipo": "bajo_critico",
-      "razones": [
-        "precio $130.52 < minimo $1,800",
-        "precio $130.52 < 10% mediana $29,825.41"
-      ],
-      "mediana_droga": 29825.41,
-      "n_droga": 22
     },
     {
       "droga": "tranexámico,ác.",
