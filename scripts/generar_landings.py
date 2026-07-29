@@ -471,12 +471,45 @@ def generar_faq(nombre: str, accion: str, precio_rango: str, n_marcas: int, prec
 </section>'''
 
 
+# ── Mapeo de slugs a la forma exacta del campo 'droga' en medicamentos.json ──
+# El slug se mantiene sin tilde (URL/SEO), pero el campo 'droga' real del
+# dataset (SIAFAR/COFA) sí lleva acentuación, y algunas combinaciones usan
+# coma en vez de guion/espacio. Sin este mapeo, estos 7 casos generaban
+# paginas con "Sin datos disponibles" pese a existir precios reales.
+SLUG_A_DROGA_REAL = {
+    "rivaroxaban":                   "rivaroxabán",
+    "telmisartan":                   "telmisartán",
+    "nitrofurantoina":               "nitrofurantoína",
+    "acetilcisteina":                "acetilcisteína",
+    "valsartan":                     "valsartán",
+    "drospirenona-etinilestradiol":  "drospirenona, etinilestradiol",
+    "dorzolamida-timolol":           "dorzolamida, timolol",
+    "butilescopolamina":             "hioscina,n-butilbr.",
+    "amoxicilina-clavulanico":       "amoxicilina, clavulánico,ác.",
+    "complejo-b":                    "vit.b,complejo",
+    "acido-folico":                  "fólico,ác.",
+    # vitamina-d: no existe como suplemento individual en el dataset actual.
+    # "vitaminas" es la coincidencia mas cercana disponible (generica, 2
+    # registros) -- se prefiere sobre "risedronato, calcio carbonato,
+    # vitamina d" porque ese es un combo para osteoporosis, no un
+    # suplemento de vitamina D. Igual es una aproximacion imperfecta:
+    # revisar si en el futuro aparece colecalciferol/ergocalciferol solo.
+    "vitamina-d":                    "vitaminas",
+    "sulfato-ferroso":               "hierro",
+    # etinilestradiol-levonorgestrel: el campo real en el dataset viene
+    # truncado a 30 caracteres desde el PDF de origen ("etinilestradio",
+    # sin la "l" final) -- se mapea tal cual aparece, no es un typo nuestro.
+    "etinilestradiol-levonorgestrel": "levonorgestrel, etinilestradio",
+}
+
+
 # ── GENERAR LANDINGS ───────────────────────────────────────────────────
 for droga_slug in DROGAS:
     nombre  = droga_slug.replace('-', ' ').replace('_', ' ').title()
     accion  = ACCIONES.get(droga_slug, "Medicamento")
     desc    = DESCRIPCIONES.get(droga_slug, f"{nombre} es un medicamento disponible en Argentina. Consultá precios actualizados de todas las marcas y presentaciones.")
-    meds_dr = por_droga.get(droga_slug.replace('-', ' '), [])
+    droga_real = SLUG_A_DROGA_REAL.get(droga_slug, droga_slug.replace('-', ' '))
+    meds_dr = por_droga.get(droga_real, [])
 
     if not meds_dr:
         alt = droga_slug.rstrip('ao') + ('a' if droga_slug.endswith('o') else 'o')
