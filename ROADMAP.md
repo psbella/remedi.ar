@@ -7,10 +7,10 @@ motivo del cierre queda documentado en el CHANGELOG.
 
 ## Corto plazo — heredado de la auditoría original
 
-- [ ] `<h2>Por qué remedi.ar</h2>` en `index.html`: hoy es un `<span>` dentro
+- [x] `<h2>Por qué remedi.ar</h2>` en `index.html`: hoy es un `<span>` dentro
       del divisor de sección (línea ~221). Salta de `<h1>` a `<h3>` sin
       nivel intermedio en la sección institucional.
-- [ ] Resolver el origen del doble encoding en `blacklist.json`
+- [x] Resolver el origen del doble encoding en `blacklist.json`
       (`scripts/etl/blacklist.py`, función `cargar_blacklist`): hoy se
       corrige en tiempo de carga con un try/except silencioso. Funciona,
       pero indica que algo en el proceso de generación de ese archivo
@@ -19,22 +19,18 @@ motivo del cierre queda documentado en el CHANGELOG.
 
 ## Corto plazo — surgido en la revisión de julio 2026
 
-- [ ] Verificar en producción que el CSP/headers reales de `remedi.ar`
+- [x] Verificar en producción que el CSP/headers reales de `remedi.ar`
       (servidos vía Cloudflare) coincidan con lo declarado en `_headers`.
       No verificable desde un entorno de auditoría sin acceso al dominio;
       es un `curl -sI https://remedi.ar` de dos minutos.
-- [ ] Regla de trabajo cuando se usa más de una sesión de Claude en
-      paralelo sobre este repo: cada una en su propia rama, merge manual.
-      Ya hubo un conflicto de merge directo sobre `main` (resuelto sin
-      daño, pero fue suerte más que proceso).
 
 ## Mediano plazo
 
-- [ ] Algún chequeo automático de accesibilidad en CI (por ejemplo
+- [x] Algún chequeo automático de accesibilidad en CI (por ejemplo
       `axe-core` corriendo sobre `index.html`). El bug del checkbox PAMI
       (`display: none` sacándolo del tab order) se encontró por lectura
       manual de CSS — nada impide que se reintroduzca sin que nadie lo note.
-- [ ] Los 24 findings de estilo restantes de Ruff (`E701`/`E702`, ver
+- [x] Los 24 findings de estilo restantes de Ruff (`E701`/`E702`, ver
       `pyproject.toml`) — bajo impacto, sin bloquear CI a propósito.
 
 ## Largo plazo — evaluar si vale la pena antes de encarar
