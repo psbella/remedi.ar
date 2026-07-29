@@ -118,7 +118,7 @@ DESCRIPCIONES = {
     "omeprazol": "El omeprazol es uno de los medicamentos más recetados en Argentina para el tratamiento de la acidez estomacal, úlceras gástricas y reflujo gastroesofágico. Actúa reduciendo la producción de ácido en el estómago bloqueando la bomba de protones.",
     "metformina": "La metformina es el medicamento de primera línea para el tratamiento de la diabetes tipo 2 en Argentina. Reduce la glucosa en sangre mejorando la sensibilidad a la insulina sin provocar hipoglucemia.",
     "enalapril": "El enalapril es un antihipertensivo ampliamente utilizado en Argentina para controlar la presión arterial alta y tratar la insuficiencia cardíaca. Pertenece a la familia de los IECA.",
-    "losartan": "El losartán es un antihipertensivo de la familia de los ARA II, indicado para la hipertensión arterial y la protección renal en pacientes diabéticos. Es una alternativa al enalapril con menos efectos adversos.",
+    "losartan": "El losartán es un antihipertensivo de la familia de los ARA II, indicado para la hipertensión arterial y la protección renal en pacientes diabéticos.",
     "levotiroxina": "La levotiroxina es la hormona tiroidea sintética utilizada para tratar el hipotiroidismo. Es uno de los medicamentos de uso crónico más frecuentes en Argentina, especialmente en mujeres.",
     "clonazepam": "El clonazepam es una benzodiazepina utilizada para tratar la ansiedad, los ataques de pánico y algunas formas de epilepsia. Requiere prescripción médica y su uso prolongado debe ser supervisado.",
     "alprazolam": "El alprazolam es una benzodiazepina de acción rápida indicada para el trastorno de ansiedad generalizada y los ataques de pánico. Es uno de los ansiolíticos más recetados en Argentina.",
@@ -151,7 +151,7 @@ DESCRIPCIONES = {
     "insulina": "La insulina es la hormona esencial para el tratamiento de la diabetes tipo 1 y algunos casos de diabetes tipo 2. Existen múltiples tipos según su duración de acción.",
     "levodopa-carbidopa": "La combinación levodopa/carbidopa es el tratamiento estándar para la enfermedad de Parkinson en Argentina. La carbidopa potencia el efecto de la levodopa y reduce sus efectos adversos.",
     "pregabalina": "La pregabalina es un anticonvulsivante también indicado para el dolor neuropático y el trastorno de ansiedad generalizada. Es eficaz para la fibromialgia y la neuralgia postherpética.",
-    "gabapentina": "La gabapentina es un anticonvulsivante utilizado para la epilepsia y el dolor neuropático. Precede a la pregabalina y sigue siendo ampliamente utilizada por su bajo costo.",
+    "gabapentina": "La gabapentina es un anticonvulsivante utilizado para la epilepsia y el dolor neuropático.",
     "clozapina": "La clozapina es un antipsicótico atípico reservado para la esquizofrenia resistente a otros tratamientos. Requiere monitoreo regular del recuento sanguíneo.",
     "litio": "El litio es el estabilizador del ánimo de referencia para el trastorno bipolar. Su rango terapéutico es estrecho y requiere controles periódicos de litemia.",
     "valproato": "El valproato de sodio es un anticonvulsivante y estabilizador del ánimo utilizado para la epilepsia y el trastorno bipolar. También se usa para la prevención de migraña.",
@@ -180,9 +180,9 @@ DESCRIPCIONES = {
     "bisoprolol": "El bisoprolol es un betabloqueante cardioselectivo usado para la hipertensión, la angina y la insuficiencia cardíaca. Reduce la frecuencia cardíaca y la demanda de oxígeno del corazón.",
     "metoprolol": "El metoprolol es un betabloqueante muy utilizado tras un infarto y en arritmias, además de la hipertensión. Existe en formulaciones de liberación inmediata y prolongada.",
     "ramipril": "El ramipril es un IECA (inhibidor de la enzima convertidora de angiotensina) indicado para la hipertensión y la protección cardiovascular y renal, especialmente en personas con diabetes.",
-    "valsartan": "El valsartán es un ARA-II (bloqueador del receptor de angiotensina II), una alternativa a los IECA para quienes desarrollan tos con enalapril u otros -pril.",
+    "valsartan": "El valsartán es un ARA-II (bloqueador del receptor de angiotensina II) indicado para la hipertensión arterial.",
     "telmisartan": "El telmisartán es un ARA-II de acción prolongada (una toma diaria) usado para la hipertensión y la protección cardiovascular.",
-    "rosuvastatina": "La rosuvastatina es una estatina de alta potencia para reducir el colesterol LDL. Suele preferirse sobre la atorvastatina cuando se necesita mayor reducción con dosis más bajas.",
+    "rosuvastatina": "La rosuvastatina es una estatina de alta potencia utilizada para reducir el colesterol LDL.",
     "digoxina": "La digoxina es un cardiotónico de uso antiguo pero vigente en la insuficiencia cardíaca y ciertas arritmias como la fibrilación auricular. Tiene un margen terapéutico estrecho y requiere control médico estricto.",
     "amoxicilina-clavulanico": "Combina amoxicilina con ácido clavulánico, que bloquea las betalactamasas de algunas bacterias resistentes. Se usa en infecciones respiratorias, urinarias y de piel que no responden a la amoxicilina sola.",
     "cefalexina": "La cefalexina es un antibiótico cefalosporina de primera generación, útil en infecciones de piel, partes blandas y vías urinarias. Es una alternativa frecuente en alergia leve a la penicilina (con precaución médica).",
@@ -190,8 +190,8 @@ DESCRIPCIONES = {
     "metronidazol": "El metronidazol trata infecciones por bacterias anaerobias y parásitos como la giardiasis y la tricomoniasis. No se debe combinar con alcohol durante el tratamiento.",
     "nitrofurantoina": "La nitrofurantoína es un antibiótico específico para infecciones urinarias bajas (cistitis). No es eficaz para infecciones renales porque no alcanza buena concentración en sangre.",
     "butilescopolamina": "Conocida en Argentina como Buscapina, alivia los espasmos y cólicos del tubo digestivo y las vías urinarias. Existe sola o combinada con analgésicos como el dipirona.",
-    "domperidona": "La domperidona alivia náuseas, vómitos y sensación de pesadez estomacal acelerando el vaciado gástrico. A diferencia de otros antieméticos, no suele atravesar la barrera hematoencefálica.",
-    "famotidina": "La famotidina reduce la producción de ácido gástrico, aliviando la acidez y el reflujo. Es una alternativa a los inhibidores de la bomba de protones como el omeprazol.",
+    "domperidona": "La domperidona alivia náuseas, vómitos y sensación de pesadez estomacal acelerando el vaciado gástrico.",
+    "famotidina": "La famotidina reduce la producción de ácido gástrico, aliviando la acidez y el reflujo.",
     "loperamida": "La loperamida reduce la motilidad intestinal para controlar la diarrea aguda. No debe usarse si hay fiebre alta o sangre en las heces sin consultar antes a un médico.",
     "simeticona": "La simeticona reduce los gases intestinales rompiendo las burbujas que los forman. Suele combinarse con otros medicamentos digestivos para el meteorismo y la distensión abdominal.",
     "tramadol": "El tramadol es un analgésico opioide para dolor moderado a intenso que no responde a los AINEs comunes. Requiere receta archivada y control médico por su potencial de dependencia.",
@@ -215,110 +215,6 @@ DESCRIPCIONES = {
     "melatonina": "La melatonina es una hormona que regula el ciclo de sueño, usada como ayuda para conciliar el sueño y en el jet lag. En Argentina se vende como suplemento, con concentraciones variables según el producto.",
     "acetilcisteina": "La acetilcisteína es un mucolítico que fluidifica las secreciones respiratorias, facilitando su expulsión en resfríos, bronquitis y otras afecciones con mucosidad espesa.",
     "ambroxol": "El ambroxol es un mucolítico y expectorante muy usado en jarabe para la tos productiva y las afecciones respiratorias con exceso de flema.",
-}
-
-# ── DROGAS RELACIONADAS ────────────────────────────────────────────────
-RELACIONADAS = {
-    "omeprazol": ["pantoprazol", "metoclopramida"],
-    "pantoprazol": ["omeprazol", "metoclopramida"],
-    "metformina": ["glibenclamida", "insulina"],
-    "glibenclamida": ["metformina", "insulina"],
-    "insulina": ["insulina-glargina", "metformina"],
-    "insulina-glargina": ["insulina", "metformina"],
-    "enalapril": ["losartan", "amlodipina", "hidroclorotiazida"],
-    "losartan": ["enalapril", "amlodipina", "losartan-hidroclorotiazida"],
-    "losartan-hidroclorotiazida": ["losartan", "enalapril", "hidroclorotiazida"],
-    "amlodipina": ["enalapril", "losartan", "carvedilol"],
-    "carvedilol": ["enalapril", "amlodipina"],
-    "hidroclorotiazida": ["clortalidona", "furosemida", "espironolactona"],
-    "clortalidona": ["hidroclorotiazida", "furosemida"],
-    "furosemida": ["hidroclorotiazida", "espironolactona"],
-    "espironolactona": ["furosemida", "hidroclorotiazida"],
-    "ibuprofeno": ["naproxeno", "diclofenac", "paracetamol"],
-    "naproxeno": ["ibuprofeno", "diclofenac"],
-    "diclofenac": ["ibuprofeno", "naproxeno"],
-    "paracetamol": ["ibuprofeno", "acido-acetilsalicilico"],
-    "acido-acetilsalicilico": ["paracetamol", "ibuprofeno"],
-    "clonazepam": ["alprazolam", "lorazepam", "diazepam"],
-    "alprazolam": ["clonazepam", "lorazepam", "diazepam"],
-    "lorazepam": ["clonazepam", "alprazolam", "diazepam"],
-    "diazepam": ["clonazepam", "alprazolam", "lorazepam"],
-    "sertralina": ["escitalopram", "fluoxetina", "venlafaxina"],
-    "escitalopram": ["sertralina", "fluoxetina", "venlafaxina"],
-    "fluoxetina": ["sertralina", ["escitalopram"], "venlafaxina"],
-    "venlafaxina": ["sertralina", "escitalopram", "bupropion"],
-    "bupropion": ["venlafaxina", "sertralina"],
-    "risperidona": ["quetiapina", "olanzapina", "haloperidol"],
-    "quetiapina": ["risperidona", "olanzapina", "haloperidol"],
-    "olanzapina": ["risperidona", "quetiapina", "haloperidol"],
-    "haloperidol": ["risperidona", "quetiapina", "levomepromazina"],
-    "levomepromazina": ["haloperidol", "quetiapina"],
-    "clozapina": ["risperidona", "quetiapina", "olanzapina"],
-    "carbamazepina": ["valproato", "fenobarbital", "pregabalina"],
-    "valproato": ["carbamazepina", "litio", "pregabalina"],
-    "fenobarbital": ["carbamazepina", "valproato"],
-    "pregabalina": ["gabapentina", "carbamazepina"],
-    "gabapentina": ["pregabalina", "carbamazepina"],
-    "litio": ["valproato", "quetiapina"],
-    "amoxicilina": ["azitromicina", "aciclovir"],
-    "azitromicina": ["amoxicilina"],
-    "aciclovir": ["azitromicina"],
-    "salbutamol": ["ipratropio"],
-    "ipratropio": ["salbutamol"],
-    "cetirizina": ["loratadina"],
-    "loratadina": ["cetirizina"],
-    "atorvastatina": ["losartan", "enalapril"],
-    "levotiroxina": ["metformina"],
-    "betametasona": ["prednisona"],
-    "prednisona": ["betametasona", "ibuprofeno"],
-    "levodopa-carbidopa": ["pregabalina"],
-    "zolpidem": ["clonazepam", "lorazepam"],
-    "sildenafil": [],
-    "metoclopramida": ["omeprazol", "pantoprazol"],
-    "etinilestradiol-levonorgestrel": ["drospirenona-etinilestradiol", "desogestrel"],
-    "drospirenona-etinilestradiol": ["etinilestradiol-levonorgestrel", "desogestrel"],
-    "desogestrel": ["etinilestradiol-levonorgestrel", "drospirenona-etinilestradiol"],
-    "clopidogrel": ["rivaroxaban", "warfarina", "acido-acetilsalicilico"],
-    "warfarina": ["rivaroxaban", "clopidogrel"],
-    "rivaroxaban": ["warfarina", "clopidogrel"],
-    "bisoprolol": ["carvedilol", "metoprolol"],
-    "metoprolol": ["bisoprolol", "carvedilol"],
-    "ramipril": ["enalapril", "losartan"],
-    "valsartan": ["losartan", "telmisartan"],
-    "telmisartan": ["losartan", "valsartan"],
-    "rosuvastatina": ["atorvastatina"],
-    "digoxina": ["furosemida", "carvedilol"],
-    "amoxicilina-clavulanico": ["amoxicilina", "cefalexina"],
-    "cefalexina": ["amoxicilina", "amoxicilina-clavulanico"],
-    "ciprofloxacina": ["nitrofurantoina", "metronidazol"],
-    "metronidazol": ["ciprofloxacina", "nitrofurantoina"],
-    "nitrofurantoina": ["ciprofloxacina", "cefalexina"],
-    "butilescopolamina": ["simeticona", "domperidona"],
-    "domperidona": ["metoclopramida", "butilescopolamina"],
-    "famotidina": ["omeprazol", "pantoprazol"],
-    "loperamida": ["simeticona", "butilescopolamina"],
-    "simeticona": ["butilescopolamina", "loperamida"],
-    "tramadol": ["paracetamol", "ibuprofeno"],
-    "meloxicam": ["diclofenac", "celecoxib"],
-    "ketorolac": ["diclofenac", "tramadol"],
-    "celecoxib": ["meloxicam", "diclofenac"],
-    "budesonide": ["salbutamol", "ipratropio", "montelukast"],
-    "montelukast": ["budesonide", "cetirizina"],
-    "fluticasona": ["budesonide", "salbutamol"],
-    "clotrimazol": ["fluconazol", "mupirocina"],
-    "fluconazol": ["clotrimazol"],
-    "mupirocina": ["clotrimazol"],
-    "acido-folico": ["complejo-b", "sulfato-ferroso"],
-    "complejo-b": ["acido-folico", "vitamina-d"],
-    "vitamina-d": ["complejo-b", "sulfato-ferroso"],
-    "sulfato-ferroso": ["acido-folico", "vitamina-d"],
-    "dorzolamida-timolol": ["latanoprost"],
-    "latanoprost": ["dorzolamida-timolol"],
-    "desloratadina": ["loratadina", "cetirizina"],
-    "levocetirizina": ["cetirizina", "desloratadina"],
-    "melatonina": ["zolpidem", "clonazepam"],
-    "acetilcisteina": ["ambroxol"],
-    "ambroxol": ["acetilcisteina"],
 }
 
 DROGAS = list(ACCIONES.keys())
@@ -419,31 +315,6 @@ def generar_stats(meds: list, nombre: str) -> str:
 </div>'''
 
 
-def generar_relacionadas(droga_slug: str) -> str:
-    """Genera sección de drogas relacionadas."""
-    relacionadas = RELACIONADAS.get(droga_slug, [])
-    # Filtrar las que son listas anidadas por error
-    relacionadas = [r for r in relacionadas if isinstance(r, str) and r in ACCIONES]
-    if not relacionadas:
-        return ''
-
-    items = ''
-    for r in relacionadas[:3]:
-        nombre_r = r.replace('-', ' ').replace('_', ' ').title()
-        accion_r = ACCIONES.get(r, '')
-        items += f'''<a href="{r}.html" class="relacionado-card">
-            <div class="relacionado-nombre">{esc(nombre_r)}</div>
-            <div class="relacionado-accion">{esc(accion_r)}</div>
-        </a>'''
-
-    return f'''<section class="relacionados">
-    <h2>Medicamentos relacionados</h2>
-    <div class="relacionados-grid">
-        {items}
-    </div>
-</section>'''
-
-
 def generar_faq(nombre: str, accion: str, precio_rango: str, n_marcas: int, precio_min: float) -> str:
     """Genera FAQ expandida con 4 preguntas únicas."""
     return f'''<section class="faq-landing">
@@ -506,7 +377,6 @@ for droga_slug in DROGAS:
         lista_marcas = '<p class="sin-datos-marcas">Sin datos disponibles.</p>'
         bloque_stats = ''
 
-    bloque_relacionadas = generar_relacionadas(droga_slug)
     bloque_faq = generar_faq(nombre, accion, precio_rango, n_marcas, precio_min)
 
     # JSON-LD Drug schema + BreadcrumbList
@@ -708,8 +578,6 @@ for droga_slug in DROGAS:
         </div>
 
         {bloque_faq}
-
-        {bloque_relacionadas}
 
         <div class="buscar-otro-card">
             <h2>Buscar otro medicamento</h2>
