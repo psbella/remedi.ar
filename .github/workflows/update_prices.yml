@@ -27,6 +27,8 @@ jobs:
         run: pip install -r requirements.txt
       - name: Ejecutar pdf_to_json.py
         run: python scripts/pdf_to_json.py
+      - name: Generar landings + sitemap
+        run: python scripts/generar_landings.py
       - name: Subir debug a GitHub Releases
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -51,6 +53,8 @@ jobs:
           git add data/medicamentos.json
           git add data/outlier_report.json
           git add data/presentaciones_debug.csv
+          git add *.html
+          git add sitemap.xml
           git commit -m "Actualizar precios $(date +'%Y-%m-%d')" || echo "No changes"
-          git pull --rebase origin main
-          git push origin main
+          git pull --rebase origin "${{ github.ref_name }}"
+          git push origin "${{ github.ref_name }}"
