@@ -4,6 +4,33 @@ Todos los cambios notables de remedi.ar se documentan en este archivo.
 
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Corregido
+- `scripts/generar_landings.py`: 14 de los 44 slugs nuevos no matcheaban
+  contra el campo `droga` real de medicamentos.json (tildes, separador
+  de coma en combos, o nombre generico distinto al slug). Se agrega
+  SLUG_A_DROGA_REAL para mapear estos casos explicitamente. Nota:
+  vitamina-d mapea a "vitaminas" por falta de un suplemento individual
+  de vitamina D en el dataset actual -- revisar si mejora en el futuro.
+
+## [Unreleased]
+
+### Corregido
+- `.github/workflows/update_prices.yml`: el paso de commit/push usaba
+  `main` hardcodeado en vez de la rama que disparo el workflow --
+  probado con workflow_dispatch sobre `landings`, causaba un conflicto
+  de add/add en el propio .yml al intentar rebasear contra main.
+
+## [Unreleased]
+
+### Corregido
+- `scripts/generar_landings.py`: se revierte un commit (`45ef930`) que
+  habia borrado el diccionario RELACIONADAS, la funcion
+  generar_relacionadas() y su render en las 100 paginas de landing --
+  la seccion "Medicamentos relacionados" habia desaparecido
+  silenciosamente sin que ningun test lo detectara.
+
 ## [2.3.1] - 2026-07-28
 
 ### Corregido
