@@ -1248,3 +1248,142 @@ body {
         font-size: 14px;
     }
 }
+
+/* ── Landings de medicamentos individuales (droga.html) ── */
+
+.header-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-4);
+    margin-bottom: 16px;
+}
+.breadcrumb a { color: var(--teal-dark); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb-sep { color: var(--text-5); }
+.breadcrumb-actual { color: var(--text-3); font-weight: 500; }
+
+.landing-hero { text-align: left; margin-bottom: 16px; }
+.landing-hero h1 { font-size: 1.6rem; font-weight: 600; color: var(--text-1); margin-bottom: 6px; }
+.landing-subtitulo { font-size: 14px; color: var(--teal-dark); font-weight: 500; margin-bottom: 4px; }
+.landing-rango-precio { font-size: 13px; color: var(--text-3); }
+
+.landing-descripcion {
+    font-size: 14px;
+    color: var(--text-3);
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.aviso-medico {
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-border);
+    border-left: 3px solid var(--warn);
+    border-radius: var(--r-md);
+    padding: 14px 16px;
+    margin-bottom: 24px;
+    font-size: 13px;
+    color: var(--text-3);
+}
+.aviso-medico strong { color: var(--warn); }
+
+.landing-seccion,
+.marcas-comerciales,
+.faq-landing,
+.relacionados {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 24px;
+    margin-bottom: 20px;
+}
+.landing-seccion h2,
+.marcas-comerciales h2,
+.faq-landing h2,
+.relacionados h2 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--teal-darker);
+    margin-bottom: 14px;
+}
+
+.landing-tabla-nota { font-size: 12px; color: var(--text-5); margin-top: 10px; }
+
+.marcas-comerciales-lista { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.sin-datos-marcas,
+.sin-datos-tabla { color: var(--text-5); font-size: 13px; font-style: italic; }
+.sin-datos-tabla { text-align: center; padding: 24px !important; }
+
+.faq-landing details { border-bottom: 1px solid var(--border); padding: 12px 0; }
+.faq-landing details:last-child { border-bottom: none; }
+.faq-landing summary {
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-1);
+    list-style: none;
+}
+.faq-landing summary::-webkit-details-marker { display: none; }
+.faq-landing summary::before {
+    content: '+';
+    display: inline-block;
+    width: 16px;
+    color: var(--teal);
+    font-weight: 700;
+}
+.faq-landing details[open] summary::before { content: '−'; }
+.faq-landing details p {
+    font-size: 13px;
+    color: var(--text-3);
+    line-height: 1.6;
+    margin-top: 8px;
+    padding-left: 16px;
+}
+
+.relacionados-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+}
+.relacionado-card {
+    display: block;
+    padding: 14px;
+    border: 1px solid var(--teal-border);
+    border-radius: var(--r-md);
+    background: var(--teal-light);
+    text-decoration: none;
+    transition: background 0.2s;
+}
+.relacionado-card:hover { background: var(--teal-border); }
+.relacionado-nombre { font-size: 14px; font-weight: 600; color: var(--teal-darker); margin-bottom: 4px; }
+.relacionado-accion { font-size: 12px; color: var(--text-3); }
+
+.buscar-otro-card {
+    text-align: center;
+    background: var(--teal-light);
+    border: 1px solid var(--teal-border);
+    border-radius: var(--r-lg);
+    padding: 28px 24px;
+    margin-bottom: 20px;
+}
+.buscar-otro-card h2 { font-size: 1.2rem; font-weight: 500; color: var(--teal-darker); margin-bottom: 6px; }
+.buscar-otro-card p { font-size: 13px; color: var(--text-3); margin-bottom: 16px; }
+.buscar-otro-card .busqueda-section { max-width: 420px; margin: 0 auto; }
+
+@media (max-width: 600px) {
+    .landing-hero h1 { font-size: 1.3rem; }
+    .landing-seccion,
+    .marcas-comerciales,
+    .faq-landing,
+    .relacionados,
+    .buscar-otro-card { padding: 16px; }
+    .relacionados-grid { grid-template-columns: 1fr; }
+}
