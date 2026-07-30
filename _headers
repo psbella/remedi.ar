@@ -7,11 +7,19 @@
 # hay que actualizar la Transform Rule a mano y volver a verificar
 # con curl -I contra remedi.ar y www.remedi.ar — ver CHANGELOG.
 #
-# El script-src incluye DOS hashes porque index.html tiene DOS
-# scripts inline ejecutables: la config de gtag y el registro de
-# sw.js. El script JSON-LD (type="application/ld+json") no necesita
-# hash: los navegadores no lo tratan como JavaScript ejecutable, por
-# lo que script-src no se le aplica.
+# El script-src incluye TRES hashes:
+#   - sha256-3xToiT2... : config de gtag (index.html)
+#   - sha256-vQzgcz...  : registro de sw.js (index.html)
+#   - sha256-12pxIq...  : script inline compartido por las 100
+#     landing pages de drogas (volver arriba, scroll de tabla,
+#     buscador de footer, version dinamica) -- generado por
+#     scripts/generar_landings.py. Si se edita ese script, el hash
+#     cambia y hay que recalcularlo y actualizar ambos lugares
+#     (aca y la Transform Rule), o si no el script queda bloqueado
+#     en silencio en las 100 paginas.
+# El script JSON-LD (type="application/ld+json") no necesita hash:
+# los navegadores no lo tratan como JavaScript ejecutable, por lo
+# que script-src no se le aplica.
 
 /*
   X-Content-Type-Options: nosniff
@@ -19,7 +27,7 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=()
   Strict-Transport-Security: max-age=31536000
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-3xToiT2+0hnEleZmvU5E1Sk+csjJnHtI+U1SpBv68cA=' 'sha256-vQzgczDFy/iatRc6pEF4+sxzSIrVGotATlJfQz7EfO0=' https://www.googletagmanager.com; style-src 'self'; img-src 'self' data:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com; font-src 'self';
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-3xToiT2+0hnEleZmvU5E1Sk+csjJnHtI+U1SpBv68cA=' 'sha256-vQzgczDFy/iatRc6pEF4+sxzSIrVGotATlJfQz7EfO0=' 'sha256-12pxIqdW1CLMKnFWPB1Z/cxLG1rA9bijzFl/76jBGxQ=' https://www.googletagmanager.com; style-src 'self'; img-src 'self' data:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com; font-src 'self';
 
 /data/medicamentos.json
   Content-Type: application/json; charset=utf-8
