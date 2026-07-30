@@ -7,6 +7,14 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 ## [Unreleased]
 
 ### Corregido
+- CSP: se agrega el hash del script inline compartido por las 100
+  landing pages (no estaba whitelisteado, el navegador lo bloqueaba
+  en silencio). Actualizado en `_headers` y en la Transform Rule de
+  Cloudflare (verificado con curl -I contra ambos hosts).
+
+## [Unreleased]
+
+### Corregido
 - `scripts/generar_landings.py`: 14 de los 44 slugs nuevos no matcheaban
   contra el campo `droga` real de medicamentos.json (tildes, separador
   de coma en combos, o nombre generico distinto al slug). Se agrega
