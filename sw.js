@@ -1,5 +1,5 @@
 // sw.js — Service Worker remedi.ar
-const CACHE_NAME   = 'remediar-v10';
+const CACHE_NAME   = 'remediar-v11';
 const CACHE_STATIC = [
     '/',
     '/index.html',
@@ -19,6 +19,7 @@ const CACHE_STATIC = [
     '/js/searchEngine.js',
     '/js/uiRenderer.js',
     '/js/utils.js',
+    '/js/landing.js',
 ];
 
 // Instalación: cachear assets estáticos

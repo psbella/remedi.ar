@@ -4,33 +4,18 @@ Todos los cambios notables de remedi.ar se documentan en este archivo.
 
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.3.2] - 2026-07-30
 
-### Corregido
-- CSP: se agrega el hash del script inline compartido por las 100
-  landing pages (no estaba whitelisteado, el navegador lo bloqueaba
-  en silencio). Actualizado en `_headers` y en la Transform Rule de
-  Cloudflare (verificado con curl -I contra ambos hosts).
-
-## [Unreleased]
-
-### Corregido
-- `scripts/generar_landings.py`: 14 de los 44 slugs nuevos no matcheaban
-  contra el campo `droga` real de medicamentos.json (tildes, separador
-  de coma en combos, o nombre generico distinto al slug). Se agrega
-  SLUG_A_DROGA_REAL para mapear estos casos explicitamente. Nota:
-  vitamina-d mapea a "vitaminas" por falta de un suplemento individual
-  de vitamina D en el dataset actual -- revisar si mejora en el futuro.
-
-## [Unreleased]
-
-### Corregido
-- `.github/workflows/update_prices.yml`: el paso de commit/push usaba
-  `main` hardcodeado en vez de la rama que disparo el workflow --
-  probado con workflow_dispatch sobre `landings`, causaba un conflicto
-  de add/add en el propio .yml al intentar rebasear contra main.
-
-## [Unreleased]
+### Agregado
+- `js/landing.js`: el script compartido por las 100 landing pages
+  (volver arriba, aviso de scroll de tabla, buscador de footer, version
+  dinamica) se movio de inline a un archivo externo. Antes dependia de
+  mantener un hash SHA-256 sincronizado en la CSP cada vez que se
+  editaba una coma del script; ahora queda cubierto por `script-src
+  'self'` sin hash, igual que el resto de `js/*.js`.
+- `sw.js`: se agrega `/js/landing.js` a `CACHE_STATIC` y se bumpea
+  `CACHE_NAME` a `remediar-v11` para forzar la actualizacion de cache
+  en clientes con el service worker ya instalado.
 
 ### Corregido
 - `scripts/generar_landings.py`: se revierte un commit (`45ef930`) que
@@ -38,6 +23,20 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
   generar_relacionadas() y su render en las 100 paginas de landing --
   la seccion "Medicamentos relacionados" habia desaparecido
   silenciosamente sin que ningun test lo detectara.
+- `.github/workflows/update_prices.yml`: el paso de commit/push usaba
+  `main` hardcodeado en vez de la rama que disparo el workflow --
+  probado con workflow_dispatch sobre `landings`, causaba un conflicto
+  de add/add en el propio .yml al intentar rebasear contra main.
+- `scripts/generar_landings.py`: 14 de los 44 slugs nuevos no matcheaban
+  contra el campo `droga` real de medicamentos.json (tildes, separador
+  de coma en combos, o nombre generico distinto al slug). Se agrega
+  SLUG_A_DROGA_REAL para mapear estos casos explicitamente. Nota:
+  vitamina-d mapea a "vitaminas" por falta de un suplemento individual
+  de vitamina D en el dataset actual -- revisar si mejora en el futuro.
+- CSP: se agrego (y luego se removio, ver arriba) el hash del script
+  inline compartido por las 100 landing pages -- no estaba
+  whitelisteado, el navegador lo bloqueaba en silencio. Con la
+  migracion a `js/landing.js` el hash ya no es necesario.
 
 ## [2.3.1] - 2026-07-28
 
