@@ -366,16 +366,23 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+      - name: Setup Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.11'
           cache: 'pip'
 
-      - run: pip install -r requirements.txt
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
 
-      - run: python scripts/pdf_to_json.py
+      - name: Ejecutar pdf_to_json.py
+        run: python scripts/pdf_to_json.py
+
+      - name: Generar landings + sitemap
+        run: python scripts/generar_landings.py
 
       - name: Subir debug a GitHub Releases
         env:
@@ -391,7 +398,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ "$(date +%u)" = "5" ]; then
+            echo "Viernes detectado — generando snapshot semanal..."
             python scripts/snapshot_semanal.py
+          else
+            echo "No es viernes, saltando snapshot."
           fi
 
       - name: Commit y push
@@ -401,9 +411,11 @@ jobs:
           git add data/medicamentos.json
           git add data/outlier_report.json
           git add data/presentaciones_debug.csv
+          git add *.html
+          git add sitemap.xml
           git commit -m "Actualizar precios $(date +'%Y-%m-%d')" || echo "No changes"
-          git pull --rebase origin main
-          git push origin main
+          git pull --rebase origin "${{ github.ref_name }}"
+          git push origin "${{ github.ref_name }}"
 ```
 
 ---
@@ -877,6 +889,22 @@ Además de la SPA (`index.html`), el sitio publica **100 páginas estáticas**, 
 - Comparten `js/landing.js` (volver arriba, scroll de tabla, buscador de footer) en vez de JS inline, cubierto por `script-src 'self'` en la CSP sin necesidad de hash
 - El mismo script regenera `sitemap.xml` con las 100 URLs (prioridad `0.9`) + home (`1.0`) + páginas institucionales (`0.5`/`0.3`)
 - Un mapeo manual (`SLUG_A_DROGA_REAL` en el script) resuelve los casos donde el slug de la URL no coincide textualmente con el campo `droga` del dataset (tildes, combos con coma, truncamientos del PDF de origen)
+
+```mermaid
+flowchart LR
+    A["📦 medicamentos.json"]
+    B["🐍 generar_landings.py"]
+    C["📄 100 landing pages\n{droga}.html"]
+    D["🗺️ sitemap.xml\n100 URLs + home + institucionales"]
+    E["🎨 sitemap.xsl\n(vista humana en navegador)"]
+
+    A --> B
+    B --> C
+    B --> D
+    D -.->|"<?xml-stylesheet?>"| E
+```
+
+Se ejecuta automáticamente como parte de `update_prices.yml`, inmediatamente después de `pdf_to_json.py` — es decir, las 100 landings y el sitemap se regeneran en cada corrida del ETL (dos veces al día), no solo cuando cambia el catálogo de drogas.
 
 ## Sitemap legible (`sitemap.xsl`)
 

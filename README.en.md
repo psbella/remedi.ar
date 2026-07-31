@@ -347,7 +347,7 @@ The parser applies cascading corrections to resolve the structural issues in the
 ## GitHub Actions Workflow
 
 ```yaml
-name: 🔃 Update prices
+name: 🔃 Actualizar precios
 
 on:
   schedule:
@@ -366,16 +366,23 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+      - name: Setup Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.11'
           cache: 'pip'
 
-      - run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-      - run: python scripts/pdf_to_json.py
+      - name: Run pdf_to_json.py
+        run: python scripts/pdf_to_json.py
+
+      - name: Generate landings + sitemap
+        run: python scripts/generar_landings.py
 
       - name: Upload debug to GitHub Releases
         env:
@@ -391,7 +398,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ "$(date +%u)" = "5" ]; then
+            echo "Viernes detectado — generando snapshot semanal..."
             python scripts/snapshot_semanal.py
+          else
+            echo "No es viernes, saltando snapshot."
           fi
 
       - name: Commit and push
@@ -401,9 +411,11 @@ jobs:
           git add data/medicamentos.json
           git add data/outlier_report.json
           git add data/presentaciones_debug.csv
+          git add *.html
+          git add sitemap.xml
           git commit -m "Actualizar precios $(date +'%Y-%m-%d')" || echo "No changes"
-          git pull --rebase origin main
-          git push origin main
+          git pull --rebase origin "${{ github.ref_name }}"
+          git push origin "${{ github.ref_name }}"
 ```
 
 ---
@@ -878,6 +890,22 @@ In addition to the SPA (`index.html`), the site publishes **100 static pages**, 
 - They share `js/landing.js` (back-to-top, table scroll hint, footer search) instead of inline JS, covered by `script-src 'self'` in the CSP without needing a hash
 - The same script regenerates `sitemap.xml` with all 100 URLs (priority `0.9`) + home (`1.0`) + institutional pages (`0.5`/`0.3`)
 - A manual mapping (`SLUG_A_DROGA_REAL` in the script) resolves cases where the URL slug doesn't textually match the dataset's `droga` field (accents, comma-separated combos, truncation from the source PDF)
+
+```mermaid
+flowchart LR
+    A["📦 medicamentos.json"]
+    B["🐍 generar_landings.py"]
+    C["📄 100 landing pages\n{droga}.html"]
+    D["🗺️ sitemap.xml\n100 URLs + home + institutional"]
+    E["🎨 sitemap.xsl\n(human view in browser)"]
+
+    A --> B
+    B --> C
+    B --> D
+    D -.->|"<?xml-stylesheet?>"| E
+```
+
+Runs automatically as part of `update_prices.yml`, right after `pdf_to_json.py` — the 100 landings and the sitemap are regenerated on every ETL run (twice a day), not only when the drug catalog changes.
 
 ## Readable sitemap (`sitemap.xsl`)
 
