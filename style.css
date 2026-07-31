@@ -1387,3 +1387,57 @@ body {
     .buscar-otro-card { padding: 16px; }
     .relacionados-grid { grid-template-columns: 1fr; }
 }
+
+/* ── Visor legible de sitemap.xml (sitemap.xsl) ── */
+
+.sitemap-nota {
+    background: var(--teal-light);
+    border: 1px solid var(--teal-border);
+    border-radius: var(--r-md);
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--text-3);
+}
+
+.sitemap-tabla-wrapper {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    overflow-x: auto;
+}
+
+.sitemap-tabla {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+.sitemap-tabla th,
+.sitemap-tabla td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+}
+.sitemap-tabla th {
+    background: var(--teal-light);
+    color: var(--teal-darker);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+}
+.sitemap-tabla tr:last-child td { border-bottom: none; }
+.sitemap-tabla tr:hover td { background: var(--teal-light); }
+.sitemap-tabla td:first-child {
+    max-width: 320px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.sitemap-tabla a { color: var(--teal-dark); text-decoration: none; }
+.sitemap-tabla a:hover { text-decoration: underline; }
+
+@media (max-width: 600px) {
+    .sitemap-tabla th, .sitemap-tabla td { padding: 8px 10px; font-size: 12px; }
+    .sitemap-tabla td:first-child { max-width: 160px; }
+}
