@@ -781,7 +781,7 @@ def generar_sitemap():
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>""")
-    for slug, freq, pri in [("privacidad", "monthly", "0.3"), ("terminos", "monthly", "0.3")]:
+    for slug, freq, pri in [("about", "monthly", "0.5"), ("privacidad", "monthly", "0.3"), ("terminos", "monthly", "0.3")]:
         urls.append(f"""  <url>
     <loc>https://remedi.ar/{slug}.html</loc>
     <lastmod>{LASTMOD}</lastmod>
