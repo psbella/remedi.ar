@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-07-30T19:39:00.464503-03:00",
+  "timestamp": "2026-07-31T04:25:56.506365-03:00",
   "total_registros": 13376,
-  "total_outliers": 288,
+  "total_outliers": 287,
   "outliers": [
     {
       "droga": "abacavir, lamivudina",
@@ -196,9 +196,9 @@
       "precio": 2575.98,
       "precio_outlier_tipo": "bajo_relativo",
       "razones": [
-        "precio $2,575.98 < 25% mediana $15,774.33 (n=6)"
+        "precio $2,575.98 < 25% mediana $15,952.46 (n=6)"
       ],
-      "mediana_droga": 15774.33,
+      "mediana_droga": 15952.46,
       "n_droga": 6
     },
     {
@@ -697,9 +697,9 @@
       "precio_outlier_tipo": "bajo_critico",
       "razones": [
         "precio $93.40 < minimo $1,800",
-        "precio $93.40 < 10% mediana $20,704.24"
+        "precio $93.40 < 10% mediana $21,097.62"
       ],
-      "mediana_droga": 20704.24,
+      "mediana_droga": 21097.62,
       "n_droga": 151
     },
     {
@@ -711,9 +711,9 @@
       "precio_outlier_tipo": "bajo_critico",
       "razones": [
         "precio $217.00 < minimo $1,800",
-        "precio $217.00 < 10% mediana $20,704.24"
+        "precio $217.00 < 10% mediana $21,097.62"
       ],
-      "mediana_droga": 20704.24,
+      "mediana_droga": 21097.62,
       "n_droga": 151
     },
     {
@@ -1243,10 +1243,10 @@
       "marca": "NOVALGINA",
       "presentacion": "jbe.x 100 ml",
       "laboratorio": "Opella Healthca",
-      "precio": 14849.7,
+      "precio": 15146.69,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $148.50 << mediana_grupo $940.33"
+        "ppu $151.47 << mediana_grupo $958.20"
       ],
       "mediana_droga": 12662.73,
       "n_droga": 22
@@ -1269,10 +1269,10 @@
       "marca": "NOVALGINA",
       "presentacion": "jbe.x 200 ml",
       "laboratorio": "Opella Healthca",
-      "precio": 22200.42,
+      "precio": 22644.43,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $111.00 << mediana_grupo $940.33"
+        "ppu $113.22 << mediana_grupo $958.20"
       ],
       "mediana_droga": 12662.73,
       "n_droga": 22
@@ -1661,12 +1661,12 @@
       "marca": "BUSCAPINA",
       "presentacion": "grag.x 20",
       "laboratorio": "Opella Healthca",
-      "precio": 12252.0,
+      "precio": 12500.0,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $612.60 << mediana_grupo $3,606.30"
+        "ppu $625.00 << mediana_grupo $3,679.17"
       ],
-      "mediana_droga": 13191.32,
+      "mediana_droga": 13438.34,
       "n_droga": 5
     },
     {
@@ -1679,7 +1679,7 @@
       "razones": [
         "ppu $6.82 << mediana_grupo $135.01"
       ],
-      "mediana_droga": 8237.91,
+      "mediana_droga": 8250.0,
       "n_droga": 151
     },
     {
@@ -1692,7 +1692,7 @@
       "razones": [
         "ppu $10.52 << mediana_grupo $1,174.40"
       ],
-      "mediana_droga": 8237.91,
+      "mediana_droga": 8250.0,
       "n_droga": 151
     },
     {
@@ -1704,9 +1704,9 @@
       "precio_outlier_tipo": "bajo_critico",
       "razones": [
         "precio $788.39 < minimo $1,800",
-        "precio $788.39 < 10% mediana $8,237.91"
+        "precio $788.39 < 10% mediana $8,250.00"
       ],
-      "mediana_droga": 8237.91,
+      "mediana_droga": 8250.0,
       "n_droga": 151
     },
     {
@@ -1719,7 +1719,7 @@
       "razones": [
         "ppu $11.90 << mediana_grupo $983.45"
       ],
-      "mediana_droga": 8237.91,
+      "mediana_droga": 8250.0,
       "n_droga": 151
     },
     {
@@ -1732,20 +1732,7 @@
       "razones": [
         "ppu $19.86 << mediana_grupo $1,047.40"
       ],
-      "mediana_droga": 8237.91,
-      "n_droga": 151
-    },
-    {
-      "droga": "ibuprofeno",
-      "marca": "IBUPROFENO TAURO 400",
-      "presentacion": "comp.rec.x 10",
-      "laboratorio": "Rospaw",
-      "precio": 1998.06,
-      "precio_outlier_tipo": "bajo_relativo",
-      "razones": [
-        "precio $1,998.06 < 25% mediana $8,237.91 (n=151)"
-      ],
-      "mediana_droga": 8237.91,
+      "mediana_droga": 8250.0,
       "n_droga": 151
     },
     {
@@ -1757,9 +1744,9 @@
       "precio_outlier_tipo": "bajo_absoluto",
       "razones": [
         "precio $1,348.73 < minimo $1,800",
-        "precio $1,348.73 < 25% mediana $8,237.91 (n=151)"
+        "precio $1,348.73 < 25% mediana $8,250.00 (n=151)"
       ],
-      "mediana_droga": 8237.91,
+      "mediana_droga": 8250.0,
       "n_droga": 151
     },
     {
@@ -2013,7 +2000,7 @@
       "razones": [
         "ppu $129.44 << mediana_grupo $809.85"
       ],
-      "mediana_droga": 7687.67,
+      "mediana_droga": 7836.03,
       "n_droga": 38
     },
     {
@@ -2037,9 +2024,9 @@
       "precio": 7187.57,
       "precio_outlier_tipo": "bajo_relativo",
       "razones": [
-        "precio $7,187.57 < 25% mediana $31,402.07 (n=82)"
+        "precio $7,187.57 < 25% mediana $31,507.47 (n=82)"
       ],
-      "mediana_droga": 31402.07,
+      "mediana_droga": 31507.47,
       "n_droga": 82
     },
     {
@@ -2051,9 +2038,9 @@
       "precio_outlier_tipo": "bajo_critico",
       "razones": [
         "precio $347.50 < minimo $1,800",
-        "precio $347.50 < 10% mediana $31,402.07"
+        "precio $347.50 < 10% mediana $31,507.47"
       ],
-      "mediana_droga": 31402.07,
+      "mediana_droga": 31507.47,
       "n_droga": 82
     },
     {
@@ -3055,12 +3042,12 @@
       "marca": "RAPAMUNE",
       "presentacion": "sol.oral x 60 ml",
       "laboratorio": "Pfizer",
-      "precio": 2469205.09,
+      "precio": 2521058.4,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $41,153.42 << mediana_grupo $1,235,798.86"
+        "ppu $42,017.64 << mediana_grupo $1,261,750.64"
       ],
-      "mediana_droga": 2471597.73,
+      "mediana_droga": 2523501.28,
       "n_droga": 4
     },
     {
