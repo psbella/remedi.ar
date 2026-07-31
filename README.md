@@ -650,11 +650,13 @@ remediar/
 ├── manifest.json
 ├── requirements.txt
 ├── robots.txt
-├── sitemap.xml
+├── sitemap.xml           # generado por scripts/generar_landings.py
+├── sitemap.xsl           # transforma sitemap.xml en tabla HTML legible en el navegador
 ├── sw.js
 ├── privacidad.html
 ├── terminos.html
 ├── about.html
+├── {droga}.html          # 100 landing pages SEO (una por droga), generadas — ver más abajo
 ├── README.md
 ├── _headers
 ├── .nojekyll
@@ -675,7 +677,8 @@ remediar/
 │   ├── searchEngine.js
 │   ├── uiRenderer.js
 │   ├── utils.js
-│   └── about.js
+│   ├── about.js
+│   └── landing.js        # compartido por las 100 landing pages
 │
 ├── data/
 │   ├── medicamentos.json
@@ -687,6 +690,11 @@ remediar/
 │
 ├── scripts/
 │   ├── pdf_to_json.py       # orquestador: encadena las capas de etl/
+│   ├── generar_landings.py  # genera las 100 landing pages + sitemap.xml
+│   ├── github_release_helper.py  # helper compartido de releases (usado por snapshot_semanal.py y subir_debug.py)
+│   ├── subir_debug.py
+│   ├── checks/
+│   │   └── a11y-check.mjs   # chequeo de accesibilidad con axe-core, no bloqueante
 │   ├── etl/
 │   │   ├── config.py            # constantes y paths compartidos
 │   │   ├── parser.py             # descarga del PDF y parseo a lista de medicamentos
@@ -814,6 +822,9 @@ docker run -p 8080:80 remediar
 |---|---|
 | `scripts/pdf_to_json.py` | Orquestador: encadena las capas de `scripts/etl/` en orden y persiste `medicamentos.json`, `outlier_report.json` y `presentaciones_debug.csv`. Ya no contiene la lógica de las capas — solo el flujo. |
 | `scripts/snapshot_semanal.py` | Genera un CSV con los precios confiables (`vigencia_score ≥ 50`) de la semana y lo sube como asset a la release mensual de GitHub (`historial-YYYY-MM`). Se ejecuta automáticamente cada viernes. |
+| `scripts/generar_landings.py` | Genera las 100 landing pages estáticas (una por droga) a partir de `medicamentos.json`, y regenera `sitemap.xml` con las 100 URLs. Ver [Landing pages (long-tail SEO)](#landing-pages-long-tail-seo). |
+| `scripts/github_release_helper.py` | Funciones compartidas para crear/obtener releases de GitHub y subir/reemplazar/verificar assets. Usado por `snapshot_semanal.py` y `subir_debug.py`, no se ejecuta directamente. |
+| `scripts/checks/a11y-check.mjs` | Chequeo de accesibilidad con axe-core + Puppeteer contra las páginas estáticas servidas localmente. No bloquea el CI (mismo criterio que Ruff/ESLint en este repo) — avisa, no rompe el build. |
 | `tests/test_etl_sanidad.py` | 12 tests de sanidad sobre el output del ETL: cantidad de registros, campos obligatorios, rangos de precios, calidad de datos y estructura del JSON |
 
 ### Paquete `scripts/etl/` (capas de normalización)
@@ -853,8 +864,23 @@ docker run -p 8080:80 remediar
 - JSON-LD (`WebSite` + `SearchAction`)
 - Open Graph
 - Twitter Cards
-- Sitemap.xml
+- Sitemap.xml (+ visor HTML vía XSL, ver más abajo)
 - robots.txt con `crawl-delay` para bots agresivos
+- 100 landing pages estáticas para long-tail SEO (ver más abajo)
+
+## Landing pages (long-tail SEO)
+
+Además de la SPA (`index.html`), el sitio publica **100 páginas estáticas**, una por droga (`omeprazol.html`, `metformina.html`, `ibuprofeno.html`, etc.), pensadas para capturar búsquedas del tipo *"precio de X en Argentina"* que no indexan bien contra una SPA con contenido cargado por JS.
+
+- Generadas por `scripts/generar_landings.py` a partir de `data/medicamentos.json` — no se editan a mano
+- Cada landing incluye: precio min/prom/max, tabla de marcas y laboratorios, FAQ, drogas relacionadas, JSON-LD `Drug` + `BreadcrumbList`, y metadatos Open Graph/Twitter propios
+- Comparten `js/landing.js` (volver arriba, scroll de tabla, buscador de footer) en vez de JS inline, cubierto por `script-src 'self'` en la CSP sin necesidad de hash
+- El mismo script regenera `sitemap.xml` con las 100 URLs (prioridad `0.9`) + home (`1.0`) + páginas institucionales (`0.5`/`0.3`)
+- Un mapeo manual (`SLUG_A_DROGA_REAL` en el script) resuelve los casos donde el slug de la URL no coincide textualmente con el campo `droga` del dataset (tildes, combos con coma, truncamientos del PDF de origen)
+
+## Sitemap legible (`sitemap.xsl`)
+
+`sitemap.xml` referencia una hoja de estilos XSL (`<?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>`) que transforma el XML en una tabla HTML cuando se abre en un navegador. Los crawlers (Google incluido) ignoran esa instrucción y parsean el XML crudo sin cambios — es puramente para inspección manual (Search Console, debugging). Ver el XML sin la vista con `view-source:` antes de la URL.
 
 ## Ejemplo JSON-LD
 
@@ -1289,6 +1315,7 @@ Un único breakpoint mobile-first en `600px` — no hay un nivel intermedio de t
 | `maintenance-on.yml` | Manual | Reemplaza `index.html` con página de mantenimiento |
 | `maintenance-off.yml` | Manual | Restaura `index.html` desde backup |
 | `codeql.yml` | Push/PR a `main` + cron semanal (lunes 06:00 UTC) | Análisis estático de seguridad (CodeQL) sobre JS y Python |
+| `accessibility.yml` | Push/PR a `main` que toque `index.html`, `about.html`, `style.css`, `js/**` o el propio check + manual | Corre `scripts/checks/a11y-check.mjs` (axe-core + Puppeteer). No bloquea el build — avisa, no rompe, mismo criterio que Ruff/ESLint |
 | `dependabot.yml` (config, no workflow) | Semanal | Propone actualizaciones de `requirements.txt` y de las actions usadas en los workflows |
 
 | Parámetro | Valor |
