@@ -1,6 +1,6 @@
 pymupdf==1.28.0
 pandas==3.0.2
 openpyxl==3.1.5
-certifi==2026.2.25
+certifi==2026.7.22
 pytest==9.1.1
 jsonschema==4.26.0
