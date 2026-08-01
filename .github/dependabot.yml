@@ -18,3 +18,14 @@ updates:
     labels:
       - "dependencies"
       - "ci"
+
+  # Dependencias de Node (package.json) -- axe-core y puppeteer,
+  # usados solo por scripts/checks/a11y-check.mjs (chequeo de
+  # accesibilidad no bloqueante)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"

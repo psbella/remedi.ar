@@ -500,6 +500,47 @@ SLUG_A_DROGA_REAL = {
     # truncado a 30 caracteres desde el PDF de origen ("etinilestradio",
     # sin la "l" final) -- se mapea tal cual aparece, no es un typo nuestro.
     "etinilestradiol-levonorgestrel": "levonorgestrel, etinilestradio",
+
+    # --- Correcciones agregadas en auditoria 2026-07-31: estos 12 slugs
+    # no matcheaban ningun registro (precio_min=0, landing sin datos,
+    # indexada igual con "0 marcas disponibles"). Verificado uno por
+    # uno contra el dataset real. ---
+    "acido-acetilsalicilico":        "acetilsalicílico,ác.",
+    "atorvastatina":                 "atorvastatín",
+    "bupropion":                     "bupropión",
+    "gabapentina":                   "gabapentin",
+    "ipratropio":                    "ipratropio,bromuro",
+    "levodopa-carbidopa":            "levodopa, carbidopa",
+    "litio":                         "litio,carbonato",
+    "losartan-hidroclorotiazida":    "losartán, hidroclorotiazida",
+    "losartan":                      "losartán",
+    # Los siguientes 3 son agregados: varias sales/tipos sin una entrada
+    # generica unica en el dataset. Se suman todas bajo una sola landing
+    # (decision de producto, no bug de tipeo). Se excluyen combos con
+    # otros principios activos (ej. "diclofenac sódico" se dejo afuera
+    # a proposito porque no estaba en el alcance decidido).
+    "diclofenac": [
+        "diclofenac dietilamina",
+        "diclofenac dietilamonio",
+        "diclofenac potásico",
+    ],
+    "insulina": [
+        "insulina aspártica",
+        "insulina aspártica bifásica",
+        "insulina degludec",
+        "insulina detemir",
+        "insulina glargina",
+        "insulina glulisina",
+        "insulina humana",
+        "insulina humana isofana",
+        "insulina lispro",
+    ],
+    "valproato": [
+        "magnesio,valproato",
+        "sodio,divalproato",
+        "sodio,valproato",
+        "valproico,ác.",
+    ],
 }
 
 
@@ -509,11 +550,18 @@ for droga_slug in DROGAS:
     accion  = ACCIONES.get(droga_slug, "Medicamento")
     desc    = DESCRIPCIONES.get(droga_slug, f"{nombre} es un medicamento disponible en Argentina. Consultá precios actualizados de todas las marcas y presentaciones.")
     droga_real = SLUG_A_DROGA_REAL.get(droga_slug, droga_slug.replace('-', ' '))
-    meds_dr = por_droga.get(droga_real, [])
 
-    if not meds_dr:
-        alt = droga_slug.rstrip('ao') + ('a' if droga_slug.endswith('o') else 'o')
-        meds_dr = por_droga.get(alt.replace('-', ' '), [])
+    if isinstance(droga_real, list):
+        # Agregado: sumar meds de varias claves de droga distintas
+        meds_dr = []
+        for droga_key in droga_real:
+            meds_dr.extend(por_droga.get(droga_key, []))
+    else:
+        meds_dr = por_droga.get(droga_real, [])
+
+        if not meds_dr:
+            alt = droga_slug.rstrip('ao') + ('a' if droga_slug.endswith('o') else 'o')
+            meds_dr = por_droga.get(alt.replace('-', ' '), [])
 
     # Excluir outliers (vigencia_score < 50) de la tabla y stats
     # para evitar mostrar precios obsoletos o corruptos en las landings
