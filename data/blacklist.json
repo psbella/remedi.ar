@@ -5697,6 +5697,226 @@
     "precio_detectado": 1235.89,
     "tipo": "bajo_absoluto",
     "motivo": "precio $1,235.89 < minimo $1,800",
-    "bloqueado_en": "2026-08-03T08:27"
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "amoxicilina, clavulã¡nico,ã¡c.|amoclav|500 mg comp.rec.x 16|casasco": {
+    "droga": "amoxicilina, clavulÃ¡nico,Ã¡c.",
+    "marca": "AMOCLAV",
+    "presentacion": "500 mg comp.rec.x 16",
+    "laboratorio": "Casasco",
+    "precio_detectado": 1316.02,
+    "tipo": "bajo_critico",
+    "motivo": "precio $1,316.02 < minimo $1,800 | precio $1,316.02 < 10% mediana $22,800.00",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "amoxicilina, clavulã¡nico,ã¡c.|bioxilina plus|500 mg comp.rec.x 16|biosintex retai": {
+    "droga": "amoxicilina, clavulÃ¡nico,Ã¡c.",
+    "marca": "BIOXILINA PLUS",
+    "presentacion": "500 mg comp.rec.x 16",
+    "laboratorio": "Biosintex Retai",
+    "precio_detectado": 388,
+    "tipo": "bajo_critico",
+    "motivo": "precio $388.00 < minimo $1,800 | precio $388.00 < 10% mediana $22,800.00",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "atorvastatã­n, ezetimibe|ateroclar duo|10/10 mg blist.x 30+30|beta": {
+    "droga": "atorvastatÃ­n, ezetimibe",
+    "marca": "ATEROCLAR DUO",
+    "presentacion": "10/10 mg blist.x 30+30",
+    "laboratorio": "Beta",
+    "precio_detectado": 2687.54,
+    "tipo": "bajo_critico",
+    "motivo": "precio $2,687.54 < 10% mediana $52,312.73",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "atorvastatã­n, ezetimibe|ateroclar duo|20/10 mg blist.x 30+30|beta": {
+    "droga": "atorvastatÃ­n, ezetimibe",
+    "marca": "ATEROCLAR DUO",
+    "presentacion": "20/10 mg blist.x 30+30",
+    "laboratorio": "Beta",
+    "precio_detectado": 3223.77,
+    "tipo": "bajo_critico",
+    "motivo": "precio $3,223.77 < 10% mediana $52,312.73",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "carboximetilcelulosa sã³d., aso|biodrop|sol.oft.x 15 ml|sidus": {
+    "droga": "carboximetilcelulosa sÃ³d., aso",
+    "marca": "BIODROP",
+    "presentacion": "sol.oft.x 15 ml",
+    "laboratorio": "Sidus",
+    "precio_detectado": 448.08,
+    "tipo": "bajo_critico",
+    "motivo": "precio $448.08 < minimo $1,800 | precio $448.08 < 10% mediana $5,223.66",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "carvedilol|carvipaw|3.125 mg comp.x 30|rospaw": {
+    "droga": "carvedilol",
+    "marca": "CARVIPAW",
+    "presentacion": "3.125 mg comp.x 30",
+    "laboratorio": "Rospaw",
+    "precio_detectado": 93.4,
+    "tipo": "bajo_critico",
+    "motivo": "precio $93.40 < minimo $1,800 | precio $93.40 < 10% mediana $21,097.62",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "carvedilol|carvipaw|50 mg comp.x 30|rospaw": {
+    "droga": "carvedilol",
+    "marca": "CARVIPAW",
+    "presentacion": "50 mg comp.x 30",
+    "laboratorio": "Rospaw",
+    "precio_detectado": 217,
+    "tipo": "bajo_critico",
+    "motivo": "precio $217.00 < minimo $1,800 | precio $217.00 < 10% mediana $21,097.62",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "clorhexidina, asoc.|merthiolate nueva formula|espã¡t.incoloro x 60 ml|laboratorio gra": {
+    "droga": "clorhexidina, asoc.",
+    "marca": "MERTHIOLATE NUEVA FORMULA",
+    "presentacion": "espÃ¡t.incoloro x 60 ml",
+    "laboratorio": "Laboratorio Gra",
+    "precio_detectado": 775.39,
+    "tipo": "bajo_critico",
+    "motivo": "precio $775.39 < minimo $1,800 | precio $775.39 < 10% mediana $17,249.45",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "fentanilo|sublimaze s/conservador|iny.x 5 x 2 ml|janssen-cilag": {
+    "droga": "fentanilo",
+    "marca": "SUBLIMAZE S/CONSERVADOR",
+    "presentacion": "iny.x 5 x 2 ml",
+    "laboratorio": "Janssen-Cilag",
+    "precio_detectado": 11286.79,
+    "tipo": "bajo_critico",
+    "motivo": "precio $11,286.79 < 10% mediana $238,534.60",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "finasteride|hpb panalab|5 mg comp.rec.x 84|panalab": {
+    "droga": "finasteride",
+    "marca": "HPB PANALAB",
+    "presentacion": "5 mg comp.rec.x 84",
+    "laboratorio": "Panalab",
+    "precio_detectado": 1772.73,
+    "tipo": "bajo_critico",
+    "motivo": "precio $1,772.73 < minimo $1,800 | precio $1,772.73 < 10% mediana $35,602.94",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "ibuprofeno|ibuprofeno 600 fecofar|600 mg comp.x 10|fecofar": {
+    "droga": "ibuprofeno",
+    "marca": "IBUPROFENO 600 FECOFAR",
+    "presentacion": "600 mg comp.x 10",
+    "laboratorio": "Fecofar",
+    "precio_detectado": 788.39,
+    "tipo": "bajo_critico",
+    "motivo": "precio $788.39 < minimo $1,800 | precio $788.39 < 10% mediana $8,250.00",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "inosina,monofosfato disã³dico|inokat|sol.oft.esteril x 10 ml|lab internacion": {
+    "droga": "inosina,monofosfato disÃ³dico",
+    "marca": "INOKAT",
+    "presentacion": "sol.oft.esteril x 10 ml",
+    "laboratorio": "Lab Internacion",
+    "precio_detectado": 1341.02,
+    "tipo": "bajo_critico",
+    "motivo": "precio $1,341.02 < minimo $1,800 | precio $1,341.02 < 10% mediana $20,045.51",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "isoproterenol|isoproterenol|a.x 5 ml|scott-cassarã¡": {
+    "droga": "isoproterenol",
+    "marca": "ISOPROTERENOL",
+    "presentacion": "a.x 5 ml",
+    "laboratorio": "Scott-CassarÃ¡",
+    "precio_detectado": 11203,
+    "tipo": "bajo_critico",
+    "motivo": "precio $11,203.00 < 10% mediana $154,728.97",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "isotretinoã­na|atlacne|gel tã³pico x 25 g|lab internacion": {
+    "droga": "isotretinoÃ­na",
+    "marca": "ATLACNE",
+    "presentacion": "gel tÃ³pico x 25 g",
+    "laboratorio": "Lab Internacion",
+    "precio_detectado": 470.35,
+    "tipo": "bajo_critico",
+    "motivo": "precio $470.35 < minimo $1,800 | precio $470.35 < 10% mediana $108,051.55",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "lidocaã­na|lidocaina denver farma|2% viscosa fco.got.x50ml|denver farma": {
+    "droga": "lidocaÃ­na",
+    "marca": "LIDOCAINA DENVER FARMA",
+    "presentacion": "2% viscosa fco.got.x50ml",
+    "laboratorio": "Denver Farma",
+    "precio_detectado": 1409.55,
+    "tipo": "bajo_critico",
+    "motivo": "precio $1,409.55 < minimo $1,800 | precio $1,409.55 < 10% mediana $16,900.00",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "lidocaã­na, asoc.|pomada hadensa|cr.x 15 g|biosintex retai": {
+    "droga": "lidocaÃ­na, asoc.",
+    "marca": "POMADA HADENSA",
+    "presentacion": "cr.x 15 g",
+    "laboratorio": "Biosintex Retai",
+    "precio_detectado": 205,
+    "tipo": "bajo_critico",
+    "motivo": "precio $205.00 < minimo $1,800 | precio $205.00 < 10% mediana $10,224.30",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "losartã¡n|besubial|50 mg comp.x 30|biosintex retai": {
+    "droga": "losartÃ¡n",
+    "marca": "BESUBIAL",
+    "presentacion": "50 mg comp.x 30",
+    "laboratorio": "Biosintex Retai",
+    "precio_detectado": 347.5,
+    "tipo": "bajo_critico",
+    "motivo": "precio $347.50 < minimo $1,800 | precio $347.50 < 10% mediana $31,507.47",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "losartã¡n, hidroclorotiazida|cartan d|50/12.5 mg comp.rec.x 30|eurofarma": {
+    "droga": "losartÃ¡n, hidroclorotiazida",
+    "marca": "CARTAN D",
+    "presentacion": "50/12.5 mg comp.rec.x 30",
+    "laboratorio": "Eurofarma",
+    "precio_detectado": 6335.41,
+    "tipo": "bajo_relativo",
+    "motivo": "precio $6,335.41 < 25% mediana $36,001.07 (n=36)",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "meloxicam, pridinol|meloxicam + pridinol teva15/4 mg tabl.x 10|meloxicam + pridinol teva15/4 mg tabl.x 10|teva argentina": {
+    "droga": "meloxicam, pridinol",
+    "marca": "MELOXICAM + PRIDINOL TEVA15/4 mg tabl.x 10",
+    "presentacion": "MELOXICAM + PRIDINOL TEVA15/4 mg tabl.x 10",
+    "laboratorio": "Teva argentina",
+    "precio_detectado": 1556.96,
+    "tipo": "bajo_critico",
+    "motivo": "precio $1,556.96 < minimo $1,800 | precio $1,556.96 < 10% mediana $16,198.94",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "vit.a, alantoã­na, asoc.|masivol|emuls.x 100 g|siegfried": {
+    "droga": "vit.a, alantoÃ­na, asoc.",
+    "marca": "MASIVOL",
+    "presentacion": "emuls.x 100 g",
+    "laboratorio": "Siegfried",
+    "precio_detectado": 3916.98,
+    "tipo": "bajo_relativo",
+    "motivo": "precio $3,916.98 < 25% mediana $20,675.00 (n=34)",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "zoledrã³nico,ã¡c.|zolenico|4 mg iny.liof.x 1+solv.|lkm onco/especi": {
+    "droga": "zoledrÃ³nico,Ã¡c.",
+    "marca": "ZOLENICO",
+    "presentacion": "4 mg iny.liof.x 1+solv.",
+    "laboratorio": "LKM Onco/Especi",
+    "precio_detectado": 99561,
+    "tipo": "bajo_relativo",
+    "motivo": "precio $99,561.00 < 25% mediana $698,365.93 (n=19)",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "vit.a, alantoã­na, asoc.|factor ae|emuls.x 300 ml|casasco": {
+    "droga": "vit.a, alantoÃ­na, asoc.",
+    "marca": "FACTOR AE",
+    "presentacion": "emuls.x 300 ml",
+    "laboratorio": "Casasco",
+    "precio_detectado": 2671,
+    "tipo": "bajo_relativo",
+    "motivo": "precio $2,671.00 < 25% mediana $20,675.00 (n=34) | ppu $8.90 << mediana_grupo $114.57",
+    "bloqueado_en": "2026-08-03T08:29"
   }
 }
