@@ -1,21 +1,8 @@
 {
-  "timestamp": "2026-08-01T02:59:28.402623-03:00",
-  "total_registros": 13376,
-  "total_outliers": 290,
+  "timestamp": "2026-08-03T13:04:52.478336-03:00",
+  "total_registros": 13363,
+  "total_outliers": 279,
   "outliers": [
-    {
-      "droga": "abacavir, lamivudina",
-      "marca": "ABACAVIR LAMIVUDINA TRB P",
-      "presentacion": "comp.rec.x 30",
-      "laboratorio": "Trb-Pharma",
-      "precio": 24500.0,
-      "precio_outlier_tipo": "bajo_critico",
-      "razones": [
-        "precio $24,500.00 < 10% mediana $401,054.81"
-      ],
-      "mediana_droga": 401054.81,
-      "n_droga": 5
-    },
     {
       "droga": "abiraterona,acetato",
       "marca": "DINOGARED",
@@ -716,31 +703,16 @@
     },
     {
       "droga": "carvedilol",
-      "marca": "CARVIPAW",
-      "presentacion": "3.125 mg comp.x 30",
-      "laboratorio": "Rospaw",
-      "precio": 93.4,
-      "precio_outlier_tipo": "bajo_critico",
+      "marca": "DUOBLOC",
+      "presentacion": "12.5 mg comp.x 28",
+      "laboratorio": "Sidus",
+      "precio": 5284.86,
+      "precio_outlier_tipo": "bajo_relativo",
       "razones": [
-        "precio $93.40 < minimo $1,800",
-        "precio $93.40 < 10% mediana $21,097.62"
+        "precio $5,284.86 < 25% mediana $21,232.89 (n=149)"
       ],
-      "mediana_droga": 21097.62,
-      "n_droga": 151
-    },
-    {
-      "droga": "carvedilol",
-      "marca": "CARVIPAW",
-      "presentacion": "50 mg comp.x 30",
-      "laboratorio": "Rospaw",
-      "precio": 217.0,
-      "precio_outlier_tipo": "bajo_critico",
-      "razones": [
-        "precio $217.00 < minimo $1,800",
-        "precio $217.00 < 10% mediana $21,097.62"
-      ],
-      "mediana_droga": 21097.62,
-      "n_droga": 151
+      "mediana_droga": 21232.89,
+      "n_droga": 149
     },
     {
       "droga": "cáscara sagrada",
@@ -1437,42 +1409,15 @@
     {
       "droga": "fentanilo",
       "marca": "SUBLIMAZE S/CONSERVADOR",
-      "presentacion": "iny.x 5 x 2 ml",
-      "laboratorio": "Janssen-Cilag",
-      "precio": 11286.79,
-      "precio_outlier_tipo": "bajo_critico",
-      "razones": [
-        "precio $11,286.79 < 10% mediana $238,534.60"
-      ],
-      "mediana_droga": 238534.6,
-      "n_droga": 8
-    },
-    {
-      "droga": "fentanilo",
-      "marca": "SUBLIMAZE S/CONSERVADOR",
       "presentacion": "iny.x 5 x 5 ml",
       "laboratorio": "Janssen-Cilag",
       "precio": 32549.62,
       "precio_outlier_tipo": "bajo_relativo",
       "razones": [
-        "precio $32,549.62 < 25% mediana $238,534.60 (n=8)"
+        "precio $32,549.62 < 25% mediana $283,735.31 (n=7)"
       ],
-      "mediana_droga": 238534.6,
-      "n_droga": 8
-    },
-    {
-      "droga": "finasteride",
-      "marca": "HPB PANALAB",
-      "presentacion": "5 mg comp.rec.x 84",
-      "laboratorio": "Panalab",
-      "precio": 1772.73,
-      "precio_outlier_tipo": "bajo_critico",
-      "razones": [
-        "precio $1,772.73 < minimo $1,800",
-        "precio $1,772.73 < 10% mediana $35,602.94"
-      ],
-      "mediana_droga": 35602.94,
-      "n_droga": 25
+      "mediana_droga": 283735.31,
+      "n_droga": 7
     },
     {
       "droga": "fluconazol",
@@ -1679,8 +1624,8 @@
       "razones": [
         "ppu $6.82 << mediana_grupo $135.01"
       ],
-      "mediana_droga": 8250.0,
-      "n_droga": 151
+      "mediana_droga": 8260.0,
+      "n_droga": 150
     },
     {
       "droga": "ibuprofeno",
@@ -1692,22 +1637,8 @@
       "razones": [
         "ppu $10.52 << mediana_grupo $1,174.40"
       ],
-      "mediana_droga": 8250.0,
-      "n_droga": 151
-    },
-    {
-      "droga": "ibuprofeno",
-      "marca": "IBUPROFENO 600 FECOFAR",
-      "presentacion": "600 mg comp.x 10",
-      "laboratorio": "Fecofar",
-      "precio": 788.39,
-      "precio_outlier_tipo": "bajo_critico",
-      "razones": [
-        "precio $788.39 < minimo $1,800",
-        "precio $788.39 < 10% mediana $8,250.00"
-      ],
-      "mediana_droga": 8250.0,
-      "n_droga": 151
+      "mediana_droga": 8260.0,
+      "n_droga": 150
     },
     {
       "droga": "ibuprofeno",
@@ -1719,8 +1650,8 @@
       "razones": [
         "ppu $12.12 << mediana_grupo $1,002.13"
       ],
-      "mediana_droga": 8250.0,
-      "n_droga": 151
+      "mediana_droga": 8260.0,
+      "n_droga": 150
     },
     {
       "droga": "ibuprofeno",
@@ -1732,8 +1663,8 @@
       "razones": [
         "ppu $19.86 << mediana_grupo $1,047.40"
       ],
-      "mediana_droga": 8250.0,
-      "n_droga": 151
+      "mediana_droga": 8260.0,
+      "n_droga": 150
     },
     {
       "droga": "ibuprofeno",
@@ -1744,10 +1675,10 @@
       "precio_outlier_tipo": "bajo_absoluto",
       "razones": [
         "precio $1,348.73 < minimo $1,800",
-        "precio $1,348.73 < 25% mediana $8,250.00 (n=151)"
+        "precio $1,348.73 < 25% mediana $8,260.00 (n=150)"
       ],
-      "mediana_droga": 8250.0,
-      "n_droga": 151
+      "mediana_droga": 8260.0,
+      "n_droga": 150
     },
     {
       "droga": "imatinib",
@@ -2148,20 +2079,6 @@
       "n_droga": 5
     },
     {
-      "droga": "meloxicam, pridinol",
-      "marca": "MELOXICAM + PRIDINOL TEVA15/4 mg tabl.x 10",
-      "presentacion": "MELOXICAM + PRIDINOL TEVA15/4 mg tabl.x 10",
-      "laboratorio": "Teva argentina",
-      "precio": 1556.96,
-      "precio_outlier_tipo": "bajo_critico",
-      "razones": [
-        "precio $1,556.96 < minimo $1,800",
-        "precio $1,556.96 < 10% mediana $16,198.94"
-      ],
-      "mediana_droga": 16198.94,
-      "n_droga": 11
-    },
-    {
       "droga": "meropenem",
       "marca": "MEROPENEM RICHET",
       "presentacion": "500 mg IV iny.f.a.x 1",
@@ -2292,19 +2209,6 @@
       "n_droga": 22
     },
     {
-      "droga": "mirtazapina",
-      "marca": "FARMAPINA",
-      "presentacion": "30 mg comp.x 30",
-      "laboratorio": "Casasco",
-      "precio": 3507.09,
-      "precio_outlier_tipo": "bajo_critico",
-      "razones": [
-        "precio $3,507.09 < 10% mediana $73,980.00"
-      ],
-      "mediana_droga": 73980.0,
-      "n_droga": 7
-    },
-    {
       "droga": "montelukast",
       "marca": "MONTRATE",
       "presentacion": "sob.x 30",
@@ -2316,19 +2220,6 @@
       ],
       "mediana_droga": 42536.33,
       "n_droga": 50
-    },
-    {
-      "droga": "mosunetuzumab",
-      "marca": "LUNSUMIO",
-      "presentacion": "1 mg vial x 1 ml",
-      "laboratorio": "Roche",
-      "precio": 869460.09,
-      "precio_outlier_tipo": "bajo_critico",
-      "razones": [
-        "precio $869,460.09 < 10% mediana $13,476,630.97"
-      ],
-      "mediana_droga": 13476630.97,
-      "n_droga": 2
     },
     {
       "droga": "nilotinib",
@@ -2972,17 +2863,16 @@
     },
     {
       "droga": "sildenafil",
-      "marca": "BIFORT-M",
-      "presentacion": "50 mg comp.mast.x 1",
-      "laboratorio": "Finadiet",
-      "precio": 186.4,
-      "precio_outlier_tipo": "bajo_critico",
+      "marca": "SEGUREX",
+      "presentacion": "100 mg comp.x 2",
+      "laboratorio": "Gador",
+      "precio": 4009.52,
+      "precio_outlier_tipo": "bajo_relativo",
       "razones": [
-        "precio $186.40 < minimo $1,800",
-        "precio $186.40 < 10% mediana $15,803.88"
+        "precio $4,009.52 < 25% mediana $16,175.05 (n=91)"
       ],
-      "mediana_droga": 15803.88,
-      "n_droga": 92
+      "mediana_droga": 16175.05,
+      "n_droga": 91
     },
     {
       "droga": "sildenafil",
@@ -2994,8 +2884,8 @@
       "razones": [
         "ppu $135.87 << mediana_grupo $871.31"
       ],
-      "mediana_droga": 15803.88,
-      "n_droga": 92
+      "mediana_droga": 16175.05,
+      "n_droga": 91
     },
     {
       "droga": "sildenafil",
@@ -3005,10 +2895,10 @@
       "precio": 2893.54,
       "precio_outlier_tipo": "bajo_relativo",
       "razones": [
-        "precio $2,893.54 < 25% mediana $15,803.88 (n=92)"
+        "precio $2,893.54 < 25% mediana $16,175.05 (n=91)"
       ],
-      "mediana_droga": 15803.88,
-      "n_droga": 92
+      "mediana_droga": 16175.05,
+      "n_droga": 91
     },
     {
       "droga": "sildenafil",
@@ -3020,8 +2910,8 @@
       "razones": [
         "ppu $135.70 << mediana_grupo $871.31"
       ],
-      "mediana_droga": 15803.88,
-      "n_droga": 92
+      "mediana_droga": 16175.05,
+      "n_droga": 91
     },
     {
       "droga": "sildenafil",
@@ -3031,11 +2921,11 @@
       "precio": 3433.07,
       "precio_outlier_tipo": "bajo_relativo",
       "razones": [
-        "precio $3,433.07 < 25% mediana $15,803.88 (n=92)",
+        "precio $3,433.07 < 25% mediana $16,175.05 (n=91)",
         "ppu $68.66 << mediana_grupo $443.12"
       ],
-      "mediana_droga": 15803.88,
-      "n_droga": 92
+      "mediana_droga": 16175.05,
+      "n_droga": 91
     },
     {
       "droga": "sildenafil",
@@ -3047,8 +2937,8 @@
       "razones": [
         "ppu $124.00 << mediana_grupo $676.18"
       ],
-      "mediana_droga": 15803.88,
-      "n_droga": 92
+      "mediana_droga": 16175.05,
+      "n_droga": 91
     },
     {
       "droga": "sildenafil",
@@ -3060,21 +2950,8 @@
       "razones": [
         "ppu $360.03 << mediana_grupo $2,136.73"
       ],
-      "mediana_droga": 15803.88,
-      "n_droga": 92
-    },
-    {
-      "droga": "siponimod",
-      "marca": "KYMONOD",
-      "presentacion": "0.25 mg comp.rec.x 12",
-      "laboratorio": "Tuteur",
-      "precio": 659639.24,
-      "precio_outlier_tipo": "bajo_critico",
-      "razones": [
-        "precio $659,639.24 < 10% mediana $6,596,415.13"
-      ],
-      "mediana_droga": 6596415.13,
-      "n_droga": 5
+      "mediana_droga": 16175.05,
+      "n_droga": 91
     },
     {
       "droga": "sirolimus",
@@ -3570,32 +3447,6 @@
       ],
       "mediana_droga": 7520.49,
       "n_droga": 9
-    },
-    {
-      "droga": "tobramicina",
-      "marca": "RADINA",
-      "presentacion": "gts.oft.x 5 ml",
-      "laboratorio": "Valmax",
-      "precio": 9000.0,
-      "precio_outlier_tipo": "bajo_critico",
-      "razones": [
-        "precio $9,000.00 < 10% mediana $11,627,561.62"
-      ],
-      "mediana_droga": 11627561.62,
-      "n_droga": 16
-    },
-    {
-      "droga": "tobramicina",
-      "marca": "SUTOBRAX",
-      "presentacion": "sol.oft.x 5 ml",
-      "laboratorio": "Mar",
-      "precio": 10330.0,
-      "precio_outlier_tipo": "bajo_critico",
-      "razones": [
-        "precio $10,330.00 < 10% mediana $11,627,561.62"
-      ],
-      "mediana_droga": 11627561.62,
-      "n_droga": 16
     },
     {
       "droga": "tranexámico,ác.",
