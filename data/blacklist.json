@@ -5918,5 +5918,195 @@
     "tipo": "bajo_relativo",
     "motivo": "precio $2,671.00 < 25% mediana $20,675.00 (n=34) | ppu $8.90 << mediana_grupo $114.57",
     "bloqueado_en": "2026-08-03T08:29"
+  },
+  "abacavir, lamivudina|abacavir lamivudina trb p|comp.rec.x 30|trb-pharma": {
+    "droga": "abacavir, lamivudina",
+    "marca": "ABACAVIR LAMIVUDINA TRB P",
+    "presentacion": "comp.rec.x 30",
+    "laboratorio": "Trb-Pharma",
+    "precio_detectado": 24500,
+    "tipo": "bajo_critico",
+    "motivo": "precio $24,500.00 < 10% mediana $401,054.81",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "acetilcisteã­na|maxvan|600 mg comp.efer.x 10|vannier": {
+    "droga": "acetilcisteÃ­na",
+    "marca": "MAXVAN",
+    "presentacion": "600 mg comp.efer.x 10",
+    "laboratorio": "Vannier",
+    "precio_detectado": 1433,
+    "tipo": "bajo_critico",
+    "motivo": "precio $1,433.00 < minimo $1,800 | precio $1,433.00 < 10% mediana $16,833.95",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "acetilcisteã­na|maxvan|600 mg comp.efer.x 20|vannier": {
+    "droga": "acetilcisteÃ­na",
+    "marca": "MAXVAN",
+    "presentacion": "600 mg comp.efer.x 20",
+    "laboratorio": "Vannier",
+    "precio_detectado": 1122,
+    "tipo": "bajo_critico",
+    "motivo": "precio $1,122.00 < minimo $1,800 | precio $1,122.00 < 10% mediana $16,833.95",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "alcohol diclorobencã­lico, asoc|strepsils caramelos|menta fuerte x 8 u.|reckitt benckis": {
+    "droga": "alcohol diclorobencÃ­lico, asoc",
+    "marca": "STREPSILS CARAMELOS",
+    "presentacion": "Menta Fuerte x 8 u.",
+    "laboratorio": "Reckitt Benckis",
+    "precio_detectado": 266,
+    "tipo": "bajo_critico",
+    "motivo": "precio $266.00 < minimo $1,800 | precio $266.00 < 10% mediana $4,540.78",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "amitriptilina|amitriptilina luar|25 mg comp.rec.x 50|quã­mica luar": {
+    "droga": "amitriptilina",
+    "marca": "AMITRIPTILINA LUAR",
+    "presentacion": "25 mg comp.rec.x 50",
+    "laboratorio": "QuÃ­mica Luar",
+    "precio_detectado": 67.95,
+    "tipo": "bajo_critico",
+    "motivo": "precio $67.95 < minimo $1,800 | precio $67.95 < 10% mediana $25,220.55",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "amoxicilina, acetilcisteã­na|cistefort duo|875/300 mg comp.x 14|fortbenton": {
+    "droga": "amoxicilina, acetilcisteÃ­na",
+    "marca": "CISTEFORT DUO",
+    "presentacion": "875/300 mg comp.x 14",
+    "laboratorio": "Fortbenton",
+    "precio_detectado": 1706.89,
+    "tipo": "bajo_critico",
+    "motivo": "precio $1,706.89 < minimo $1,800 | precio $1,706.89 < 10% mediana $20,709.97",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "amoxicilina, clavulã¡nico,ã¡c.|bioxilina plus duo|400 mg susp.x 70 ml|biosintex retai": {
+    "droga": "amoxicilina, clavulÃ¡nico,Ã¡c.",
+    "marca": "BIOXILINA PLUS DUO",
+    "presentacion": "400 mg susp.x 70 ml",
+    "laboratorio": "Biosintex Retai",
+    "precio_detectado": 278,
+    "tipo": "bajo_critico",
+    "motivo": "precio $278.00 < minimo $1,800 | precio $278.00 < 10% mediana $22,800.00",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "fenitoã­na|fenitenk|100 mg comp.rec.x 30|biotenk": {
+    "droga": "fenitoÃ­na",
+    "marca": "FENITENK",
+    "presentacion": "100 mg comp.rec.x 30",
+    "laboratorio": "Biotenk",
+    "precio_detectado": 3833.2,
+    "tipo": "bajo_critico",
+    "motivo": "precio $3,833.20 < 10% mediana $67,545.48",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "mirtazapina|farmapina|30 mg comp.x 30|casasco": {
+    "droga": "mirtazapina",
+    "marca": "FARMAPINA",
+    "presentacion": "30 mg comp.x 30",
+    "laboratorio": "Casasco",
+    "precio_detectado": 3507.09,
+    "tipo": "bajo_critico",
+    "motivo": "precio $3,507.09 < 10% mediana $73,980.00",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "mosunetuzumab|lunsumio|1 mg vial x 1 ml|roche": {
+    "droga": "mosunetuzumab",
+    "marca": "LUNSUMIO",
+    "presentacion": "1 mg vial x 1 ml",
+    "laboratorio": "Roche",
+    "precio_detectado": 869460.09,
+    "tipo": "bajo_critico",
+    "motivo": "precio $869,460.09 < 10% mediana $13,476,630.97",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "oseltamivir|oseltamivir elea|75 mg cã¡ps.x 10|elea": {
+    "droga": "oseltamivir",
+    "marca": "OSELTAMIVIR ELEA",
+    "presentacion": "75 mg cÃ¡ps.x 10",
+    "laboratorio": "Elea",
+    "precio_detectado": 10776,
+    "tipo": "bajo_critico",
+    "motivo": "precio $10,776.00 < 10% mediana $226,126.04",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "pancuronio,bromuro|pancuron|4 mg a.x 1 x 2 ml|scott-cassarã¡": {
+    "droga": "pancuronio,bromuro",
+    "marca": "PANCURON",
+    "presentacion": "4 mg a.x 1 x 2 ml",
+    "laboratorio": "Scott-CassarÃ¡",
+    "precio_detectado": 6442,
+    "tipo": "bajo_critico",
+    "motivo": "precio $6,442.00 < 10% mediana $144,643.06",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "polisacaridosulfâ£rico,ã¡c.(ã©ste|fleboderma|cr.x 30 g|laboratorio gra": {
+    "droga": "polisacaridosulfÂ£rico,Ã¡c.(Ã©ste",
+    "marca": "FLEBODERMA",
+    "presentacion": "cr.x 30 g",
+    "laboratorio": "Laboratorio Gra",
+    "precio_detectado": 225.15,
+    "tipo": "bajo_critico",
+    "motivo": "precio $225.15 < minimo $1,800 | precio $225.15 < 10% mediana $9,565.30",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "sildenafil|bifort-m|50 mg comp.mast.x 1|finadiet": {
+    "droga": "sildenafil",
+    "marca": "BIFORT-M",
+    "presentacion": "50 mg comp.mast.x 1",
+    "laboratorio": "Finadiet",
+    "precio_detectado": 186.4,
+    "tipo": "bajo_critico",
+    "motivo": "precio $186.40 < minimo $1,800 | precio $186.40 < 10% mediana $15,803.88",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "siponimod|kymonod|0.25 mg comp.rec.x 12|tuteur": {
+    "droga": "siponimod",
+    "marca": "KYMONOD",
+    "presentacion": "0.25 mg comp.rec.x 12",
+    "laboratorio": "Tuteur",
+    "precio_detectado": 659639.24,
+    "tipo": "bajo_critico",
+    "motivo": "precio $659,639.24 < 10% mediana $6,596,415.13",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "soluc.parent/fisiol/glucos/otr|cloruro de sodio|0.9% bpa.plã¡st.x 5 ml|b.braun": {
+    "droga": "soluc.parent/fisiol/glucos/otr",
+    "marca": "CLORURO DE SODIO",
+    "presentacion": "0.9% bpa.plÃ¡st.x 5 ml",
+    "laboratorio": "B.Braun",
+    "precio_detectado": 2807.3,
+    "tipo": "bajo_critico",
+    "motivo": "precio $2,807.30 < 10% mediana $30,833.29",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "soluc.parent/fisiol/glucos/otr|agua inyectable bp|a.plã¡st.x 5 ml|b.braun": {
+    "droga": "soluc.parent/fisiol/glucos/otr",
+    "marca": "AGUA INYECTABLE BP",
+    "presentacion": "a.plÃ¡st.x 5 ml",
+    "laboratorio": "B.Braun",
+    "precio_detectado": 2807.3,
+    "tipo": "bajo_critico",
+    "motivo": "precio $2,807.30 < 10% mediana $30,833.29",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "tobramicina|radina|gts.oft.x 5 ml|valmax": {
+    "droga": "tobramicina",
+    "marca": "RADINA",
+    "presentacion": "gts.oft.x 5 ml",
+    "laboratorio": "Valmax",
+    "precio_detectado": 9000,
+    "tipo": "bajo_critico",
+    "motivo": "precio $9,000.00 < 10% mediana $11,627,561.62",
+    "bloqueado_en": "2026-08-03T08:29"
+  },
+  "tobramicina|sutobrax|sol.oft.x 5 ml|mar": {
+    "droga": "tobramicina",
+    "marca": "SUTOBRAX",
+    "presentacion": "sol.oft.x 5 ml",
+    "laboratorio": "Mar",
+    "precio_detectado": 10330,
+    "tipo": "bajo_critico",
+    "motivo": "precio $10,330.00 < 10% mediana $11,627,561.62",
+    "bloqueado_en": "2026-08-03T08:29"
   }
 }
