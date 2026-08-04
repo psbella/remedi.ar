@@ -7,12 +7,16 @@ usuario) que procesa datos públicos de precios de medicamentos. No maneja datos
 personales de los visitantes del sitio más allá de analítica anónima (Google Analytics).
 
 El único componente con superficie de ataque no trivial es el panel de administración
-(`admin.html`), de uso exclusivo del mantenedor del proyecto. `admin.html` no vive
-commiteado en `main` — se sube manualmente al hosting solo cuando se necesita usar y
-se retira después. Esto es intencional (ver commit `5af65b2`, "security: saca admin.html
-del repo público"): reduce la superficie de ataque visible en el repo público sin dejar
-de existir como artefacto deployable, así que la descripción de riesgo de este documento
-sigue aplicando mientras ese archivo exista, esté o no en el árbol de este repositorio.
+(`admin.html`), de uso exclusivo del mantenedor del proyecto. `admin.html` vive
+commiteado en `main` de forma permanente. El modelo anterior (subirlo manualmente al
+hosting solo cuando se necesitaba usarlo y retirarlo después — ver commit `5af65b2`,
+"security: saca admin.html del repo público") quedó descartado: la mitigación real no
+es ocultar el archivo del repo público, sino dos cosas — no está indexado (`noindex,
+nofollow`) y las acciones que expone requieren un GitHub Personal Access Token que el
+mantenedor ingresa manualmente y que se guarda solo en memoria del navegador (nunca en
+el repo ni en el archivo servido). Quien acceda a `admin.html` sin ese token ve el panel
+pero no puede ejecutar ninguna acción contra la API de GitHub. La descripción de riesgo
+de este documento sigue aplicando igual mientras ese archivo exista.
 
 ## Versiones soportadas
 
