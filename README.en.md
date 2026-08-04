@@ -659,7 +659,6 @@ flowchart LR
 ```text
 remediar/
 ├── index.html
-├── style.css
 ├── manifest.json
 ├── requirements.txt
 ├── robots.txt
@@ -674,6 +673,11 @@ remediar/
 ├── _headers
 ├── .nojekyll
 ├── .gitignore
+│
+├── css/
+│   ├── style.css
+│   ├── admin.css
+│   └── mantenimiento.css
 │
 ├── img/
 │   ├── favicon.svg
@@ -1020,7 +1024,7 @@ Before opening the PR: if you touched the ETL, run `pytest tests/` and confirm t
 
 ## ⚠️ Watch out for the Service Worker when touching static assets
 
-If you modify `index.html`, `style.css` or any file in `js/`, **remember to bump `CACHE_NAME` in `sw.js`** (e.g. `remediar-v7` → `remediar-v8`). Those files are precached by the Service Worker (`CACHE_STATIC`), so without the bump, users who already visited the site will keep seeing the old version indefinitely, with no visible error — nothing updates until the browser decides to revalidate the cache on its own.
+If you modify `index.html`, `css/style.css` or any file in `js/`, **remember to bump `CACHE_NAME` in `sw.js`** (e.g. `remediar-v7` → `remediar-v8`). Those files are precached by the Service Worker (`CACHE_STATIC`), so without the bump, users who already visited the site will keep seeing the old version indefinitely, with no visible error — nothing updates until the browser decides to revalidate the cache on its own.
 
 ---
 
@@ -1344,7 +1348,7 @@ A single mobile-first breakpoint at `600px` — there's no separate intermediate
 | `maintenance-on.yml` | Manual | Replaces `index.html` with a maintenance page |
 | `maintenance-off.yml` | Manual | Restores `index.html` from backup |
 | `codeql.yml` | Push/PR to `main` + weekly cron (Monday 06:00 UTC) | Static security analysis (CodeQL) over JS and Python |
-| `accessibility.yml` | Push/PR to `main` touching `index.html`, `about.html`, `style.css`, `js/**`, or the check itself + manual | Runs `scripts/checks/a11y-check.mjs` (axe-core + Puppeteer). Doesn't block the build — warns, doesn't break, same policy as Ruff/ESLint |
+| `accessibility.yml` | Push/PR to `main` touching `index.html`, `about.html`, `css/style.css`, `js/**`, or the check itself + manual | Runs `scripts/checks/a11y-check.mjs` (axe-core + Puppeteer). Doesn't block the build — warns, doesn't break, same policy as Ruff/ESLint |
 | `dependabot.yml` (config, not a workflow) | Weekly | Proposes updates for `requirements.txt` and the actions used in the workflows |
 
 | Parameter | Value |

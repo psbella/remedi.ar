@@ -658,7 +658,6 @@ flowchart LR
 ```text
 remediar/
 ├── index.html
-├── style.css
 ├── manifest.json
 ├── requirements.txt
 ├── robots.txt
@@ -673,6 +672,11 @@ remediar/
 ├── _headers
 ├── .nojekyll
 ├── .gitignore
+│
+├── css/
+│   ├── style.css
+│   ├── admin.css
+│   └── mantenimiento.css
 │
 ├── img/
 │   ├── favicon.svg
@@ -1019,7 +1023,7 @@ Antes de abrir el PR: si tocaste el ETL, corré `pytest tests/` y confirmá que 
 
 ## ⚠️ Ojo con el Service Worker al tocar assets estáticos
 
-Si modificás `index.html`, `style.css` o cualquier archivo en `js/`, **acordate de bumpear `CACHE_NAME` en `sw.js`** (ej. `remediar-v7` → `remediar-v8`). Esos archivos están precacheados por el Service Worker (`CACHE_STATIC`), así que sin el bump los usuarios que ya visitaron el sitio van a seguir viendo la versión vieja indefinidamente, sin ningún error visible — simplemente no se actualiza nada hasta que el navegador decida revalidar el cache por su cuenta.
+Si modificás `index.html`, `css/style.css` o cualquier archivo en `js/`, **acordate de bumpear `CACHE_NAME` en `sw.js`** (ej. `remediar-v7` → `remediar-v8`). Esos archivos están precacheados por el Service Worker (`CACHE_STATIC`), así que sin el bump los usuarios que ya visitaron el sitio van a seguir viendo la versión vieja indefinidamente, sin ningún error visible — simplemente no se actualiza nada hasta que el navegador decida revalidar el cache por su cuenta.
 
 ---
 
@@ -1343,7 +1347,7 @@ Un único breakpoint mobile-first en `600px` — no hay un nivel intermedio de t
 | `maintenance-on.yml` | Manual | Reemplaza `index.html` con página de mantenimiento |
 | `maintenance-off.yml` | Manual | Restaura `index.html` desde backup |
 | `codeql.yml` | Push/PR a `main` + cron semanal (lunes 06:00 UTC) | Análisis estático de seguridad (CodeQL) sobre JS y Python |
-| `accessibility.yml` | Push/PR a `main` que toque `index.html`, `about.html`, `style.css`, `js/**` o el propio check + manual | Corre `scripts/checks/a11y-check.mjs` (axe-core + Puppeteer). No bloquea el build — avisa, no rompe, mismo criterio que Ruff/ESLint |
+| `accessibility.yml` | Push/PR a `main` que toque `index.html`, `about.html`, `css/style.css`, `js/**` o el propio check + manual | Corre `scripts/checks/a11y-check.mjs` (axe-core + Puppeteer). No bloquea el build — avisa, no rompe, mismo criterio que Ruff/ESLint |
 | `dependabot.yml` (config, no workflow) | Semanal | Propone actualizaciones de `requirements.txt` y de las actions usadas en los workflows |
 
 | Parámetro | Valor |
