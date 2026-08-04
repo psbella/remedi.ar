@@ -4,6 +4,5 @@ __pycache__/
 .env
 tests/debug_update_failed.txt
 .debug/
-data/pami.xlsx
 .wrangler/
 node_modules/

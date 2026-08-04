@@ -32,6 +32,6 @@ MEDICAMENTOS_PATH = BASE / "data" / "medicamentos.json"
 PRES_DEBUG_PATH   = BASE / "data" / "presentaciones_debug.csv"
 DROGA_FIXES_PATH  = BASE / "data" / "droga_fixes.json"
 
-PAMI_PATH        = BASE / "data" / "pami.xlsx"
-PAMI_RESOURCE_ID = "92ad6862-af8e-4047-b2cb-4bfef705feb3"
-PAMI_API_URL     = f"https://datos.pami.org.ar/api/3/action/resource_show?id={PAMI_RESOURCE_ID}"
+# Vademécum PAMI: se actualiza a mano ~1 vez por mes (ver README).
+# Fuente: https://datos.pami.org.ar/dataset/vademecum-pami-farmacia
+PAMI_PATH = BASE / "data" / "pami.xlsx"

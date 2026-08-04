@@ -1,49 +1,20 @@
 """etl/pami.py - Crosswalk contra el vademecum PAMI para recuperar droga y laboratorio."""
 
-import json
-import time
-import urllib.request
-import urllib.error
+from .config import PAMI_PATH
 
-from .config import PAMI_PATH, PAMI_API_URL, ssl_context
-
-
-def _descargar_pami(max_reintentos=3, backoff_segundos=30) -> bool:
-    """Descarga el vademécum PAMI vigente a PAMI_PATH. Devuelve True si tuvo éxito."""
-    for intento in range(1, max_reintentos + 1):
-        try:
-            req = urllib.request.Request(PAMI_API_URL, headers={"User-Agent": "Mozilla/5.0"})
-            with urllib.request.urlopen(req, timeout=30, context=ssl_context) as r:
-                meta = json.loads(r.read())
-            download_url = meta["result"]["url"]
-
-            req = urllib.request.Request(download_url, headers={"User-Agent": "Mozilla/5.0"})
-            with urllib.request.urlopen(req, timeout=60, context=ssl_context) as r:
-                xlsx_bytes = r.read()
-
-            PAMI_PATH.parent.mkdir(parents=True, exist_ok=True)
-            PAMI_PATH.write_bytes(xlsx_bytes)
-            print(f"   PAMI: descargado ({len(xlsx_bytes)} bytes) desde {download_url.split('/')[-1]}")
-            return True
-        except (urllib.error.URLError, TimeoutError, ConnectionError, KeyError, ValueError) as e:
-            print(f"   PAMI: intento {intento}/{max_reintentos} fallido ({e})")
-            if intento < max_reintentos:
-                time.sleep(backoff_segundos)
-    print("   PAMI: no se pudo descargar el vademécum tras todos los reintentos — se omite el crosswalk.")
-    return False
 
 def _build_pami_index():
-    """Carga el vademécum PAMI y construye índices por marca+pres y por marca."""
-    # Siempre se intenta la descarga fresca — no alcanza con chequear si
-    # PAMI_PATH ya existe, porque en GitHub Actions el checkout trae el
-    # archivo del último commit en el que se haya versionado (p.ej. antes
-    # de migrar a descarga dinámica), y ese archivo nunca se actualizaría.
-    habia_archivo_previo = PAMI_PATH.exists()
-    if not _descargar_pami():
-        if habia_archivo_previo:
-            print("   PAMI: se usa el archivo existente en disco como fallback (puede estar desactualizado).")
-        else:
-            return None, None
+    """Carga el vademécum PAMI (archivo versionado en el repo) y construye
+    índices por marca+pres y por marca.
+
+    El vademécum de PAMI se actualiza ~1 vez por mes, así que en vez de
+    descargarlo en cada corrida del ETL, se sube manualmente a data/pami.xlsx
+    cuando cambia (ver README para el link de descarga). Esto evita depender
+    de la disponibilidad de datos.pami.org.ar en cada ejecución de CI.
+    """
+    if not PAMI_PATH.exists():
+        print(f"   PAMI: no se encontró {PAMI_PATH.name} en data/, se omite el crosswalk.")
+        return None, None
 
     try:
         import openpyxl  # noqa: F401
