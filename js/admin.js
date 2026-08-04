@@ -65,7 +65,11 @@ async function ghGet(path) {
   const r = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}?ref=${BRANCH}`, {
     headers: { Authorization: `Bearer ${TOKEN}`, Accept: 'application/vnd.github.v3+json' }
   });
-  if (!r.ok) throw new Error(`GitHub ${r.status}: ${path}`);
+  if (!r.ok) {
+    const e = new Error(`GitHub ${r.status}: ${path}`);
+    e.status = r.status;
+    throw e;
+  }
   const data = await r.json();
   const content = JSON.parse(atob(data.content.replace(/\n/g, '')));
   return { content, sha: data.sha };
@@ -113,14 +117,22 @@ async function cargarDatos() {
   document.getElementById('stat-fecha').textContent =
     (report.timestamp || '—').slice(0, 16).replace('T', ' ');
 
-  // blacklist.json (puede no existir aún)
+  // blacklist.json (puede no existir aún -- eso sí es un 404 legítimo)
   try {
     const bl = await ghGet(BL_PATH);
     blacklist    = bl.content;
     blacklistSha = bl.sha;
   } catch(e) {
-    blacklist    = {};
-    blacklistSha = null;
+    if (e.status === 404) {
+      blacklist    = {};
+      blacklistSha = null;
+    } else {
+      // Cualquier otro fallo (401, 403, rate limit, red) NO se trata como
+      // "vacío" -- eso mostraría todo como "no bloqueado" sin avisar,
+      // aunque blacklist.json siga íntegro en GitHub. Se corta la carga
+      // y se avisa explícitamente en vez de mentir con datos vacíos.
+      throw new Error(`No se pudo leer blacklist.json (${e.message}). Los bloqueos existentes NO se perdieron, pero no se pueden mostrar ahora.`);
+    }
   }
 
   document.getElementById('stat-blacklist').textContent = Object.keys(blacklist).length;
@@ -381,7 +393,13 @@ document.querySelector('.filter-tabs').addEventListener('click', e => {
 
 document.getElementById('btn-sel-todos').addEventListener('click', seleccionarTodos);
 document.getElementById('btn-blacklist').addEventListener('click', agregarSeleccionados);
-document.getElementById('btn-reload').addEventListener('click', cargarDatos);
+document.getElementById('btn-reload').addEventListener('click', async () => {
+  try {
+    await cargarDatos();
+  } catch (e) {
+    toast(e.message, 'error');
+  }
+});
 document.getElementById('check-all').addEventListener('change', function () { toggleAll(this); });
 
 document.querySelector('thead').addEventListener('click', e => {
