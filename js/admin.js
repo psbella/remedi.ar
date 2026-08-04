@@ -16,6 +16,8 @@ let blacklist     = {};   // key → {droga, marca, presentacion, laboratorio, m
 let blacklistSha  = null;
 let filtroActual  = 'todos';
 let seleccionados = new Set();
+let sortCol = null;   // null = orden original del reporte
+let sortDir = 1;      // 1 = ascendente, -1 = descendente
 
 // ── Helpers ───────────────────────────────────────────────────────────────
 function makeKey(m) {
@@ -136,10 +138,36 @@ function getOutliersFiltrados() {
   return allOutliers;
 }
 
+function valorOrdenable(o, col) {
+  if (col === 'ratio') {
+    return (o.precio && o.mediana_droga) ? o.precio / o.mediana_droga : null;
+  }
+  return o[col];
+}
+
+function ordenarLista(lista) {
+  if (!sortCol) return lista;
+  // copia: no mutar allOutliers
+  return [...lista].sort((a, b) => {
+    const va = valorOrdenable(a, sortCol);
+    const vb = valorOrdenable(b, sortCol);
+    // los valores faltantes van siempre al final, sea cual sea la dirección
+    if (va == null && vb == null) return 0;
+    if (va == null) return 1;
+    if (vb == null) return -1;
+    if (typeof va === 'number' && typeof vb === 'number') {
+      return (va - vb) * sortDir;
+    }
+    return String(va).localeCompare(String(vb), 'es', { sensitivity: 'base' }) * sortDir;
+  });
+}
+
 function renderTabla() {
-  const lista = getOutliersFiltrados();
+  const lista = ordenarLista(getOutliersFiltrados());
   document.getElementById('toolbar-label').textContent =
     `${lista.length} registros · filtro: ${filtroActual}`;
+
+  actualizarFlechasOrden();
 
   if (!lista.length) {
     document.getElementById('tabla-body').innerHTML =
@@ -184,6 +212,19 @@ function renderTabla() {
       </td>
     </tr>`;
   }).join('');
+}
+
+function actualizarFlechasOrden() {
+  document.querySelectorAll('th.sortable').forEach(th => {
+    const arrow = th.querySelector('.sort-arrow');
+    if (th.dataset.sort === sortCol) {
+      th.classList.add('sorted');
+      arrow.textContent = sortDir === 1 ? '▲' : '▼';
+    } else {
+      th.classList.remove('sorted');
+      arrow.textContent = '';
+    }
+  });
 }
 
 // ── Selección ─────────────────────────────────────────────────────────────
@@ -318,6 +359,19 @@ document.getElementById('btn-sel-todos').addEventListener('click', seleccionarTo
 document.getElementById('btn-blacklist').addEventListener('click', agregarSeleccionados);
 document.getElementById('btn-reload').addEventListener('click', cargarDatos);
 document.getElementById('check-all').addEventListener('change', function () { toggleAll(this); });
+
+document.querySelector('thead').addEventListener('click', e => {
+  const th = e.target.closest('th.sortable');
+  if (!th) return;
+  const col = th.dataset.sort;
+  if (sortCol === col) {
+    sortDir *= -1;
+  } else {
+    sortCol = col;
+    sortDir = 1;
+  }
+  renderTabla();
+});
 
 document.getElementById('tabla-body').addEventListener('change', e => {
   if (e.target.matches('.row-check')) toggleSel(e.target.dataset.key, e.target);
