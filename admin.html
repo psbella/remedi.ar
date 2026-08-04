@@ -20,16 +20,18 @@
 <!-- AUTH GATE -->
 <div id="auth-gate">
   <h2>// acceso requerido</h2>
-  <div class="field">
-    <label>GitHub Token (PAT)</label>
-    <input type="password" id="token-input" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
-    <small>Necesita permisos: <code>contents:write</code> en el repo psbella/remediar</small>
-  </div>
-  <div class="field">
-    <label>Rama</label>
-    <input type="text" id="branch-input" value="main">
-  </div>
-  <button class="btn btn-primary" id="btn-conectar">Conectar →</button>
+  <form id="auth-form">
+    <div class="field">
+      <label>GitHub Token (PAT)</label>
+      <input type="password" id="token-input" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
+      <small>Necesita permisos: <code>contents:write</code> en el repo psbella/remediar</small>
+    </div>
+    <div class="field">
+      <label>Rama</label>
+      <input type="text" id="branch-input" value="main">
+    </div>
+    <button class="btn btn-primary" type="submit">Conectar →</button>
+  </form>
   <p class="disclaimer-footer">
     El token se guarda solo en memoria, no se persiste en ningún lado.
   </p>

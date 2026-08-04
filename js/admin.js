@@ -71,10 +71,7 @@ async function ghGet(path) {
     throw e;
   }
   const data = await r.json();
-  // Inversa exacta de btoa(unescape(encodeURIComponent(...))) en ghPut.
-  // atob() sola interpreta cada byte UTF-8 como un carácter Latin-1 (mojibake
-  // con tildes/ñ). escape()+decodeURIComponent() revierte eso correctamente.
-  const content = JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\n/g, '')))));
+  const content = JSON.parse(atob(data.content.replace(/\n/g, '')));
   return { content, sha: data.sha };
 }
 
@@ -382,11 +379,9 @@ function setFiltro(f, btn) {
 }
 
 // ── Bindings (reemplaza los onclick="" bloqueados por CSP) ─────────────────
-document.getElementById('btn-conectar').addEventListener('click', conectar);
-
-// Enter en el input de token también conecta (mejora de UX, no forma parte del fix de CSP)
-document.getElementById('token-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter') conectar();
+document.getElementById('auth-form').addEventListener('submit', e => {
+  e.preventDefault();  // no recargar la página -- conectar() maneja todo por fetch
+  conectar();
 });
 
 document.querySelector('.filter-tabs').addEventListener('click', e => {
