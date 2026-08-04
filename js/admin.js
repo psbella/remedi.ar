@@ -71,7 +71,10 @@ async function ghGet(path) {
     throw e;
   }
   const data = await r.json();
-  const content = JSON.parse(atob(data.content.replace(/\n/g, '')));
+  // Inversa exacta de btoa(unescape(encodeURIComponent(...))) en ghPut.
+  // atob() sola interpreta cada byte UTF-8 como un carácter Latin-1 (mojibake
+  // con tildes/ñ). escape()+decodeURIComponent() revierte eso correctamente.
+  const content = JSON.parse(decodeURIComponent(escape(atob(data.content.replace(/\n/g, '')))));
   return { content, sha: data.sha };
 }
 
