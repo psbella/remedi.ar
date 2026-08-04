@@ -89,7 +89,10 @@ async function ghPut(path, content, sha, message) {
   });
   if (!r.ok) {
     const err = await r.json();
-    throw new Error(err.message || `GitHub ${r.status}`);
+    const e = new Error(err.message || `GitHub ${r.status}`);
+    e.status = r.status;
+    e.isShaConflict = r.status === 409;
+    throw e;
   }
   return await r.json();
 }
@@ -271,22 +274,47 @@ function construirEntrada(o) {
   };
 }
 
-async function guardarBlacklist(mensaje) {
-  const result = await ghPut(BL_PATH, blacklist, blacklistSha, mensaje);
-  blacklistSha = result.content.sha;
-  document.getElementById('stat-blacklist').textContent = Object.keys(blacklist).length;
+// Aplica `mutator` sobre el estado REMOTO más reciente de blacklist.json
+// (no sobre el `blacklist` local, que puede estar desactualizado si hay
+// otra pestaña u otro click en curso) y reintenta una vez si GitHub
+// responde 409 por sha desincronizado.
+async function actualizarBlacklist(mutator, mensaje) {
+  for (let intento = 0; intento < 2; intento++) {
+    // Releer siempre antes de escribir: minimiza la ventana de conflicto
+    // y, si igual hay condición de carrera, el reintento la resuelve.
+    let fresco, freshSha;
+    try {
+      const r = await ghGet(BL_PATH);
+      fresco = r.content;
+      freshSha = r.sha;
+    } catch (e) {
+      fresco = {};       // blacklist.json puede no existir aún
+      freshSha = null;
+    }
+
+    mutator(fresco);
+
+    try {
+      const result = await ghPut(BL_PATH, fresco, freshSha, mensaje);
+      blacklist    = fresco;
+      blacklistSha = result.content.sha;
+      document.getElementById('stat-blacklist').textContent = Object.keys(blacklist).length;
+      return;
+    } catch (e) {
+      if (e.isShaConflict && intento === 0) continue;  // reintentar con sha fresco
+      throw e;
+    }
+  }
 }
 
 async function bloquearUno(key, marca) {
   const outlier = allOutliers.find(o => makeKey(o) === key);
   if (!outlier) return;
-  blacklist[key] = construirEntrada(outlier);
   try {
-    await guardarBlacklist(`admin: bloquear ${marca}`);
+    await actualizarBlacklist(bl => { bl[key] = construirEntrada(outlier); }, `admin: bloquear ${marca}`);
     toast(`${marca} agregado a lista negra`);
     renderTabla();
   } catch(e) {
-    delete blacklist[key];
     toast('Error al guardar: ' + e.message, 'error');
   }
 }
@@ -297,19 +325,18 @@ async function agregarSeleccionados() {
   btn.disabled = true;
   btn.textContent = 'guardando…';
 
-  const nuevos = [];
-  for (const key of seleccionados) {
-    const o = allOutliers.find(o => makeKey(o) === key);
-    if (o) { blacklist[key] = construirEntrada(o); nuevos.push(o.marca); }
-  }
+  const pendientes = [...seleccionados]
+    .map(key => allOutliers.find(o => makeKey(o) === key))
+    .filter(Boolean);
 
   try {
-    await guardarBlacklist(`admin: bloquear ${nuevos.length} outliers`);
-    toast(`${nuevos.length} medicamento${nuevos.length > 1 ? 's' : ''} bloqueado${nuevos.length > 1 ? 's' : ''}`);
+    await actualizarBlacklist(bl => {
+      pendientes.forEach(o => { bl[makeKey(o)] = construirEntrada(o); });
+    }, `admin: bloquear ${pendientes.length} outliers`);
+    toast(`${pendientes.length} medicamento${pendientes.length > 1 ? 's' : ''} bloqueado${pendientes.length > 1 ? 's' : ''}`);
     seleccionados.clear();
     renderTabla();
   } catch(e) {
-    nuevos.forEach(k => delete blacklist[k]);
     toast('Error al guardar: ' + e.message, 'error');
   }
   actualizarBtnBlacklist();
@@ -319,14 +346,11 @@ async function quitarDeBlacklist(key) {
   const entrada = blacklist[key];
   if (!entrada) return;
   const marca = entrada.marca || key;
-  delete blacklist[key];
   try {
-    await guardarBlacklist(`admin: desbloquear ${marca}`);
+    await actualizarBlacklist(bl => { delete bl[key]; }, `admin: desbloquear ${marca}`);
     toast(`${marca} removido de lista negra`);
     renderTabla();
-    document.getElementById('stat-blacklist').textContent = Object.keys(blacklist).length;
   } catch(e) {
-    blacklist[key] = entrada;
     toast('Error al guardar: ' + e.message, 'error');
   }
 }
