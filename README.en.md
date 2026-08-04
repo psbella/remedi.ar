@@ -668,6 +668,8 @@ remediar/
 ├── privacidad.html
 ├── terminos.html
 ├── about.html
+├── admin.html            # internal panel (outliers/blacklist), noindex, GitHub PAT auth
+├── mantenimiento.html    # maintenance page, copied to index.html via workflow
 ├── {droga}.html          # 100 generated SEO landing pages (one per drug) — see below
 ├── README.md
 ├── _headers
