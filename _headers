@@ -34,7 +34,7 @@
 /*.html
   Cache-Control: public, max-age=3600, stale-while-revalidate=1800
 
-/style.css
+/css/*
   Cache-Control: public, max-age=86400
 
 /js/*.js

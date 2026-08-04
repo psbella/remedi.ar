@@ -6,7 +6,7 @@ on:
     paths:
       - "index.html"
       - "about.html"
-      - "style.css"
+      - "css/style.css"
       - "js/**"
       - "scripts/checks/a11y-check.mjs"
   pull_request:
@@ -14,7 +14,7 @@ on:
     paths:
       - "index.html"
       - "about.html"
-      - "style.css"
+      - "css/style.css"
       - "js/**"
       - "scripts/checks/a11y-check.mjs"
   workflow_dispatch:
