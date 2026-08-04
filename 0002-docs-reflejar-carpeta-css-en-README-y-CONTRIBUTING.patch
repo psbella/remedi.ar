@@ -1,0 +1,114 @@
+From 5a2293876942d168ea554271846d4ffc7d95c0bb Mon Sep 17 00:00:00 2001
+From: Pablo Bella <pablo.s.bella@gmail.com>
+Date: Tue, 4 Aug 2026 07:41:33 +0000
+Subject: [PATCH 2/4] docs: reflejar carpeta css/ en README y CONTRIBUTING
+
+Actualiza el arbol de directorios (agrega css/ con los 3 archivos) y
+las menciones sueltas a style.css en el texto (bump de CACHE_NAME y
+tabla de workflows de CI), en README.md, README.en.md y CONTRIBUTING.md.
+Documentacion, sin efecto en produccion.
+---
+ CONTRIBUTING.md |  2 +-
+ README.en.md    | 10 +++++++---
+ README.md       | 10 +++++++---
+ 3 files changed, 15 insertions(+), 7 deletions(-)
+
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+index fe30753..d167969 100644
+--- a/CONTRIBUTING.md
++++ b/CONTRIBUTING.md
+@@ -36,6 +36,6 @@ Antes de abrir el PR: si tocaste el ETL, corré `pytest tests/` y confirmá que
+ 
+ ## ⚠️ Ojo con el Service Worker al tocar assets estáticos
+ 
+-Si modificás `index.html`, `style.css` o cualquier archivo en `js/`, **acordate de bumpear `CACHE_NAME` en `sw.js`** (ej. `remediar-v7` → `remediar-v8`). Esos archivos están precacheados por el Service Worker (`CACHE_STATIC`), así que sin el bump los usuarios que ya visitaron el sitio van a seguir viendo la versión vieja indefinidamente, sin ningún error visible — simplemente no se actualiza nada hasta que el navegador decida revalidar el cache por su cuenta.
++Si modificás `index.html`, `css/style.css` o cualquier archivo en `js/`, **acordate de bumpear `CACHE_NAME` en `sw.js`** (ej. `remediar-v7` → `remediar-v8`). Esos archivos están precacheados por el Service Worker (`CACHE_STATIC`), así que sin el bump los usuarios que ya visitaron el sitio van a seguir viendo la versión vieja indefinidamente, sin ningún error visible — simplemente no se actualiza nada hasta que el navegador decida revalidar el cache por su cuenta.
+ 
+ ---
+diff --git a/README.en.md b/README.en.md
+index 47a858b..e42ed27 100644
+--- a/README.en.md
++++ b/README.en.md
+@@ -659,7 +659,6 @@ flowchart LR
+ ```text
+ remediar/
+ ├── index.html
+-├── style.css
+ ├── manifest.json
+ ├── requirements.txt
+ ├── robots.txt
+@@ -675,6 +674,11 @@ remediar/
+ ├── .nojekyll
+ ├── .gitignore
+ │
++├── css/
++│   ├── style.css
++│   ├── admin.css
++│   └── mantenimiento.css
++│
+ ├── img/
+ │   ├── favicon.svg
+ │   ├── logo_banner.svg
+@@ -1020,7 +1024,7 @@ Before opening the PR: if you touched the ETL, run `pytest tests/` and confirm t
+ 
+ ## ⚠️ Watch out for the Service Worker when touching static assets
+ 
+-If you modify `index.html`, `style.css` or any file in `js/`, **remember to bump `CACHE_NAME` in `sw.js`** (e.g. `remediar-v7` → `remediar-v8`). Those files are precached by the Service Worker (`CACHE_STATIC`), so without the bump, users who already visited the site will keep seeing the old version indefinitely, with no visible error — nothing updates until the browser decides to revalidate the cache on its own.
++If you modify `index.html`, `css/style.css` or any file in `js/`, **remember to bump `CACHE_NAME` in `sw.js`** (e.g. `remediar-v7` → `remediar-v8`). Those files are precached by the Service Worker (`CACHE_STATIC`), so without the bump, users who already visited the site will keep seeing the old version indefinitely, with no visible error — nothing updates until the browser decides to revalidate the cache on its own.
+ 
+ ---
+ 
+@@ -1344,7 +1348,7 @@ A single mobile-first breakpoint at `600px` — there's no separate intermediate
+ | `maintenance-on.yml` | Manual | Replaces `index.html` with a maintenance page |
+ | `maintenance-off.yml` | Manual | Restores `index.html` from backup |
+ | `codeql.yml` | Push/PR to `main` + weekly cron (Monday 06:00 UTC) | Static security analysis (CodeQL) over JS and Python |
+-| `accessibility.yml` | Push/PR to `main` touching `index.html`, `about.html`, `style.css`, `js/**`, or the check itself + manual | Runs `scripts/checks/a11y-check.mjs` (axe-core + Puppeteer). Doesn't block the build — warns, doesn't break, same policy as Ruff/ESLint |
++| `accessibility.yml` | Push/PR to `main` touching `index.html`, `about.html`, `css/style.css`, `js/**`, or the check itself + manual | Runs `scripts/checks/a11y-check.mjs` (axe-core + Puppeteer). Doesn't block the build — warns, doesn't break, same policy as Ruff/ESLint |
+ | `dependabot.yml` (config, not a workflow) | Weekly | Proposes updates for `requirements.txt` and the actions used in the workflows |
+ 
+ | Parameter | Value |
+diff --git a/README.md b/README.md
+index e2effab..5e69488 100644
+--- a/README.md
++++ b/README.md
+@@ -658,7 +658,6 @@ flowchart LR
+ ```text
+ remediar/
+ ├── index.html
+-├── style.css
+ ├── manifest.json
+ ├── requirements.txt
+ ├── robots.txt
+@@ -674,6 +673,11 @@ remediar/
+ ├── .nojekyll
+ ├── .gitignore
+ │
++├── css/
++│   ├── style.css
++│   ├── admin.css
++│   └── mantenimiento.css
++│
+ ├── img/
+ │   ├── favicon.svg
+ │   ├── logo_banner.svg
+@@ -1019,7 +1023,7 @@ Antes de abrir el PR: si tocaste el ETL, corré `pytest tests/` y confirmá que
+ 
+ ## ⚠️ Ojo con el Service Worker al tocar assets estáticos
+ 
+-Si modificás `index.html`, `style.css` o cualquier archivo en `js/`, **acordate de bumpear `CACHE_NAME` en `sw.js`** (ej. `remediar-v7` → `remediar-v8`). Esos archivos están precacheados por el Service Worker (`CACHE_STATIC`), así que sin el bump los usuarios que ya visitaron el sitio van a seguir viendo la versión vieja indefinidamente, sin ningún error visible — simplemente no se actualiza nada hasta que el navegador decida revalidar el cache por su cuenta.
++Si modificás `index.html`, `css/style.css` o cualquier archivo en `js/`, **acordate de bumpear `CACHE_NAME` en `sw.js`** (ej. `remediar-v7` → `remediar-v8`). Esos archivos están precacheados por el Service Worker (`CACHE_STATIC`), así que sin el bump los usuarios que ya visitaron el sitio van a seguir viendo la versión vieja indefinidamente, sin ningún error visible — simplemente no se actualiza nada hasta que el navegador decida revalidar el cache por su cuenta.
+ 
+ ---
+ 
+@@ -1343,7 +1347,7 @@ Un único breakpoint mobile-first en `600px` — no hay un nivel intermedio de t
+ | `maintenance-on.yml` | Manual | Reemplaza `index.html` con página de mantenimiento |
+ | `maintenance-off.yml` | Manual | Restaura `index.html` desde backup |
+ | `codeql.yml` | Push/PR a `main` + cron semanal (lunes 06:00 UTC) | Análisis estático de seguridad (CodeQL) sobre JS y Python |
+-| `accessibility.yml` | Push/PR a `main` que toque `index.html`, `about.html`, `style.css`, `js/**` o el propio check + manual | Corre `scripts/checks/a11y-check.mjs` (axe-core + Puppeteer). No bloquea el build — avisa, no rompe, mismo criterio que Ruff/ESLint |
++| `accessibility.yml` | Push/PR a `main` que toque `index.html`, `about.html`, `css/style.css`, `js/**` o el propio check + manual | Corre `scripts/checks/a11y-check.mjs` (axe-core + Puppeteer). No bloquea el build — avisa, no rompe, mismo criterio que Ruff/ESLint |
+ | `dependabot.yml` (config, no workflow) | Semanal | Propone actualizaciones de `requirements.txt` y de las actions usadas en los workflows |
+ 
+ | Parámetro | Valor |
+-- 
+2.43.0
+
