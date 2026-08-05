@@ -35,7 +35,7 @@ motivo del cierre queda documentado en el CHANGELOG.
 
 ## Largo plazo — evaluar si vale la pena antes de encarar
 
-- [ ] SEO long-tail: hoy no hay URLs individuales por droga+marca (todo
+- [x] SEO long-tail: hoy no hay URLs individuales por droga+marca (todo
       el listado es client-side vía `fetch` a `medicamentos.json`), así
       que no se puede rankear para búsquedas específicas de un
       medicamento puntual. Evaluar páginas estáticas livianas para las
