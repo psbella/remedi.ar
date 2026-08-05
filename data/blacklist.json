@@ -7917,7 +7917,7 @@
     "precio_detectado": 1716.1,
     "tipo": "bajo_absoluto",
     "motivo": "precio $1,716.10 < minimo $1,800 | precio $1,716.10 < 25% mediana $16,900.00 (n=18)",
-    "bloqueado_en": "2026-08-05T03:43"
+    "bloqueado_en": "2026-08-05T03:44"
   },
   "lidocaína|lidocaina|2% s/epi.a.x 5 ml|scott-cassará": {
     "droga": "lidocaína",
