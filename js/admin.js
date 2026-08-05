@@ -71,7 +71,27 @@ async function ghGet(path) {
     throw e;
   }
   const data = await r.json();
-  const content = JSON.parse(atob(data.content.replace(/\n/g, '')));
+  let base64 = data.content;
+
+  // La Contents API no incluye `content` para archivos > 1MB (blacklist.json
+  // ya cruzó ese límite). En ese caso hay que pedirlo aparte con la Git Data
+  // API (blobs), que soporta hasta 100MB, usando el mismo sha que ya tenemos.
+  if (!base64) {
+    const blobR = await fetch(`https://api.github.com/repos/${REPO}/git/blobs/${data.sha}`, {
+      headers: { Authorization: `Bearer ${TOKEN}`, Accept: 'application/vnd.github.v3+json' }
+    });
+    if (!blobR.ok) {
+      const e = new Error(`GitHub ${blobR.status} (blob): ${path}`);
+      e.status = blobR.status;
+      throw e;
+    }
+    base64 = (await blobR.json()).content;
+  }
+
+  // Inversa exacta de btoa(unescape(encodeURIComponent(...))) en ghPut.
+  // atob() sola interpreta cada byte UTF-8 como un carácter Latin-1 (mojibake
+  // con tildes/ñ). escape()+decodeURIComponent() revierte eso correctamente.
+  const content = JSON.parse(decodeURIComponent(escape(atob(base64.replace(/\n/g, '')))));
   return { content, sha: data.sha };
 }
 
@@ -288,20 +308,29 @@ function construirEntrada(o) {
 
 // Aplica `mutator` sobre el estado REMOTO más reciente de blacklist.json
 // (no sobre el `blacklist` local, que puede estar desactualizado si hay
-// otra pestaña u otro click en curso) y reintenta una vez si GitHub
-// responde 409 por sha desincronizado.
+// otra pestaña u otro click en curso) y reintenta ante 409 con backoff,
+// porque la Contents API de GitHub puede tardar un instante en propagar
+// la última escritura antes de que un GET inmediato la refleje.
 async function actualizarBlacklist(mutator, mensaje) {
-  for (let intento = 0; intento < 2; intento++) {
-    // Releer siempre antes de escribir: minimiza la ventana de conflicto
-    // y, si igual hay condición de carrera, el reintento la resuelve.
+  const maxIntentos = 4;
+  for (let intento = 0; intento < maxIntentos; intento++) {
+    if (intento > 0) await new Promise(r => setTimeout(r, 700 * intento));
+
     let fresco, freshSha;
     try {
       const r = await ghGet(BL_PATH);
       fresco = r.content;
       freshSha = r.sha;
     } catch (e) {
-      fresco = {};       // blacklist.json puede no existir aún
-      freshSha = null;
+      if (e.status === 404) {
+        fresco = {};       // blacklist.json legítimamente no existe aún
+        freshSha = null;
+      } else {
+        // Cualquier otro fallo de lectura: abortar sin escribir. Tratar esto
+        // como "vacío" pisaría las entradas existentes con un objeto casi
+        // vacío -- perder datos en silencio es peor que fallar visiblemente.
+        throw new Error(`No se pudo leer blacklist.json antes de guardar (${e.message}). No se escribió nada, tus bloqueos existentes están a salvo.`);
+      }
     }
 
     mutator(fresco);
@@ -313,7 +342,7 @@ async function actualizarBlacklist(mutator, mensaje) {
       document.getElementById('stat-blacklist').textContent = Object.keys(blacklist).length;
       return;
     } catch (e) {
-      if (e.isShaConflict && intento === 0) continue;  // reintentar con sha fresco
+      if (e.isShaConflict && intento < maxIntentos - 1) continue;  // reintentar con sha fresco
       throw e;
     }
   }
