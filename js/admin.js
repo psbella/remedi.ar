@@ -288,12 +288,14 @@ function construirEntrada(o) {
 
 // Aplica `mutator` sobre el estado REMOTO más reciente de blacklist.json
 // (no sobre el `blacklist` local, que puede estar desactualizado si hay
-// otra pestaña u otro click en curso) y reintenta una vez si GitHub
-// responde 409 por sha desincronizado.
+// otra pestaña u otro click en curso) y reintenta ante 409 con backoff,
+// porque la Contents API de GitHub puede tardar un instante en propagar
+// la última escritura antes de que un GET inmediato la refleje.
 async function actualizarBlacklist(mutator, mensaje) {
-  for (let intento = 0; intento < 2; intento++) {
-    // Releer siempre antes de escribir: minimiza la ventana de conflicto
-    // y, si igual hay condición de carrera, el reintento la resuelve.
+  const maxIntentos = 3;
+  for (let intento = 0; intento < maxIntentos; intento++) {
+    if (intento > 0) await new Promise(r => setTimeout(r, 700 * intento));
+
     let fresco, freshSha;
     try {
       const r = await ghGet(BL_PATH);
@@ -313,7 +315,7 @@ async function actualizarBlacklist(mutator, mensaje) {
       document.getElementById('stat-blacklist').textContent = Object.keys(blacklist).length;
       return;
     } catch (e) {
-      if (e.isShaConflict && intento === 0) continue;  // reintentar con sha fresco
+      if (e.isShaConflict && intento < maxIntentos - 1) continue;  // reintentar con sha fresco
       throw e;
     }
   }
