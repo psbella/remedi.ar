@@ -8738,5 +8738,15 @@
     "tipo": "bajo_iqr",
     "motivo": "precio $5,484,732.00 < fence_low $6,823,813.03",
     "bloqueado_en": "2026-08-05T03:43"
+  },
+  "hidrosmina|venosmil|caps.x 60|sidus": {
+    "droga": "hidrosmina",
+    "marca": "VENOSMIL",
+    "presentacion": "caps.x 60",
+    "laboratorio": "Sidus",
+    "precio_detectado": 4117.49,
+    "tipo": "bajo_relativo",
+    "motivo": "precio $4,117.49 < 25% mediana $26,906.42 (n=4)",
+    "bloqueado_en": "2026-08-05T20:18"
   }
 }
