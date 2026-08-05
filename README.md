@@ -136,7 +136,7 @@
 | Tamaño JSON | ~3.8 MB |
 | Tamaño gzip | ~345 KB |
 | Con cobertura PAMI | ~6.400 (48%) |
-| Entradas en blacklist | 569 |
+| Entradas en blacklist | 929 |
 | Cobertura parser de presentaciones | ~99.5% |
 | Actualizaciones | 2 veces/día (lunes a viernes) |
 | Tests de sanidad | 28 checks automáticos post-ETL |
