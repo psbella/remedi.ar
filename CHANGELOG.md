@@ -4,6 +4,89 @@ Todos los cambios notables de remedi.ar se documentan en este archivo.
 
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.5] - 2026-08-04
+
+### Agregado
+- Panel de administración de outliers (`admin.html` + `js/admin.js`
+  + `css/admin.css`): permite revisar precios detectados como
+  outliers por el ETL y bloquearlos (agregarlos a `data/blacklist.json`
+  vía GitHub Contents API) desde el navegador, autenticando con un
+  GitHub PAT que se guarda solo en memoria. Incluye filtros
+  (todos/críticos/sospechosos/lista negra), orden por columna y
+  selección múltiple.
+- `_headers`: se agrega `api.github.com` a `connect-src` para que
+  `admin.js` pueda llamar a la GitHub API sin violar la CSP.
+
+### Corregido
+- `js/admin.js`: el script del panel de admin era inline en
+  `admin.html` — la CSP (`script-src 'self'` + hashes fijos) lo
+  bloqueaba, igual que los `onclick=""`. Se mueve a archivo externo,
+  cubierto por `'self'` sin necesitar hash nuevo (mismo criterio que
+  `js/landing.js`).
+- `js/admin.js`: decodificación UTF-8 incorrecta al leer archivos
+  desde la GitHub API — `atob()` sola interpreta cada byte UTF-8 como
+  un carácter Latin-1, produciendo mojibake en tildes y ñ. Se corrige
+  con `escape()` + `decodeURIComponent()`.
+- `js/admin.js`: `ghGet()` ahora soporta `blacklist.json` > 1MB —
+  la Contents API de GitHub no incluye `content` en la respuesta a
+  partir de ese tamaño. Se cae a la Git Data API (blobs), que soporta
+  hasta 100MB, con el mismo `sha` ya obtenido.
+- `js/admin.js`: `actualizarBlacklist()` agrega backoff (700ms ×
+  intento, hasta 4 intentos) al reintento por conflicto de `sha` en
+  `blacklist.json` — la Contents API puede tardar un instante en
+  propagar la última escritura antes de que un GET inmediato la
+  refleje.
+- `js/admin.js`: un fallo de lectura de `blacklist.json` que no sea
+  404 (401/403/rate-limit/red) ya no se trata como "vacío" — antes
+  eso pisaba en silencio los bloqueos existentes con un objeto casi
+  vacío. Ahora se aborta sin escribir y se avisa explícitamente.
+- `admin.html`: el formulario de login envolvía los campos sin un
+  `<form>` real, por lo que no se podía enviar con Enter. Se envuelve
+  en un `<form>` con su `submit` manejado por JS.
+- `privacidad.html` / `terminos.html`: tenían `noindex, follow` pero
+  estaban declaradas en `sitemap.xml`, generando el error de
+  validación "Excluida por noindex" en Search Console. En vez de
+  sacarlas del sitemap, se pasan a `index, follow` ya que esa era la
+  intención real.
+
+### Cambiado
+- `scripts/etl/pami.py`: se elimina `_descargar_pami()` (descarga
+  automática del vademécum PAMI desde `datos.pami.org.ar` en cada
+  corrida, con reintentos y backoff). El portal empezó a exigir sesión
+  iniciada para acceder al recurso, por lo que la descarga fallaba
+  siempre en CI. Se reemplaza por `data/pami.xlsx` versionado a mano
+  (se sube cuando PAMI publica un dataset nuevo, ~1 vez por mes) y
+  `_build_pami_index()` usa directamente el archivo en disco.
+- `style.css`, `admin.css`, `mantenimiento.css` se mueven a `css/`
+  para agrupar todos los estilos del sitio en un mismo directorio.
+
+## [2.3.4] - 2026-08-01
+
+### Corregido
+- `scripts/generar_landings.py`: 12 landings (acido-acetilsalicilico,
+  atorvastatina, bupropion, diclofenac, gabapentina, insulina,
+  ipratropio, levodopa-carbidopa, litio, losartan-hidroclorotiazida,
+  losartan, valproato) tenían `precio_min=0` porque su `droga_real`
+  no matcheaba ninguna clave del dataset (tildes o formato distinto,
+  ej. losartan vs losartán). Quedaban indexadas (`index,follow`,
+  prioridad 0.9) sirviendo "0 marcas disponibles" y sin bloque
+  `offers` en el JSON-LD — causa raíz de los avisos de
+  aggregateRating/review en Search Console. Se agregan 9 correcciones
+  directas y 3 agregaciones de producto (diclofenac, insulina,
+  valproato) a `SLUG_A_DROGA_REAL`, que ahora soporta valores tipo
+  lista.
+
+### Seguridad
+- `requirements.txt`: ninguna de las 6 dependencias tenía versión
+  pineada. `update_prices.yml` corre `pip install` sin supervisión
+  dos veces al día — un breaking change en cualquier dependencia
+  podía romper el ETL en producción sin aviso. Se pinean las 6 a la
+  versión verificada (28/28 tests pasando).
+- `.github/dependabot.yml`: se agrega el ecosystem `npm` — `axe-core`
+  y `puppeteer` (devDependencies, usados solo por
+  `scripts/checks/a11y-check.mjs`) no recibían PRs automáticos de
+  actualización porque dependabot solo cubría `pip` y `github-actions`.
+
 ## [2.3.3] - 2026-07-31
 
 ### Agregado
