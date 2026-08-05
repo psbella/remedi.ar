@@ -136,7 +136,7 @@
 | JSON size | ~3.8 MB |
 | Gzip size | ~345 KB |
 | With PAMI coverage | ~6,400 (48%) |
-| Blacklist entries | 569 |
+| Blacklist entries | 929 |
 | Presentation parser coverage | ~99.5% |
 | Updates | 2x/day (Monday to Friday) |
 | Sanity tests | 28 automated checks post-ETL |
