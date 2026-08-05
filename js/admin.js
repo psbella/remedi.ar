@@ -348,11 +348,28 @@ async function actualizarBlacklist(mutator, mensaje) {
   }
 }
 
+// Serializa todas las escrituras a blacklist.json DENTRO de esta pestaña.
+// Sin esto, clickear "bloquear" en dos filas distintas rápido dispara dos
+// actualizarBlacklist() en paralelo, cada una con su propio ciclo de
+// lectura+escritura, compitiendo entre sí por el mismo archivo -- eso
+// aumenta las chances de agotar los reintentos por conflicto de sha.
+// (No resuelve conflictos entre pestañas distintas -- para eso siguen
+// estando los reintentos con backoff de actualizarBlacklist.)
+let colaEscrituraBlacklist = Promise.resolve();
+function encolarEscrituraBlacklist(mutator, mensaje) {
+  const resultado = colaEscrituraBlacklist.then(
+    () => actualizarBlacklist(mutator, mensaje)
+  );
+  // Si esta escritura falla, no debe trabar las siguientes en la cola.
+  colaEscrituraBlacklist = resultado.catch(() => {});
+  return resultado;
+}
+
 async function bloquearUno(key, marca) {
   const outlier = allOutliers.find(o => makeKey(o) === key);
   if (!outlier) return;
   try {
-    await actualizarBlacklist(bl => { bl[key] = construirEntrada(outlier); }, `admin: bloquear ${marca}`);
+    await encolarEscrituraBlacklist(bl => { bl[key] = construirEntrada(outlier); }, `admin: bloquear ${marca}`);
     toast(`${marca} agregado a lista negra`);
     renderTabla();
   } catch(e) {
@@ -371,7 +388,7 @@ async function agregarSeleccionados() {
     .filter(Boolean);
 
   try {
-    await actualizarBlacklist(bl => {
+    await encolarEscrituraBlacklist(bl => {
       pendientes.forEach(o => { bl[makeKey(o)] = construirEntrada(o); });
     }, `admin: bloquear ${pendientes.length} outliers`);
     toast(`${pendientes.length} medicamento${pendientes.length > 1 ? 's' : ''} bloqueado${pendientes.length > 1 ? 's' : ''}`);
@@ -388,7 +405,7 @@ async function quitarDeBlacklist(key) {
   if (!entrada) return;
   const marca = entrada.marca || key;
   try {
-    await actualizarBlacklist(bl => { delete bl[key]; }, `admin: desbloquear ${marca}`);
+    await encolarEscrituraBlacklist(bl => { delete bl[key]; }, `admin: desbloquear ${marca}`);
     toast(`${marca} removido de lista negra`);
     renderTabla();
   } catch(e) {
@@ -448,7 +465,16 @@ document.getElementById('tabla-body').addEventListener('change', e => {
 
 document.getElementById('tabla-body').addEventListener('click', e => {
   const btn = e.target.closest('button[data-action]');
-  if (!btn) return;
-  if (btn.dataset.action === 'bloquear')   bloquearUno(btn.dataset.key, btn.dataset.marca);
-  if (btn.dataset.action === 'desbloquear') quitarDeBlacklist(btn.dataset.key);
+  if (!btn || btn.disabled) return;
+  const textoOriginal = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = '…';
+  const terminar = () => { btn.disabled = false; btn.textContent = textoOriginal; };
+  if (btn.dataset.action === 'bloquear') {
+    bloquearUno(btn.dataset.key, btn.dataset.marca).finally(terminar);
+  } else if (btn.dataset.action === 'desbloquear') {
+    quitarDeBlacklist(btn.dataset.key).finally(terminar);
+  } else {
+    terminar();
+  }
 });
