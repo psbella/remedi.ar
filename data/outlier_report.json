@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-05T19:36:18.717925-03:00",
+  "timestamp": "2026-08-06T22:04:00.212137-03:00",
   "total_registros": 13144,
   "total_outliers": 96,
   "outliers": [
@@ -801,10 +801,10 @@
       "marca": "SALOFALK",
       "presentacion": "500 mg comp.x 100",
       "laboratorio": "LKM",
-      "precio": 374805.49,
+      "precio": 382301.6,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $749.61 << mediana_grupo $258,078.93"
+        "ppu $764.60 << mediana_grupo $263,240.51"
       ],
       "mediana_droga": 258241.47,
       "n_droga": 40
@@ -840,10 +840,10 @@
       "marca": "SALOFALK",
       "presentacion": "500 mg sup.x 30",
       "laboratorio": "LKM",
-      "precio": 195886.83,
+      "precio": 199804.57,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $391.77 << mediana_grupo $258,078.93"
+        "ppu $399.61 << mediana_grupo $263,240.51"
       ],
       "mediana_droga": 258241.47,
       "n_droga": 40
@@ -918,10 +918,10 @@
       "marca": "IPALXANE",
       "presentacion": "125 mg cáps.x 21",
       "laboratorio": "Eczane",
-      "precio": 6800426.74,
+      "precio": 6929634.85,
       "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "precio $6,800,426.74 < fence_low $7,203,819.69"
+        "precio $6,929,634.85 < fence_low $7,017,354.55"
       ],
       "mediana_droga": 9340756.71,
       "n_droga": 32
@@ -931,10 +931,10 @@
       "marca": "IPALXANE",
       "presentacion": "75 mg cáps.x 21",
       "laboratorio": "Eczane",
-      "precio": 6800426.74,
+      "precio": 6929634.85,
       "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "precio $6,800,426.74 < fence_low $7,203,819.69"
+        "precio $6,929,634.85 < fence_low $7,017,354.55"
       ],
       "mediana_droga": 9340756.71,
       "n_droga": 32
