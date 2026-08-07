@@ -7,10 +7,16 @@
 // checkbox PAMI (display:none sacándolo del tab order, encontrada por
 // lectura manual de CSS) se vea acá antes que en producción.
 //
+// Chequea TODAS las páginas .html en la raíz del repo (index, about,
+// landings de drogas, etc.), descubiertas dinámicamente -- así una landing
+// nueva queda cubierta sin tocar este archivo. admin.html también se
+// incluye: no dispara fetch() al cargar (solo al enviar el form de login),
+// así que networkidle0 resuelve normal.
+//
 // Uso: node scripts/checks/a11y-check.mjs
 
 import http from 'node:http';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 import puppeteer from 'puppeteer';
@@ -20,7 +26,14 @@ const axeSource = require.resolve('axe-core/axe.min.js');
 
 const ROOT = path.resolve(import.meta.dirname, '..', '..');
 const PORT = 4173;
-const PAGINAS = ['index.html', 'about.html'];
+
+async function listarPaginas() {
+    const entries = await readdir(ROOT, { withFileTypes: true });
+    return entries
+        .filter(e => e.isFile() && e.name.endsWith('.html'))
+        .map(e => e.name)
+        .sort();
+}
 
 const MIME = {
     '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript',
@@ -59,34 +72,43 @@ function servirEstaticos() {
     }).listen(PORT);
 }
 
-async function chequearPagina(browser, pagina) {
-    const page = await browser.newPage();
+async function chequearPagina(page, pagina) {
     await page.goto(`http://localhost:${PORT}/${pagina}`, { waitUntil: 'networkidle0' });
     await page.addScriptTag({ path: axeSource });
-    const resultado = await page.evaluate(async () => {
+    return page.evaluate(async () => {
         return await axe.run(document, {
             runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'best-practice'] },
         });
     });
-    await page.close();
-    return resultado;
 }
 
 async function main() {
     const server = servirEstaticos();
     const puppeteerArgs = process.env.CI ? ['--no-sandbox', '--disable-setuid-sandbox'] : [];
     const browser = await puppeteer.launch({ headless: true, args: puppeteerArgs });
+    // Una sola page reutilizada para todo el recorrido -- evita el costo de
+    // abrir/cerrar contexto por cada una de las ~100+ páginas del sitio.
+    const page = await browser.newPage();
+
+    const paginas = await listarPaginas();
+    console.log(`Chequeando ${paginas.length} página(s)...`);
 
     let totalViolaciones = 0;
+    const conViolaciones = [];
 
-    for (const pagina of PAGINAS) {
-        const { violations } = await chequearPagina(browser, pagina);
-        console.log(`\n=== ${pagina} ===`);
-        if (violations.length === 0) {
-            console.log('  Sin violaciones.');
+    for (const pagina of paginas) {
+        let violations;
+        try {
+            ({ violations } = await chequearPagina(page, pagina));
+        } catch (err) {
+            console.log(`\n=== ${pagina} ===`);
+            console.log(`  ERROR al chequear: ${err.message}`);
             continue;
         }
+        if (violations.length === 0) continue;
         totalViolaciones += violations.length;
+        conViolaciones.push(pagina);
+        console.log(`\n=== ${pagina} ===`);
         for (const v of violations) {
             console.log(`  [${v.impact}] ${v.id}: ${v.help} (${v.nodes.length} elemento(s))`);
             console.log(`    -> ${v.helpUrl}`);
@@ -97,9 +119,9 @@ async function main() {
     server.close();
 
     if (totalViolaciones > 0) {
-        console.log(`\nAVISO: ${totalViolaciones} tipo(s) de violación encontrados. No bloquea el build (mismo criterio que ruff/eslint en este repo) -- revisar a mano.`);
+        console.log(`\nAVISO: ${totalViolaciones} tipo(s) de violación en ${conViolaciones.length}/${paginas.length} página(s). No bloquea el build (mismo criterio que ruff/eslint en este repo) -- revisar a mano.`);
     } else {
-        console.log('\nOK: sin violaciones de accesibilidad en ninguna página chequeada.');
+        console.log(`\nOK: sin violaciones de accesibilidad en las ${paginas.length} páginas chequeadas.`);
     }
     // Salida siempre 0 a propósito: chequeo informativo, no gate.
     process.exit(0);

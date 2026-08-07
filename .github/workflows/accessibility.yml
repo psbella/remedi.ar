@@ -4,16 +4,14 @@ on:
   push:
     branches: ["main"]
     paths:
-      - "index.html"
-      - "about.html"
+      - "*.html"
       - "css/style.css"
       - "js/**"
       - "scripts/checks/a11y-check.mjs"
   pull_request:
     branches: ["main"]
     paths:
-      - "index.html"
-      - "about.html"
+      - "*.html"
       - "css/style.css"
       - "js/**"
       - "scripts/checks/a11y-check.mjs"
