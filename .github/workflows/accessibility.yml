@@ -15,6 +15,8 @@ on:
       - "css/style.css"
       - "js/**"
       - "scripts/checks/a11y-check.mjs"
+  schedule:
+    - cron: "0 5 * * 0" # domingo 05:00 UTC -- barrido completo semanal
   workflow_dispatch:
 
 concurrency:
@@ -42,5 +44,11 @@ jobs:
 
       # No bloquea el build a propósito -- mismo criterio que ruff/eslint en
       # este repo (ver .github/workflows/*): avisa, no rompe. Ver issue #24.
+      # Modo completo (todas las .html) solo en la corrida semanal (cron);
+      # push/PR/manual corren en modo rápido (home/about/terminos/privacidad)
+      # para no sumar minutos de CI en cada commit. admin.html queda
+      # excluido siempre (ver a11y-check.mjs).
       - name: Correr chequeo de accesibilidad (axe-core)
+        env:
+          A11Y_FULL: ${{ github.event_name == 'schedule' && '1' || '0' }}
         run: node scripts/checks/a11y-check.mjs

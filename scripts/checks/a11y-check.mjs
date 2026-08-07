@@ -7,13 +7,16 @@
 // checkbox PAMI (display:none sacándolo del tab order, encontrada por
 // lectura manual de CSS) se vea acá antes que en producción.
 //
-// Chequea TODAS las páginas .html en la raíz del repo (index, about,
-// landings de drogas, etc.), descubiertas dinámicamente -- así una landing
-// nueva queda cubierta sin tocar este archivo. admin.html también se
-// incluye: no dispara fetch() al cargar (solo al enviar el form de login),
-// así que networkidle0 resuelve normal.
+// Dos modos, elegidos por el workflow vía la env var A11Y_FULL:
+//   - Rápido (default): solo las páginas núcleo (PAGINAS_RAPIDAS) --
+//     corre en cada push/PR/manual sin sumar minutos de CI.
+//   - Completo (A11Y_FULL=1): TODAS las .html de la raíz, descubiertas
+//     dinámicamente -- pensado para la corrida semanal programada.
+// admin.html queda excluido siempre: panel interno, no público, no forma
+// parte de la superficie que le importa a este chequeo.
 //
 // Uso: node scripts/checks/a11y-check.mjs
+//      A11Y_FULL=1 node scripts/checks/a11y-check.mjs
 
 import http from 'node:http';
 import { readFile, readdir } from 'node:fs/promises';
@@ -26,13 +29,22 @@ const axeSource = require.resolve('axe-core/axe.min.js');
 
 const ROOT = path.resolve(import.meta.dirname, '..', '..');
 const PORT = 4173;
+const EXCLUIDAS = new Set(['admin.html']);
+const PAGINAS_RAPIDAS = ['index.html', 'about.html', 'terminos.html', 'privacidad.html'];
 
 async function listarPaginas() {
     const entries = await readdir(ROOT, { withFileTypes: true });
     return entries
-        .filter(e => e.isFile() && e.name.endsWith('.html'))
+        .filter(e => e.isFile() && e.name.endsWith('.html') && !EXCLUIDAS.has(e.name))
         .map(e => e.name)
         .sort();
+}
+
+async function resolverPaginas() {
+    const todas = await listarPaginas();
+    if (process.env.A11Y_FULL === '1') return todas;
+    const disponibles = new Set(todas);
+    return PAGINAS_RAPIDAS.filter(p => disponibles.has(p));
 }
 
 const MIME = {
@@ -90,8 +102,9 @@ async function main() {
     // abrir/cerrar contexto por cada una de las ~100+ páginas del sitio.
     const page = await browser.newPage();
 
-    const paginas = await listarPaginas();
-    console.log(`Chequeando ${paginas.length} página(s)...`);
+    const paginas = await resolverPaginas();
+    const modo = process.env.A11Y_FULL === '1' ? 'completo' : 'rápido';
+    console.log(`Chequeando ${paginas.length} página(s) (modo ${modo})...`);
 
     let totalViolaciones = 0;
     const conViolaciones = [];

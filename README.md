@@ -736,6 +736,7 @@ remediar/
     ├── update_prices.yml
     ├── maintenance-on.yml
     ├── maintenance-off.yml
+    ├── accessibility.yml
     └── codeql.yml
 ```
 
@@ -1348,9 +1349,9 @@ Un único breakpoint mobile-first en `600px` — no hay un nivel intermedio de t
 | `update_prices.yml` | Cron `30 13,21 * * 1-5` + manual | ETL principal: descarga PDF, genera JSON, corre tests, hace commit |
 | `maintenance-on.yml` | Manual | Reemplaza `index.html` con página de mantenimiento |
 | `maintenance-off.yml` | Manual | Restaura `index.html` desde backup |
-| `codeql.yml` | Push/PR a `main` + cron semanal (lunes 06:00 UTC) | Análisis estático de seguridad (CodeQL) sobre JS y Python |
-| `accessibility.yml` | Push/PR a `main` que toque `index.html`, `about.html`, `css/style.css`, `js/**` o el propio check + manual | Corre `scripts/checks/a11y-check.mjs` (axe-core + Puppeteer). No bloquea el build — avisa, no rompe, mismo criterio que Ruff/ESLint |
-| `dependabot.yml` (config, no workflow) | Semanal | Propone actualizaciones de `requirements.txt` y de las actions usadas en los workflows |
+| `codeql.yml` | Push/PR a `main` + cron semanal (sábado 01:33 UTC) | Análisis estático de seguridad (CodeQL) sobre JS, Python y los propios workflows de GitHub Actions |
+| `accessibility.yml` | Push/PR a `main` que toque cualquier `*.html`, `css/style.css`, `js/**` o el propio check + cron semanal (domingo 05:00 UTC) + manual | Corre `scripts/checks/a11y-check.mjs` (axe-core + Puppeteer). Modo rápido (`index.html`, `about.html`, `terminos.html`, `privacidad.html`) en push/PR/manual; modo completo (todas las .html) solo en la corrida semanal. `admin.html` queda excluido siempre. No bloquea el build — avisa, no rompe, mismo criterio que Ruff/ESLint |
+| `dependabot.yml` (config, no workflow) | Semanal | Propone actualizaciones de `requirements.txt` (pip), de las actions usadas en los workflows (`github-actions`) y de `package.json` (`npm` — `axe-core`/`puppeteer`, usados solo por `a11y-check.mjs`) |
 
 | Parámetro | Valor |
 |---|---|
