@@ -6,7 +6,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 
 ## [2.3.5] - 2026-08-04
 
-### Agregado
+### ✨ Agregado
 - Panel de administración de outliers (`admin.html` + `js/admin.js`
   + `css/admin.css`): permite revisar precios detectados como
   outliers por el ETL y bloquearlos (agregarlos a `data/blacklist.json`
@@ -17,7 +17,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 - `_headers`: se agrega `api.github.com` a `connect-src` para que
   `admin.js` pueda llamar a la GitHub API sin violar la CSP.
 
-### Corregido
+### 🐛 Corregido
 - `github/workflows/accessibility.yml` El chequeo de accesibilidad (axe-core) ahora corre contra todas las
   páginas .html del sitio (antes solo index.html y about.html),
   descubiertas dinámicamente. Incluye admin.html y las 100+ landings
@@ -53,7 +53,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
   sacarlas del sitemap, se pasan a `index, follow` ya que esa era la
   intención real.
 
-### Cambiado
+### ⚠️ Cambiado
 - `scripts/etl/pami.py`: se elimina `_descargar_pami()` (descarga
   automática del vademécum PAMI desde `datos.pami.org.ar` en cada
   corrida, con reintentos y backoff). El portal empezó a exigir sesión
@@ -66,7 +66,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 
 ## [2.3.4] - 2026-08-01
 
-### Corregido
+### 🐛 Corregido
 - `scripts/generar_landings.py`: 12 landings (acido-acetilsalicilico,
   atorvastatina, bupropion, diclofenac, gabapentina, insulina,
   ipratropio, levodopa-carbidopa, litio, losartan-hidroclorotiazida,
@@ -80,7 +80,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
   valproato) a `SLUG_A_DROGA_REAL`, que ahora soporta valores tipo
   lista.
 
-### Seguridad
+### 🔒 Seguridad
 - `requirements.txt`: ninguna de las 6 dependencias tenía versión
   pineada. `update_prices.yml` corre `pip install` sin supervisión
   dos veces al día — un breaking change en cualquier dependencia
@@ -93,7 +93,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 
 ## [2.3.3] - 2026-07-31
 
-### Agregado
+### ✨ Agregado
 - `sitemap.xsl`: visor HTML legible para `/sitemap.xml`, con tabla
   ordenada por prioridad (URL, ultima modificacion, frecuencia,
   prioridad). Reutiliza el header, favicon y variables de diseño
@@ -110,7 +110,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
   `scripts/checks/a11y-check.mjs`, `scripts/github_release_helper.py`
   y el workflow `accessibility.yml`.
 
-### Corregido
+### 🐛 Corregido
 - `sitemap.xsl` se habia borrado por error (commit `92d4cf5`) antes
   de que el commit de docs siguiente lo documentara, dejando
   `sitemap.xml` en produccion con una referencia rota a
@@ -123,14 +123,14 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
   corregido en el workflow real. Se sincronizo con el archivo
   actual.
 
-### Quitado
+### 🧹 Quitado
 - `readme-en.patch` y `readme-es.patch`: quedaron commiteados por
   error (commit `87514b1`) -- son archivos de trabajo temporales,
   no forman parte del repo.
 
 ## [2.3.2] - 2026-07-30
 
-### Agregado
+### ✨ Agregado
 - `js/landing.js`: el script compartido por las 100 landing pages
   (volver arriba, aviso de scroll de tabla, buscador de footer, version
   dinamica) se movio de inline a un archivo externo. Antes dependia de
@@ -141,7 +141,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
   `CACHE_NAME` a `remediar-v11` para forzar la actualizacion de cache
   en clientes con el service worker ya instalado.
 
-### Corregido
+### 🐛 Corregido
 - `scripts/generar_landings.py`: se revierte un commit (`45ef930`) que
   habia borrado el diccionario RELACIONADAS, la funcion
   generar_relacionadas() y su render en las 100 paginas de landing --
@@ -164,7 +164,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 
 ## [2.3.1] - 2026-07-28
 
-### Corregido
+### 🐛 Corregido
 - `sw.js`: `about.html` y `js/about.js` (agregados en 2.2.8) no estaban en
   `CACHE_STATIC` y la estrategia cache-first no cachea en runtime, asi que
   la pagina quedaba inaccesible sin conexion con la PWA instalada. Se
@@ -172,31 +172,31 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 - `js/about.js`: se agrega chequeo de `response.ok` antes de parsear el
   JSON, en linea con el patron ya usado en `dataLoader.js`.
 
-### Limpieza
+### 🧹 Limpieza
 - `js/store.js`: se corrige indentacion inconsistente en `limpiarFiltros`.
 
 ## [2.3.0] - 2026-07-25
 
-### Housekeeping
+### 🏷️ Housekeeping
 - El tag `v2.2.9` en git quedo apuntando al commit del bump de version (`0ca8dcf`), publicado antes de que el fix real (Ruff E701 + esta misma entrada de CHANGELOG) se subiera en `f76da86`. En vez de reescribir el tag `v2.2.9` ya publicado, se sube como `v2.3.0` sobre el commit correcto. Sin cambios de codigo respecto a lo que 2.2.9 debia contener.
 
 ## [2.2.9] - 2026-07-25
 
-### Limpieza
+### 🧹 Limpieza
 - scripts/etl/parser.py, enriquecimiento.py, presentacion.py: se separan los 24 statements compuestos (if x: y; continue) que quedaban como backlog de estilo desde 2.2.5 (Ruff E701). Ruff baja de 24 a 0 findings. Sin cambio de comportamiento: verificado con los 28 tests y una corrida de Ruff sobre el repo completo. Cierra #25.
 
 ## [2.2.8] - 2026-07-25
 
-### Agregado
+### ✨ Agregado
 - `about.html`: pagina "Sobre remedi.ar" con que es el proyecto, como funciona el pipeline, que lo hace distinto, que NO hace, numeros del proyecto (actualizados dinamicamente contra medicamentos.json), FAQ y quien lo sostiene. Linkeada desde el footer de index.html y agregada a sitemap.xml.
 - `js/about.js`: logica de carga de los numeros dinamicos de about.html, como archivo externo (no inline).
 - `README.en.md`: traduccion completa al ingles del README, con link reciproco desde README.md.
 
-### Corregido
+### 🐛 Corregido
 - La version original de about.html traia CSS embebido en un `<style>`, 7 atributos `style=` inline, y un `<script type="module">` inline. Los tres son incompatibles con la CSP del sitio (`style-src 'self'` y `script-src` con hashes especificos, sin `unsafe-inline`) -- de haberse desplegado asi, la pagina se hubiera visto sin estilo y los numeros dinamicos nunca hubieran cargado. Se movio el CSS a `style.css`, el JS a `js/about.js` externo, y se sacaron los inline styles.
 - `sw.js`: `CACHE_NAME` sube a `v8` para que los cambios en `index.html` (link nuevo del footer) y `style.css` (estilos de about.html) lleguen a usuarios con el sitio ya instalado.
 
-### Seguridad
+### 🔒 Seguridad
 - `scripts/checks/a11y-check.mjs`: corregido path traversal (CWE-22, alerta de CodeQL) en el servidor local que usa el chequeo de accesibilidad. Fix generado por Copilot Autofix, verificado manualmente con requests HTTP crudas (sin normalizacion del lado cliente): el traversal real da 403, encoding malformado da 400, rutas legitimas siguen sirviendo 200.
 
 ## [2.2.7] - 2026-07-22
