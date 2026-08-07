@@ -18,6 +18,10 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
   `admin.js` pueda llamar a la GitHub API sin violar la CSP.
 
 ### Corregido
+- `github/workflows/accessibility.yml` El chequeo de accesibilidad (axe-core) ahora corre contra todas las
+  páginas .html del sitio (antes solo index.html y about.html),
+  descubiertas dinámicamente. Incluye admin.html y las 100+ landings
+  de drogas.
 - `js/admin.js`: el script del panel de admin era inline en
   `admin.html` — la CSP (`script-src 'self'` + hashes fijos) lo
   bloqueaba, igual que los `onclick=""`. Se mueve a archivo externo,
