@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-06T22:04:00.212137-03:00",
+  "timestamp": "2026-08-07T03:18:46.575319-03:00",
   "total_registros": 13144,
   "total_outliers": 96,
   "outliers": [
@@ -554,12 +554,12 @@
       "marca": "HEMAX",
       "presentacion": "2000 UI f.a. x 1 x 1 ml",
       "laboratorio": "Biosidus S.A.U.",
-      "precio": 37878.78,
+      "precio": 39393.93,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $18.94 << mediana_grupo $237.34"
+        "ppu $19.70 << mediana_grupo $249.11"
       ],
-      "mediana_droga": 47678.2,
+      "mediana_droga": 49585.33,
       "n_droga": 27
     },
     {
@@ -947,9 +947,9 @@
       "precio": 2392.9,
       "precio_outlier_tipo": "bajo_relativo",
       "razones": [
-        "precio $2,392.90 < 25% mediana $9,770.17 (n=81)"
+        "precio $2,392.90 < 25% mediana $9,824.77 (n=81)"
       ],
-      "mediana_droga": 9770.17,
+      "mediana_droga": 9824.77,
       "n_droga": 81
     },
     {
@@ -962,7 +962,7 @@
       "razones": [
         "ppu $405.57 << mediana_grupo $26,554.79"
       ],
-      "mediana_droga": 9770.17,
+      "mediana_droga": 9824.77,
       "n_droga": 81
     },
     {
