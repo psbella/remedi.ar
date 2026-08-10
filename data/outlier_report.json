@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-08-07T19:07:48.775748-03:00",
+  "timestamp": "2026-08-10T11:39:17.795529-03:00",
   "total_registros": 13144,
-  "total_outliers": 96,
+  "total_outliers": 98,
   "outliers": [
     {
       "droga": "aciclovir",
@@ -576,6 +576,32 @@
       "n_droga": 2
     },
     {
+      "droga": "everolimus",
+      "marca": "CERTICAN",
+      "presentacion": "0.75 mg comp.x 60",
+      "laboratorio": "Novartis",
+      "precio": 2681189.59,
+      "precio_outlier_tipo": "bajo_relativo",
+      "razones": [
+        "precio $2,681,189.59 < 25% mediana $10,868,775.08 (n=11)"
+      ],
+      "mediana_droga": 10868775.08,
+      "n_droga": 11
+    },
+    {
+      "droga": "fluconazol",
+      "marca": "PONARIS",
+      "presentacion": "150 mg comp.x 2",
+      "laboratorio": "Panalab",
+      "precio": 7036.0,
+      "precio_outlier_tipo": "inconsistencia_escala",
+      "razones": [
+        "ppu $46.91 << mediana_grupo $236.97"
+      ],
+      "mediana_droga": 23810.0,
+      "n_droga": 67
+    },
+    {
       "droga": "hidrocortisona",
       "marca": "HIDROCORTISONA RICHET",
       "presentacion": "500 mg liof.f.a.x 1",
@@ -923,7 +949,7 @@
       "razones": [
         "precio $6,929,634.85 < fence_low $7,017,354.55"
       ],
-      "mediana_droga": 9340756.71,
+      "mediana_droga": 9438727.01,
       "n_droga": 32
     },
     {
@@ -936,7 +962,7 @@
       "razones": [
         "precio $6,929,634.85 < fence_low $7,017,354.55"
       ],
-      "mediana_droga": 9340756.71,
+      "mediana_droga": 9438727.01,
       "n_droga": 32
     },
     {
@@ -1165,10 +1191,10 @@
       "marca": "MOMENTUM",
       "presentacion": "20 mg comp.rec.x 4",
       "laboratorio": "Panalab",
-      "precio": 41275.77,
+      "precio": 42101.29,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $2,063.79 << mediana_grupo $11,555.78"
+        "ppu $2,105.06 << mediana_grupo $11,902.45"
       ],
       "mediana_droga": 85000.0,
       "n_droga": 67
