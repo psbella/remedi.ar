@@ -25,6 +25,14 @@ function makeKey(m) {
     .map(s => (s || '').trim().toLowerCase()).join('|');
 }
 
+// Misma heuristica que scripts/etl/blacklist.py::_parece_corrupta. No repara
+// nada -- solo evita guardar un bloqueo cuya clave nunca va a poder matchear
+// contra un medicamento real (ver commit 8358b29).
+function pareceCorrupta(texto) {
+  return texto.includes('Ã') || texto.includes('â€')
+    || [...texto].some(c => c.charCodeAt(0) >= 0x80 && c.charCodeAt(0) <= 0x9f);
+}
+
 function formatPrecio(p) {
   if (!p && p !== 0) return '—';
   return '$' + Number(p).toLocaleString('es-AR', {minimumFractionDigits:2, maximumFractionDigits:2});
@@ -368,6 +376,10 @@ function encolarEscrituraBlacklist(mutator, mensaje) {
 async function bloquearUno(key, marca) {
   const outlier = allOutliers.find(o => makeKey(o) === key);
   if (!outlier) return;
+  if (pareceCorrupta(key)) {
+    toast(`${marca}: encoding corrupto, no se puede bloquear con confianza (revisar el PDF a mano)`, 'error');
+    return;
+  }
   try {
     await encolarEscrituraBlacklist(bl => { bl[key] = construirEntrada(outlier); }, `admin: bloquear ${marca}`);
     toast(`${marca} agregado a lista negra`);
@@ -387,16 +399,25 @@ async function agregarSeleccionados() {
     .map(key => allOutliers.find(o => makeKey(o) === key))
     .filter(Boolean);
 
-  try {
-    await encolarEscrituraBlacklist(bl => {
-      pendientes.forEach(o => { bl[makeKey(o)] = construirEntrada(o); });
-    }, `admin: bloquear ${pendientes.length} outliers`);
-    toast(`${pendientes.length} medicamento${pendientes.length > 1 ? 's' : ''} bloqueado${pendientes.length > 1 ? 's' : ''}`);
-    seleccionados.clear();
-    renderTabla();
-  } catch(e) {
-    toast('Error al guardar: ' + e.message, 'error');
+  const corruptos = pendientes.filter(o => pareceCorrupta(makeKey(o)));
+  const validos   = pendientes.filter(o => !pareceCorrupta(makeKey(o)));
+
+  if (corruptos.length) {
+    toast(`${corruptos.length} omitido(s) por encoding corrupto (no se pueden bloquear con confianza)`, 'error');
   }
+
+  if (validos.length) {
+    try {
+      await encolarEscrituraBlacklist(bl => {
+        validos.forEach(o => { bl[makeKey(o)] = construirEntrada(o); });
+      }, `admin: bloquear ${validos.length} outliers`);
+      toast(`${validos.length} medicamento${validos.length > 1 ? 's' : ''} bloqueado${validos.length > 1 ? 's' : ''}`);
+    } catch(e) {
+      toast('Error al guardar: ' + e.message, 'error');
+    }
+  }
+  seleccionados.clear();
+  renderTabla();
   actualizarBtnBlacklist();
 }
 
