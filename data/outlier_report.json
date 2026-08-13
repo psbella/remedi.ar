@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-08-07T19:07:48.775748-03:00",
+  "timestamp": "2026-08-13T00:56:23.048148-03:00",
   "total_registros": 13144,
-  "total_outliers": 96,
+  "total_outliers": 101,
   "outliers": [
     {
       "droga": "aciclovir",
@@ -212,6 +212,19 @@
       "n_droga": 5
     },
     {
+      "droga": "benzocaína",
+      "marca": "ORALSONE BENZOCAINA GEL",
+      "presentacion": "gel x 10 g",
+      "laboratorio": "Laboratorio Gra",
+      "precio": 11965.52,
+      "precio_outlier_tipo": "bajo_iqr",
+      "razones": [
+        "precio $11,965.52 < fence_low $12,319.09"
+      ],
+      "mediana_droga": 13380.08,
+      "n_droga": 6
+    },
+    {
       "droga": "betametasona",
       "marca": "NOVOCORT",
       "presentacion": "cr.x 15 g",
@@ -330,19 +343,6 @@
     },
     {
       "droga": "clonazepam",
-      "marca": "CLONER",
-      "presentacion": "gts.x 20 ml",
-      "laboratorio": "Vannier",
-      "precio": 14102.84,
-      "precio_outlier_tipo": "inconsistencia_escala",
-      "razones": [
-        "ppu $705.14 << mediana_grupo $4,851.25"
-      ],
-      "mediana_droga": 15578.24,
-      "n_droga": 116
-    },
-    {
-      "droga": "clonazepam",
       "marca": "QUAZEMIC",
       "presentacion": "gts.x 20 ml",
       "laboratorio": "Casasco",
@@ -350,6 +350,19 @@
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
         "ppu $758.64 << mediana_grupo $10,880.55"
+      ],
+      "mediana_droga": 15578.24,
+      "n_droga": 116
+    },
+    {
+      "droga": "clonazepam",
+      "marca": "CLONER",
+      "presentacion": "gts.x 20 ml",
+      "laboratorio": "Vannier",
+      "precio": 15422.84,
+      "precio_outlier_tipo": "inconsistencia_escala",
+      "razones": [
+        "ppu $771.14 << mediana_grupo $4,851.25"
       ],
       "mediana_droga": 15578.24,
       "n_droga": 116
@@ -372,12 +385,12 @@
       "marca": "NOLISIM",
       "presentacion": "100 mg/2ml IM/IV f.a.x1",
       "laboratorio": "Fada Pharma",
-      "precio": 58512.26,
+      "precio": 61437.87,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $585.12 << mediana_grupo $6,014.67"
+        "ppu $614.38 << mediana_grupo $7,730.46"
       ],
-      "mediana_droga": 58512.26,
+      "mediana_droga": 60010.19,
       "n_droga": 7
     },
     {
@@ -576,6 +589,32 @@
       "n_droga": 2
     },
     {
+      "droga": "everolimus",
+      "marca": "CERTICAN",
+      "presentacion": "0.75 mg comp.x 60",
+      "laboratorio": "Novartis",
+      "precio": 2681189.59,
+      "precio_outlier_tipo": "bajo_relativo",
+      "razones": [
+        "precio $2,681,189.59 < 25% mediana $10,868,775.08 (n=11)"
+      ],
+      "mediana_droga": 10868775.08,
+      "n_droga": 11
+    },
+    {
+      "droga": "fluconazol",
+      "marca": "PONARIS",
+      "presentacion": "150 mg comp.x 2",
+      "laboratorio": "Panalab",
+      "precio": 7036.0,
+      "precio_outlier_tipo": "inconsistencia_escala",
+      "razones": [
+        "ppu $46.91 << mediana_grupo $236.97"
+      ],
+      "mediana_droga": 23810.0,
+      "n_droga": 67
+    },
+    {
       "droga": "hidrocortisona",
       "marca": "HIDROCORTISONA RICHET",
       "presentacion": "500 mg liof.f.a.x 1",
@@ -635,7 +674,7 @@
       "precio": 11916.85,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $19.86 << mediana_grupo $1,047.40"
+        "ppu $19.86 << mediana_grupo $1,133.14"
       ],
       "mediana_droga": 8284.9,
       "n_droga": 148
@@ -691,6 +730,19 @@
       ],
       "mediana_droga": 18637.02,
       "n_droga": 9
+    },
+    {
+      "droga": "latanoprost, timolol",
+      "marca": "LATIMODORF",
+      "presentacion": "gts.oft.x 2.5 ml",
+      "laboratorio": "PharmaDorf",
+      "precio": 34571.4,
+      "precio_outlier_tipo": "bajo_iqr",
+      "razones": [
+        "precio $34,571.40 < fence_low $34,722.45"
+      ],
+      "mediana_droga": 38741.03,
+      "n_droga": 6
     },
     {
       "droga": "leucovorina",
@@ -923,7 +975,7 @@
       "razones": [
         "precio $6,929,634.85 < fence_low $7,017,354.55"
       ],
-      "mediana_droga": 9340756.71,
+      "mediana_droga": 9438727.01,
       "n_droga": 32
     },
     {
@@ -936,7 +988,7 @@
       "razones": [
         "precio $6,929,634.85 < fence_low $7,017,354.55"
       ],
-      "mediana_droga": 9340756.71,
+      "mediana_droga": 9438727.01,
       "n_droga": 32
     },
     {
@@ -947,9 +999,9 @@
       "precio": 2392.9,
       "precio_outlier_tipo": "bajo_relativo",
       "razones": [
-        "precio $2,392.90 < 25% mediana $9,824.77 (n=81)"
+        "precio $2,392.90 < 25% mediana $9,580.17 (n=81)"
       ],
-      "mediana_droga": 9824.77,
+      "mediana_droga": 9580.17,
       "n_droga": 81
     },
     {
@@ -962,7 +1014,7 @@
       "razones": [
         "ppu $405.57 << mediana_grupo $26,554.79"
       ],
-      "mediana_droga": 9824.77,
+      "mediana_droga": 9580.17,
       "n_droga": 81
     },
     {
@@ -1001,7 +1053,7 @@
       "razones": [
         "ppu $1,189.40 << mediana_grupo $16,927.47"
       ],
-      "mediana_droga": 41779.7,
+      "mediana_droga": 42358.71,
       "n_droga": 58
     },
     {
@@ -1014,7 +1066,7 @@
       "razones": [
         "ppu $1,887.90 << mediana_grupo $29,505.03"
       ],
-      "mediana_droga": 41779.7,
+      "mediana_droga": 42358.71,
       "n_droga": 58
     },
     {
@@ -1027,7 +1079,7 @@
       "razones": [
         "ppu $2,114.78 << mediana_grupo $29,505.03"
       ],
-      "mediana_droga": 41779.7,
+      "mediana_droga": 42358.71,
       "n_droga": 58
     },
     {
@@ -1165,10 +1217,10 @@
       "marca": "MOMENTUM",
       "presentacion": "20 mg comp.rec.x 4",
       "laboratorio": "Panalab",
-      "precio": 41275.77,
+      "precio": 42101.29,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $2,063.79 << mediana_grupo $11,555.78"
+        "ppu $2,105.06 << mediana_grupo $11,902.45"
       ],
       "mediana_droga": 85000.0,
       "n_droga": 67
@@ -1250,6 +1302,19 @@
       ],
       "mediana_droga": 429221.25,
       "n_droga": 4
+    },
+    {
+      "droga": "zinc,undecilenato, asoc.",
+      "marca": "FACTOR X POLVO",
+      "presentacion": "pvo.x 50 g",
+      "laboratorio": "Casasco",
+      "precio": 13471.14,
+      "precio_outlier_tipo": "bajo_iqr",
+      "razones": [
+        "precio $13,471.14 < fence_low $14,534.14"
+      ],
+      "mediana_droga": 15198.78,
+      "n_droga": 6
     }
   ]
 }

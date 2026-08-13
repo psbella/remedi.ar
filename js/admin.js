@@ -25,6 +25,14 @@ function makeKey(m) {
     .map(s => (s || '').trim().toLowerCase()).join('|');
 }
 
+// Misma heuristica que scripts/etl/blacklist.py::_parece_corrupta. No repara
+// nada -- solo evita guardar un bloqueo cuya clave nunca va a poder matchear
+// contra un medicamento real (ver commit 8358b29).
+function pareceCorrupta(texto) {
+  return texto.includes('Ã') || texto.includes('â€')
+    || [...texto].some(c => c.charCodeAt(0) >= 0x80 && c.charCodeAt(0) <= 0x9f);
+}
+
 function formatPrecio(p) {
   if (!p && p !== 0) return '—';
   return '$' + Number(p).toLocaleString('es-AR', {minimumFractionDigits:2, maximumFractionDigits:2});
@@ -88,10 +96,39 @@ async function ghGet(path) {
     base64 = (await blobR.json()).content;
   }
 
-  // Inversa exacta de btoa(unescape(encodeURIComponent(...))) en ghPut.
-  // atob() sola interpreta cada byte UTF-8 como un carácter Latin-1 (mojibake
-  // con tildes/ñ). escape()+decodeURIComponent() revierte eso correctamente.
-  const content = JSON.parse(decodeURIComponent(escape(atob(base64.replace(/\n/g, '')))));
+  // Inversa CORRECTA de btoa(unescape(encodeURIComponent(...))) en ghPut.
+  // 
+  // En ghPut (línea 109): 
+  //   JSON.stringify(data) → encodeURIComponent() → unescape() → btoa()
+  // Desglose:
+  //   1. encodeURIComponent() convierte "ácido" en "%C3%A1cido" (UTF-8 bytes)
+  //   2. unescape("%C3%A1cido") interpreta %XX como bytes → "ácido" (UTF-8 raw bytes)
+  //   3. btoa() codifica esos bytes a base64
+  //
+  // En ghGet (esta línea):
+  //   atob() → decodeURIComponent() → JSON.parse()
+  // Desglose:
+  //   1. atob() decodifica base64 → "ácido" (UTF-8 raw bytes, CORRECTO)
+  //   2. decodeURIComponent() NO toca nada (no hay %XX)
+  //   3. JSON.parse() parsea el JSON con UTF-8 correcto
+  //
+  // ❌ BUGGY (lo que estaba): atob() → escape() → decodeURIComponent()
+  //    escape() interpreta bytes UTF-8 como Latin-1 → doble-encoding mojibake
+  //
+  // ✅ CORRECTO (lo que hay ahora): atob() → decodeURIComponent()
+  //    Directa: los bytes UTF-8 de atob() pasan sin corrupción a JSON.parse()
+  //
+  // Ver fix: commit 4230b60 (2026-08-13) - removió escape() que causó 199 corruptos
+  const content = JSON.parse(decodeURIComponent(atob(base64.replace(/\n/g, ''))));
+  
+  // Verificación: si hay mojibake residual, avisa al usuario
+  // (solo si fueron datos guardados CON el bug anterior)
+  if (Object.values(content).some(v => {
+    if (typeof v === 'string') return v.includes('Ã') || v.includes('â€');
+    return false;
+  })) {
+    console.warn('ADVERTENCIA: Datos con encoding corrupto detectados. Fueron guardados con el bug previo (escape() en atob). Ejecutar clean_corrupted_blacklist.py');
+  }
   return { content, sha: data.sha };
 }
 
@@ -368,6 +405,10 @@ function encolarEscrituraBlacklist(mutator, mensaje) {
 async function bloquearUno(key, marca) {
   const outlier = allOutliers.find(o => makeKey(o) === key);
   if (!outlier) return;
+  if (pareceCorrupta(key)) {
+    toast(`${marca}: encoding corrupto, no se puede bloquear con confianza (revisar el PDF a mano)`, 'error');
+    return;
+  }
   try {
     await encolarEscrituraBlacklist(bl => { bl[key] = construirEntrada(outlier); }, `admin: bloquear ${marca}`);
     toast(`${marca} agregado a lista negra`);
@@ -387,16 +428,25 @@ async function agregarSeleccionados() {
     .map(key => allOutliers.find(o => makeKey(o) === key))
     .filter(Boolean);
 
-  try {
-    await encolarEscrituraBlacklist(bl => {
-      pendientes.forEach(o => { bl[makeKey(o)] = construirEntrada(o); });
-    }, `admin: bloquear ${pendientes.length} outliers`);
-    toast(`${pendientes.length} medicamento${pendientes.length > 1 ? 's' : ''} bloqueado${pendientes.length > 1 ? 's' : ''}`);
-    seleccionados.clear();
-    renderTabla();
-  } catch(e) {
-    toast('Error al guardar: ' + e.message, 'error');
+  const corruptos = pendientes.filter(o => pareceCorrupta(makeKey(o)));
+  const validos   = pendientes.filter(o => !pareceCorrupta(makeKey(o)));
+
+  if (corruptos.length) {
+    toast(`${corruptos.length} omitido(s) por encoding corrupto (no se pueden bloquear con confianza)`, 'error');
   }
+
+  if (validos.length) {
+    try {
+      await encolarEscrituraBlacklist(bl => {
+        validos.forEach(o => { bl[makeKey(o)] = construirEntrada(o); });
+      }, `admin: bloquear ${validos.length} outliers`);
+      toast(`${validos.length} medicamento${validos.length > 1 ? 's' : ''} bloqueado${validos.length > 1 ? 's' : ''}`);
+    } catch(e) {
+      toast('Error al guardar: ' + e.message, 'error');
+    }
+  }
+  seleccionados.clear();
+  renderTabla();
   actualizarBtnBlacklist();
 }
 
