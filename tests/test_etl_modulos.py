@@ -11,7 +11,7 @@ cargar_blacklist, generar_debug_presentaciones) — esas necesitarían mocks
 y quedan fuera del alcance de esta primera pasada.
 """
 from etl.utils import limpiar_precio, es_precio
-from etl.blacklist import make_key, filtrar_blacklist
+from etl.blacklist import make_key, filtrar_blacklist, _parece_corrupta
 from etl.outliers import calcular_stats_por_droga, evaluar_outlier
 from etl.droga_fixes import _separar_droga_marca
 from etl.reparaciones import reparar_denver
@@ -40,6 +40,20 @@ def test_make_key_normaliza_case_y_espacios():
     a = {"droga": "Ibuprofeno", "marca": " Actron ", "presentacion": "400mg", "laboratorio": "Bayer"}
     b = {"droga": "ibuprofeno", "marca": "actron",   "presentacion": "400mg", "laboratorio": "BAYER"}
     assert make_key(a) == make_key(b)
+
+def test_parece_corrupta_texto_limpio_no_marca_nada():
+    assert _parece_corrupta("acetilcisteína|maxvan|600 mg comp.efer.x 10|vannier") is False
+    assert _parece_corrupta("bausch & lomb argentina") is False
+
+def test_parece_corrupta_detecta_mojibake_clasico():
+    # 'í' mal decodificado como Latin-1 sobre bytes UTF-8 (el bug de admin.js)
+    assert _parece_corrupta("acetilcisteÃ\xadna") is True
+
+def test_parece_corrupta_detecta_variantes_que_el_filtro_viejo_no_veia():
+    # el detector anterior (solo 'Ã'/'â€'/0x80-0x9f) se perdia estas
+    assert _parece_corrupta("acetilcisteã\xadna") is True  # ã minuscula
+    assert _parece_corrupta("alb£mina humana") is True     # £
+    assert _parece_corrupta("ibumejoral ni¥os") is True    # ¥
 
 def test_filtrar_blacklist_excluye_por_key():
     meds = [
