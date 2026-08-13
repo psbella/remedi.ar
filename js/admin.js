@@ -97,29 +97,26 @@ async function ghGet(path) {
   }
 
   // Inversa CORRECTA de btoa(unescape(encodeURIComponent(...))) en ghPut.
-  // 
-  // En ghPut (línea 109): 
+  //
+  // En ghPut:
   //   JSON.stringify(data) → encodeURIComponent() → unescape() → btoa()
-  // Desglose:
-  //   1. encodeURIComponent() convierte "ácido" en "%C3%A1cido" (UTF-8 bytes)
-  //   2. unescape("%C3%A1cido") interpreta %XX como bytes → "ácido" (UTF-8 raw bytes)
-  //   3. btoa() codifica esos bytes a base64
+  //   1. encodeURIComponent() convierte "ácido" en "%C3%A1cido" (bytes UTF-8 en %XX)
+  //   2. unescape("%C3%A1cido") interpreta %XX como bytes crudos → string de 1 byte/char
+  //   3. btoa() codifica esos bytes crudos a base64
   //
-  // En ghGet (esta línea):
-  //   atob() → decodeURIComponent() → JSON.parse()
-  // Desglose:
-  //   1. atob() decodifica base64 → "ácido" (UTF-8 raw bytes, CORRECTO)
-  //   2. decodeURIComponent() NO toca nada (no hay %XX)
-  //   3. JSON.parse() parsea el JSON con UTF-8 correcto
+  // La inversa exacta es escape() + decodeURIComponent(), NO decodeURIComponent() solo:
+  //   atob() → escape() → decodeURIComponent() → JSON.parse()
+  //   1. atob() decodifica base64 → bytes crudos UTF-8 como string de 1 byte/char
+  //   2. escape() vuelve a poner esos bytes en formato %XX (inversa de unescape())
+  //   3. decodeURIComponent() interpreta el %XX como UTF-8 real → "ácido"
   //
-  // ❌ BUGGY (lo que estaba): atob() → escape() → decodeURIComponent()
-  //    escape() interpreta bytes UTF-8 como Latin-1 → doble-encoding mojibake
-  //
-  // ✅ CORRECTO (lo que hay ahora): atob() → decodeURIComponent()
-  //    Directa: los bytes UTF-8 de atob() pasan sin corrupción a JSON.parse()
-  //
-  // Ver fix: commit 4230b60 (2026-08-13) - removió escape() que causó 199 corruptos
-  const content = JSON.parse(decodeURIComponent(atob(base64.replace(/\n/g, ''))));
+  // El commit 4230b60 sacó el escape() pensando que el bug estaba ahí, pero el bug
+  // era otro: sin escape(), decodeURIComponent() solo actúa sobre secuencias %XX
+  // reales. Cualquier '%' literal en el JSON (dosis como "5%", común en datos de
+  // medicamentos) que no venga seguido de 2 hex dígitos válidos hace que
+  // decodeURIComponent() tire "URI malformed" apenas se llama ghGet(). Eso es lo
+  // que rompía la conexión. Se restaura escape() para que la inversa sea exacta.
+  const content = JSON.parse(decodeURIComponent(escape(atob(base64.replace(/\n/g, '')))));
   
   // Verificación: si hay mojibake residual, avisa al usuario
   // (solo si fueron datos guardados CON el bug anterior)
