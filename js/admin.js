@@ -96,10 +96,39 @@ async function ghGet(path) {
     base64 = (await blobR.json()).content;
   }
 
-  // Inversa exacta de btoa(unescape(encodeURIComponent(...))) en ghPut.
-  // atob() sola interpreta cada byte UTF-8 como un carácter Latin-1 (mojibake
-  // con tildes/ñ). escape()+decodeURIComponent() revierte eso correctamente.
-  const content = JSON.parse(decodeURIComponent(escape(atob(base64.replace(/\n/g, '')))));
+  // Inversa CORRECTA de btoa(unescape(encodeURIComponent(...))) en ghPut.
+  // 
+  // En ghPut (línea 109): 
+  //   JSON.stringify(data) → encodeURIComponent() → unescape() → btoa()
+  // Desglose:
+  //   1. encodeURIComponent() convierte "ácido" en "%C3%A1cido" (UTF-8 bytes)
+  //   2. unescape("%C3%A1cido") interpreta %XX como bytes → "ácido" (UTF-8 raw bytes)
+  //   3. btoa() codifica esos bytes a base64
+  //
+  // En ghGet (esta línea):
+  //   atob() → decodeURIComponent() → JSON.parse()
+  // Desglose:
+  //   1. atob() decodifica base64 → "ácido" (UTF-8 raw bytes, CORRECTO)
+  //   2. decodeURIComponent() NO toca nada (no hay %XX)
+  //   3. JSON.parse() parsea el JSON con UTF-8 correcto
+  //
+  // ❌ BUGGY (lo que estaba): atob() → escape() → decodeURIComponent()
+  //    escape() interpreta bytes UTF-8 como Latin-1 → doble-encoding mojibake
+  //
+  // ✅ CORRECTO (lo que hay ahora): atob() → decodeURIComponent()
+  //    Directa: los bytes UTF-8 de atob() pasan sin corrupción a JSON.parse()
+  //
+  // Ver fix: commit 4230b60 (2026-08-13) - removió escape() que causó 199 corruptos
+  const content = JSON.parse(decodeURIComponent(atob(base64.replace(/\n/g, ''))));
+  
+  // Verificación: si hay mojibake residual, avisa al usuario
+  // (solo si fueron datos guardados CON el bug anterior)
+  if (Object.values(content).some(v => {
+    if (typeof v === 'string') return v.includes('Ã') || v.includes('â€');
+    return false;
+  })) {
+    console.warn('ADVERTENCIA: Datos con encoding corrupto detectados. Fueron guardados con el bug previo (escape() en atob). Ejecutar clean_corrupted_blacklist.py');
+  }
   return { content, sha: data.sha };
 }
 
