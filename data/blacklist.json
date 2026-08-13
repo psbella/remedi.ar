@@ -9048,5 +9048,75 @@
     "precio_detectado": 12844.95,
     "presentacion": "10 mg comp.x 30",
     "tipo": "bajo_iqr"
+  },
+  "leucovorina|leucovorina delta farma|50 mg iny.liof.f.a.x 1|sidus": {
+    "droga": "leucovorina",
+    "marca": "LEUCOVORINA DELTA FARMA",
+    "presentacion": "50 mg iny.liof.f.a.x 1",
+    "laboratorio": "Sidus",
+    "precio_detectado": 27884.24,
+    "tipo": "bajo_relativo",
+    "motivo": "precio $27,884.24 < 25% mediana $124,507.88 (n=8)",
+    "bloqueado_en": "2026-08-13T04:00"
+  },
+  "sodio,cloruro|hypersol unidosis|unidosis estériles x 25|cassará": {
+    "droga": "sodio,cloruro",
+    "marca": "HYPERSOL UNIDOSIS",
+    "presentacion": "unidosis estériles x 25",
+    "laboratorio": "Cassará",
+    "precio_detectado": 10650,
+    "tipo": "bajo_relativo",
+    "motivo": "precio $10,650.00 < 25% mediana $45,276.01 (n=18)",
+    "bloqueado_en": "2026-08-13T04:00"
+  },
+  "fluconazol|ponaris|150 mg comp.x 2|panalab": {
+    "droga": "fluconazol",
+    "marca": "PONARIS",
+    "presentacion": "150 mg comp.x 2",
+    "laboratorio": "Panalab",
+    "precio_detectado": 7036,
+    "tipo": "inconsistencia_escala",
+    "motivo": "ppu $46.91 << mediana_grupo $236.97",
+    "bloqueado_en": "2026-08-13T04:00"
+  },
+  "paracetamol|anaflex|500 mg comp.x 10|bagó": {
+    "droga": "paracetamol",
+    "marca": "ANAFLEX",
+    "presentacion": "500 mg comp.x 10",
+    "laboratorio": "Bagó",
+    "precio_detectado": 2392.9,
+    "tipo": "bajo_relativo",
+    "motivo": "precio $2,392.90 < 25% mediana $9,580.17 (n=81)",
+    "bloqueado_en": "2026-08-13T04:00"
+  },
+  "everolimus|certican|0.75 mg comp.x 60|novartis": {
+    "droga": "everolimus",
+    "marca": "CERTICAN",
+    "presentacion": "0.75 mg comp.x 60",
+    "laboratorio": "Novartis",
+    "precio_detectado": 2681189.59,
+    "tipo": "bajo_relativo",
+    "motivo": "precio $2,681,189.59 < 25% mediana $10,868,775.08 (n=11)",
+    "bloqueado_en": "2026-08-13T04:00"
+  },
+  "mesalazina|xalazina|800 mg comp.rec.x 30|hlb pharma": {
+    "droga": "mesalazina",
+    "marca": "XALAZINA",
+    "presentacion": "800 mg comp.rec.x 30",
+    "laboratorio": "HLB Pharma",
+    "precio_detectado": 63257.89,
+    "tipo": "bajo_relativo",
+    "motivo": "precio $63,257.89 < 25% mediana $258,241.47 (n=40)",
+    "bloqueado_en": "2026-08-13T04:00"
+  },
+  "leucovorina|leucovorina delta farma|15 mg comp.x 10|sidus": {
+    "droga": "leucovorina",
+    "marca": "LEUCOVORINA DELTA FARMA",
+    "presentacion": "15 mg comp.x 10",
+    "laboratorio": "Sidus",
+    "precio_detectado": 29842.39,
+    "tipo": "bajo_relativo",
+    "motivo": "precio $29,842.39 < 25% mediana $124,507.88 (n=8)",
+    "bloqueado_en": "2026-08-13T04:00"
   }
 }
