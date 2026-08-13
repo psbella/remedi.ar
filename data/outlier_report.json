@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-08-13T00:56:23.048148-03:00",
-  "total_registros": 13144,
-  "total_outliers": 101,
+  "timestamp": "2026-08-13T04:44:55.693868-03:00",
+  "total_registros": 13131,
+  "total_outliers": 93,
   "outliers": [
     {
       "droga": "aciclovir",
@@ -226,19 +226,6 @@
     },
     {
       "droga": "betametasona",
-      "marca": "NOVOCORT",
-      "presentacion": "cr.x 15 g",
-      "laboratorio": "Andrómaco",
-      "precio": 17922.85,
-      "precio_outlier_tipo": "inconsistencia_escala",
-      "razones": [
-        "ppu $1,194.86 << mediana_grupo $9,451.03"
-      ],
-      "mediana_droga": 9844.01,
-      "n_droga": 39
-    },
-    {
-      "droga": "betametasona",
       "marca": "CORTEROID",
       "presentacion": "cr.x 30 g",
       "laboratorio": "Montpellier",
@@ -247,8 +234,34 @@
       "razones": [
         "ppu $415.53 << mediana_grupo $7,659.59"
       ],
-      "mediana_droga": 9844.01,
-      "n_droga": 39
+      "mediana_droga": 9662.01,
+      "n_droga": 38
+    },
+    {
+      "droga": "bupivacaína",
+      "marca": "DURACAINE",
+      "presentacion": "0.5% hiperbarica.x 5 x 4 ml",
+      "laboratorio": "Aspen Pharma",
+      "precio": 24804.94,
+      "precio_outlier_tipo": "bajo_relativo",
+      "razones": [
+        "precio $24,804.94 < 25% mediana $212,200.00 (n=5)"
+      ],
+      "mediana_droga": 212200.0,
+      "n_droga": 5
+    },
+    {
+      "droga": "bupivacaína",
+      "marca": "BUPICAINA",
+      "presentacion": "0.50% hiperbaripack estéril a.x 5 x 4ml",
+      "laboratorio": "Scott-Cassará",
+      "precio": 41560.0,
+      "precio_outlier_tipo": "bajo_relativo",
+      "razones": [
+        "precio $41,560.00 < 25% mediana $212,200.00 (n=5)"
+      ],
+      "mediana_droga": 212200.0,
+      "n_droga": 5
     },
     {
       "droga": "cabotegravir",
@@ -481,21 +494,8 @@
       "razones": [
         "ppu $1,503.20 << mediana_grupo $9,276.70"
       ],
-      "mediana_droga": 32455.68,
-      "n_droga": 41
-    },
-    {
-      "droga": "diclofenac, vit.b12, betametas",
-      "marca": "DIOXAFLEX B12",
-      "presentacion": "comp.x 20",
-      "laboratorio": "Bagó",
-      "precio": 31892.38,
-      "precio_outlier_tipo": "inconsistencia_escala",
-      "razones": [
-        "ppu $1,594.62 << mediana_grupo $12,256.66"
-      ],
-      "mediana_droga": 32455.68,
-      "n_droga": 41
+      "mediana_droga": 32981.02,
+      "n_droga": 40
     },
     {
       "droga": "difenhidramina",
@@ -587,32 +587,6 @@
       ],
       "mediana_droga": 638819.2,
       "n_droga": 2
-    },
-    {
-      "droga": "everolimus",
-      "marca": "CERTICAN",
-      "presentacion": "0.75 mg comp.x 60",
-      "laboratorio": "Novartis",
-      "precio": 2681189.59,
-      "precio_outlier_tipo": "bajo_relativo",
-      "razones": [
-        "precio $2,681,189.59 < 25% mediana $10,868,775.08 (n=11)"
-      ],
-      "mediana_droga": 10868775.08,
-      "n_droga": 11
-    },
-    {
-      "droga": "fluconazol",
-      "marca": "PONARIS",
-      "presentacion": "150 mg comp.x 2",
-      "laboratorio": "Panalab",
-      "precio": 7036.0,
-      "precio_outlier_tipo": "inconsistencia_escala",
-      "razones": [
-        "ppu $46.91 << mediana_grupo $236.97"
-      ],
-      "mediana_droga": 23810.0,
-      "n_droga": 67
     },
     {
       "droga": "hidrocortisona",
@@ -745,32 +719,6 @@
       "n_droga": 6
     },
     {
-      "droga": "leucovorina",
-      "marca": "LEUCOVORINA DELTA FARMA",
-      "presentacion": "15 mg comp.x 10",
-      "laboratorio": "Sidus",
-      "precio": 29842.39,
-      "precio_outlier_tipo": "bajo_relativo",
-      "razones": [
-        "precio $29,842.39 < 25% mediana $124,507.88 (n=8)"
-      ],
-      "mediana_droga": 124507.88,
-      "n_droga": 8
-    },
-    {
-      "droga": "leucovorina",
-      "marca": "LEUCOVORINA DELTA FARMA",
-      "presentacion": "50 mg iny.liof.f.a.x 1",
-      "laboratorio": "Sidus",
-      "precio": 27884.24,
-      "precio_outlier_tipo": "bajo_relativo",
-      "razones": [
-        "precio $27,884.24 < 25% mediana $124,507.88 (n=8)"
-      ],
-      "mediana_droga": 124507.88,
-      "n_droga": 8
-    },
-    {
       "droga": "lidocaína",
       "marca": "LIGNOCAINA GRAY",
       "presentacion": "2% f.a.x 20 ml",
@@ -845,8 +793,8 @@
       "razones": [
         "ppu $250.10 << mediana_grupo $107,735.83"
       ],
-      "mediana_droga": 258241.47,
-      "n_droga": 40
+      "mediana_droga": 266385.6,
+      "n_droga": 39
     },
     {
       "droga": "mesalazina",
@@ -858,8 +806,8 @@
       "razones": [
         "ppu $764.60 << mediana_grupo $263,240.51"
       ],
-      "mediana_droga": 258241.47,
-      "n_droga": 40
+      "mediana_droga": 266385.6,
+      "n_droga": 39
     },
     {
       "droga": "mesalazina",
@@ -871,8 +819,8 @@
       "razones": [
         "ppu $799.55 << mediana_grupo $220,060.65"
       ],
-      "mediana_droga": 258241.47,
-      "n_droga": 40
+      "mediana_droga": 266385.6,
+      "n_droga": 39
     },
     {
       "droga": "mesalazina",
@@ -884,8 +832,8 @@
       "razones": [
         "ppu $418.63 << mediana_grupo $220,060.65"
       ],
-      "mediana_droga": 258241.47,
-      "n_droga": 40
+      "mediana_droga": 266385.6,
+      "n_droga": 39
     },
     {
       "droga": "mesalazina",
@@ -897,21 +845,8 @@
       "razones": [
         "ppu $399.61 << mediana_grupo $263,240.51"
       ],
-      "mediana_droga": 258241.47,
-      "n_droga": 40
-    },
-    {
-      "droga": "mesalazina",
-      "marca": "XALAZINA",
-      "presentacion": "800 mg comp.rec.x 30",
-      "laboratorio": "HLB Pharma",
-      "precio": 63257.89,
-      "precio_outlier_tipo": "bajo_relativo",
-      "razones": [
-        "precio $63,257.89 < 25% mediana $258,241.47 (n=40)"
-      ],
-      "mediana_droga": 258241.47,
-      "n_droga": 40
+      "mediana_droga": 266385.6,
+      "n_droga": 39
     },
     {
       "droga": "montelukast",
@@ -993,19 +928,6 @@
     },
     {
       "droga": "paracetamol",
-      "marca": "ANAFLEX",
-      "presentacion": "500 mg comp.x 10",
-      "laboratorio": "Bagó",
-      "precio": 2392.9,
-      "precio_outlier_tipo": "bajo_relativo",
-      "razones": [
-        "precio $2,392.90 < 25% mediana $9,580.17 (n=81)"
-      ],
-      "mediana_droga": 9580.17,
-      "n_droga": 81
-    },
-    {
-      "droga": "paracetamol",
       "marca": "PARACETAMOL KABI",
       "presentacion": "Sol.Freeflex iny.x 50 ml",
       "laboratorio": "Fresenius Kabi",
@@ -1014,8 +936,8 @@
       "razones": [
         "ppu $405.57 << mediana_grupo $26,554.79"
       ],
-      "mediana_droga": 9580.17,
-      "n_droga": 81
+      "mediana_droga": 9675.17,
+      "n_droga": 80
     },
     {
       "droga": "prucalopride",
@@ -1122,19 +1044,6 @@
       "n_droga": 4
     },
     {
-      "droga": "sodio,cloruro",
-      "marca": "HYPERSOL UNIDOSIS",
-      "presentacion": "unidosis estériles x 25",
-      "laboratorio": "Cassará",
-      "precio": 10650.0,
-      "precio_outlier_tipo": "bajo_relativo",
-      "razones": [
-        "precio $10,650.00 < 25% mediana $45,276.01 (n=18)"
-      ],
-      "mediana_droga": 45276.01,
-      "n_droga": 18
-    },
-    {
       "droga": "sodio,perborato, asoc.",
       "marca": "HIFAMONIL",
       "presentacion": "pvo.x 100 g",
@@ -1237,19 +1146,6 @@
       ],
       "mediana_droga": 85000.0,
       "n_droga": 67
-    },
-    {
-      "droga": "tetraciclina, papaína",
-      "marca": "SOLUSTRES",
-      "presentacion": "grag.x 16",
-      "laboratorio": "Finadiet",
-      "precio": 166.84,
-      "precio_outlier_tipo": "bajo_absoluto",
-      "razones": [
-        "precio $166.84 < minimo $1,800"
-      ],
-      "mediana_droga": 166.84,
-      "n_droga": 1
     },
     {
       "droga": "triticum vulgare, asoc.",
