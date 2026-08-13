@@ -1,8 +1,16 @@
 """etl/blacklist.py - Carga y filtrado de la lista negra de medicamentos."""
 
 import json
+import re
 
 from .config import BLACKLIST_PATH
+
+# Charset esperado en una clave de blacklist: letras (con o sin acento
+# castellano), digitos, y la puntuacion que aparece en nombres/presentaciones
+# de medicamentos argentinos. Cualquier otra cosa es indicio de mojibake.
+_CHARSET_VALIDO = re.compile(
+    r"^[a-zA-Z0-9áéíóúñüÁÉÍÓÚÑÜ.,()/%x°|+&' -]*$"
+)
 
 
 def make_key(m):
@@ -18,10 +26,14 @@ def make_key(m):
     ])
 
 def _parece_corrupta(texto):
-    """Heuristica simple para detectar mojibake tipico de un encoding mal
-    interpretado. No repara nada -- solo avisa para revision manual.
+    """Heuristica para detectar mojibake tipico de un encoding mal
+    interpretado. Lista blanca (charset esperado) en vez de lista negra de
+    marcadores puntuales -- una lista negra solo detecta las variantes de
+    corrupcion que ya viste antes; el charset permitido detecta cualquier
+    caracter fuera de lugar, conocido o no. No repara nada -- solo avisa
+    para revision manual.
     """
-    return 'Ã' in texto or 'â€' in texto or any(0x80 <= ord(c) <= 0x9f for c in texto)
+    return not _CHARSET_VALIDO.match(texto)
 
 
 def cargar_blacklist():
