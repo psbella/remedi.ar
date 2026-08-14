@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin Panel — remedi.ar</title>
+  <link rel="stylesheet" href="css/admin-panel.css">
+</head>
+<body>
+
+<div id="app">
+  
+  <!-- AUTH SCREEN -->
+  <section id="screen-auth" class="screen active">
+    <div class="auth-box">
+      <h1>Administración de Outliers</h1>
+      <p class="subtitle">Panel de bloqueo de precios sospechosos</p>
+      
+      <form id="form-auth">
+        <div class="field">
+          <label for="input-token">GitHub Personal Access Token</label>
+          <input 
+            id="input-token" 
+            type="password" 
+            placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+            autocomplete="off"
+          >
+          <small>Necesita: <code>repo:contents:write</code></small>
+        </div>
+        
+        <div class="field">
+          <label for="input-branch">Rama</label>
+          <input 
+            id="input-branch" 
+            type="text" 
+            value="main"
+          >
+        </div>
+        
+        <button class="btn btn-primary" type="submit">Conectar</button>
+      </form>
+      
+      <p class="disclaimer">El token se guarda solo en memoria.</p>
+    </div>
+  </section>
+
+  <!-- MAIN SCREEN -->
+  <section id="screen-main" class="screen">
+    
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <span class="icon">⚙️</span>
+        <span>remedi.ar / admin</span>
+      </div>
+      <div class="status-badge">
+        <span id="status-dot" class="dot"></span>
+        <span id="status-text">—</span>
+      </div>
+    </header>
+
+    <!-- Container principal -->
+    <div class="container">
+      
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Total outliers</div>
+          <div class="stat-value" id="stat-total">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Críticos</div>
+          <div class="stat-value critical" id="stat-critical">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Bloqueados</div>
+          <div class="stat-value blocked" id="stat-blocked">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Última actualización</div>
+          <div class="stat-value small" id="stat-updated">—</div>
+        </div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div class="toolbar-left">
+          <span id="toolbar-info">Cargando…</span>
+        </div>
+        <div class="toolbar-center">
+          <button class="filter-btn active" data-filter="all">Todos</button>
+          <button class="filter-btn" data-filter="critical">Críticos</button>
+          <button class="filter-btn" data-filter="suspicious">Sospechosos</button>
+          <button class="filter-btn" data-filter="blocked">Bloqueados</button>
+        </div>
+        <div class="toolbar-right">
+          <button class="btn btn-sm" id="btn-select-all">Sel. todos</button>
+          <button class="btn btn-danger btn-sm" id="btn-block" disabled>⛔ Bloquear</button>
+          <button class="btn btn-ghost btn-sm" id="btn-refresh">↺ Recargar</button>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th class="col-check"><input type="checkbox" id="check-all"></th>
+              <th class="col-med sortable" data-sort="marca">Medicamento <span class="arrow"></span></th>
+              <th class="col-pres sortable" data-sort="presentacion">Presentación <span class="arrow"></span></th>
+              <th class="col-precio sortable" data-sort="precio">Precio <span class="arrow"></span></th>
+              <th class="col-mediana sortable" data-sort="mediana_droga">Mediana <span class="arrow"></span></th>
+              <th class="col-ratio sortable" data-sort="ratio">Ratio <span class="arrow"></span></th>
+              <th class="col-tipo sortable" data-sort="precio_outlier_tipo">Tipo <span class="arrow"></span></th>
+              <th class="col-action">Acción</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <tr><td colspan="8" class="empty-state"><div class="spinner"></div> Cargando…</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+<!-- Toast notifications -->
+<div id="toast" class="toast"></div>
+
+<!-- Scripts -->
+<script src="js/admin-panel.js" defer></script>
+
+</body>
+</html>
