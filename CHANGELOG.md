@@ -4,9 +4,43 @@ Todos los cambios notables de remedi.ar se documentan en este archivo.
 
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.0]
+
+### Cambiado
+- CSS reorganizado en `css/` (`style.css`, `admin.css`, `mantenimiento.css`
+  se mueven del root a esa carpeta). Se actualizan los 106 HTML que los
+  referenciaban (index, about, admin, mantenimiento, privacidad,
+  terminos, las 100 landing pages) y el template de
+  `scripts/generar_landings.py` que las genera.
+- `sw.js`: `CACHE_STATIC` apunta a `/css/style.css`, `CACHE_NAME` sube
+  de `v11` a `v12`.
+- `_headers`: la regla de cache de `/style.css` pasa a `/css/*`
+  (wildcard) -- de paso, `admin.css` y `mantenimiento.css` quedan con
+  `Cache-Control` explicito por primera vez.
+- `.github/workflows/accessibility.yml`: el `paths` filter usa
+  `css/style.css` en vez de `style.css`.
+- `SECURITY.md`: se descarta el modelo de subir/bajar `admin.html` del
+  hosting a mano (commit `5af65b2`). Queda commiteado en `main` de
+  forma permanente; se reescribe la justificacion de riesgo (noindex +
+  auth gate por GitHub PAT en memoria del navegador, no ausencia del
+  archivo en el repo).
+
+### Corregido
+- `SECURITY.md` documentaba el modelo anterior de `admin.html` (no
+  commiteado en `main`) pese a que el archivo fue re-agregado en
+  `549a178` y viene siendo modificado en `main` desde entonces sin que
+  el documento se actualizara.
+- README.md / README.en.md: `admin.html` y `mantenimiento.html` no
+  figuraban en el arbol de directorios pese a estar commiteados.
+
+### Quitado
+- 4 archivos `.patch` que quedaron commiteados por error (subidos para
+  aplicar los cambios de esta version) -- ya aplicados, no forman
+  parte del repo.
+
 ## [2.3.5] - 2026-08-04
 
-### ✨ Agregado
+###  Agregado
 - Panel de administración de outliers (`admin.html` + `js/admin.js`
   + `css/admin.css`): permite revisar precios detectados como
   outliers por el ETL y bloquearlos (agregarlos a `data/blacklist.json`
@@ -17,7 +51,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 - `_headers`: se agrega `api.github.com` a `connect-src` para que
   `admin.js` pueda llamar a la GitHub API sin violar la CSP.
 
-### 🐛 Corregido
+###  Corregido
 - `github/workflows/accessibility.yml` El chequeo de accesibilidad (axe-core) ahora corre contra todas las
   páginas .html del sitio (antes solo index.html y about.html),
   descubiertas dinámicamente. Incluye admin.html y las 100+ landings
@@ -53,7 +87,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
   sacarlas del sitemap, se pasan a `index, follow` ya que esa era la
   intención real.
 
-### ⚠️ Cambiado
+###  Cambiado
 - `scripts/etl/pami.py`: se elimina `_descargar_pami()` (descarga
   automática del vademécum PAMI desde `datos.pami.org.ar` en cada
   corrida, con reintentos y backoff). El portal empezó a exigir sesión
@@ -66,7 +100,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 
 ## [2.3.4] - 2026-08-01
 
-### 🐛 Corregido
+###  Corregido
 - `scripts/generar_landings.py`: 12 landings (acido-acetilsalicilico,
   atorvastatina, bupropion, diclofenac, gabapentina, insulina,
   ipratropio, levodopa-carbidopa, litio, losartan-hidroclorotiazida,
@@ -80,7 +114,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
   valproato) a `SLUG_A_DROGA_REAL`, que ahora soporta valores tipo
   lista.
 
-### 🔒 Seguridad
+###  Seguridad
 - `requirements.txt`: ninguna de las 6 dependencias tenía versión
   pineada. `update_prices.yml` corre `pip install` sin supervisión
   dos veces al día — un breaking change en cualquier dependencia
@@ -93,7 +127,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 
 ## [2.3.3] - 2026-07-31
 
-### ✨ Agregado
+###  Agregado
 - `sitemap.xsl`: visor HTML legible para `/sitemap.xml`, con tabla
   ordenada por prioridad (URL, ultima modificacion, frecuencia,
   prioridad). Reutiliza el header, favicon y variables de diseño
@@ -110,7 +144,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
   `scripts/checks/a11y-check.mjs`, `scripts/github_release_helper.py`
   y el workflow `accessibility.yml`.
 
-### 🐛 Corregido
+###  Corregido
 - `sitemap.xsl` se habia borrado por error (commit `92d4cf5`) antes
   de que el commit de docs siguiente lo documentara, dejando
   `sitemap.xml` en produccion con una referencia rota a
@@ -123,14 +157,14 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
   corregido en el workflow real. Se sincronizo con el archivo
   actual.
 
-### 🧹 Quitado
+###  Quitado
 - `readme-en.patch` y `readme-es.patch`: quedaron commiteados por
   error (commit `87514b1`) -- son archivos de trabajo temporales,
   no forman parte del repo.
 
 ## [2.3.2] - 2026-07-30
 
-### ✨ Agregado
+###  Agregado
 - `js/landing.js`: el script compartido por las 100 landing pages
   (volver arriba, aviso de scroll de tabla, buscador de footer, version
   dinamica) se movio de inline a un archivo externo. Antes dependia de
@@ -141,7 +175,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
   `CACHE_NAME` a `remediar-v11` para forzar la actualizacion de cache
   en clientes con el service worker ya instalado.
 
-### 🐛 Corregido
+###  Corregido
 - `scripts/generar_landings.py`: se revierte un commit (`45ef930`) que
   habia borrado el diccionario RELACIONADAS, la funcion
   generar_relacionadas() y su render en las 100 paginas de landing --
@@ -164,7 +198,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 
 ## [2.3.1] - 2026-07-28
 
-### 🐛 Corregido
+###  Corregido
 - `sw.js`: `about.html` y `js/about.js` (agregados en 2.2.8) no estaban en
   `CACHE_STATIC` y la estrategia cache-first no cachea en runtime, asi que
   la pagina quedaba inaccesible sin conexion con la PWA instalada. Se
@@ -172,120 +206,120 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 - `js/about.js`: se agrega chequeo de `response.ok` antes de parsear el
   JSON, en linea con el patron ya usado en `dataLoader.js`.
 
-### 🧹 Limpieza
+###  Limpieza
 - `js/store.js`: se corrige indentacion inconsistente en `limpiarFiltros`.
 
 ## [2.3.0] - 2026-07-25
 
-### 🏷️ Housekeeping
+###  Housekeeping
 - El tag `v2.2.9` en git quedo apuntando al commit del bump de version (`0ca8dcf`), publicado antes de que el fix real (Ruff E701 + esta misma entrada de CHANGELOG) se subiera en `f76da86`. En vez de reescribir el tag `v2.2.9` ya publicado, se sube como `v2.3.0` sobre el commit correcto. Sin cambios de codigo respecto a lo que 2.2.9 debia contener.
 
 ## [2.2.9] - 2026-07-25
 
-### 🧹 Limpieza
+###  Limpieza
 - scripts/etl/parser.py, enriquecimiento.py, presentacion.py: se separan los 24 statements compuestos (if x: y; continue) que quedaban como backlog de estilo desde 2.2.5 (Ruff E701). Ruff baja de 24 a 0 findings. Sin cambio de comportamiento: verificado con los 28 tests y una corrida de Ruff sobre el repo completo. Cierra #25.
 
 ## [2.2.8] - 2026-07-25
 
-### ✨ Agregado
+###  Agregado
 - `about.html`: pagina "Sobre remedi.ar" con que es el proyecto, como funciona el pipeline, que lo hace distinto, que NO hace, numeros del proyecto (actualizados dinamicamente contra medicamentos.json), FAQ y quien lo sostiene. Linkeada desde el footer de index.html y agregada a sitemap.xml.
 - `js/about.js`: logica de carga de los numeros dinamicos de about.html, como archivo externo (no inline).
 - `README.en.md`: traduccion completa al ingles del README, con link reciproco desde README.md.
 
-### 🐛 Corregido
+###  Corregido
 - La version original de about.html traia CSS embebido en un `<style>`, 7 atributos `style=` inline, y un `<script type="module">` inline. Los tres son incompatibles con la CSP del sitio (`style-src 'self'` y `script-src` con hashes especificos, sin `unsafe-inline`) -- de haberse desplegado asi, la pagina se hubiera visto sin estilo y los numeros dinamicos nunca hubieran cargado. Se movio el CSS a `style.css`, el JS a `js/about.js` externo, y se sacaron los inline styles.
 - `sw.js`: `CACHE_NAME` sube a `v8` para que los cambios en `index.html` (link nuevo del footer) y `style.css` (estilos de about.html) lleguen a usuarios con el sitio ya instalado.
 
-### 🔒 Seguridad
+###  Seguridad
 - `scripts/checks/a11y-check.mjs`: corregido path traversal (CWE-22, alerta de CodeQL) en el servidor local que usa el chequeo de accesibilidad. Fix generado por Copilot Autofix, verificado manualmente con requests HTTP crudas (sin normalizacion del lado cliente): el traversal real da 403, encoding malformado da 400, rutas legitimas siguen sirviendo 200.
 
 ## [2.2.7] - 2026-07-22
 
-### 🐛 Corregido
+###  Corregido
 - `index.html`: el `<span>Por qué remedi.ar</span>` del divisor institucional pasa a ser un `<h2>` real. La sección saltaba de `<h1>` a `<h3>` sin nivel intermedio. `style.css` gana un reset (`.inst-divider h2`) para que se vea idéntico al `span` anterior.
 - `sw.js`: `CACHE_NAME` sube a `v7` para que el cambio anterior llegue a usuarios con el sitio ya instalado (index.html/style.css se sirven cache-first, así que sin este bump el `<span>` viejo hubiera quedado cacheado indefinidamente).
 
-### ⚠️ Cambiado
+###  Cambiado
 - `scripts/etl/blacklist.py`: se saca el fix de "doble encoding" que traía `cargar_blacklist()` — no reparaba las claves corruptas, las transformaba en otra forma igual de rota, en silencio. Verificado: 93 de 569 entradas (16%) quedan con la clave corrupta incluso después de ese fix, y ninguna de esas 93 puede matchear nunca contra un medicamento real (los datos del PDF vienen bien codificados), o sea que esas entradas no excluían nada sin que nadie se enterara. Se intentó reconstruir la cadena de encoding real (UTF-8/Latin-1/CP1252 y otros, en ambos sentidos, más `ftfy`) sin éxito — no es un mojibake de un solo paso reversible con las herramientas estándar. Ahora `cargar_blacklist()` detecta y loguea explícitamente las claves sospechosas en cada corrida, en vez de fingir que las arregla. Retipear esas 93 entradas a mano contra la fuente original queda pendiente, sin bloquear nada mientras tanto.
 
 ## [2.2.6] - 2026-07-20
 
-### ⏪ Revertido
+###  Revertido
 - `.github/workflows/lint.yml` (agregado en 2.2.5) y el step de alerta `ci-push-failure` en `update_prices.yml` (agregado en 2.2.5): ninguno de los dos aportaba algo que no existiera ya. El lint manual (`ruff`/`eslint` antes de mergear) ya cubría lo mismo que `lint.yml` sin bloquear nada; la alerta duplicaba la notificación que GitHub ya manda cuando un workflow falla, sumando un permiso (`issues: write`) y lógica de dedupe para un escenario de baja probabilidad. Se sacan ambos en línea con no sumar automatización sin función real.
 
-### ♻️ Refactorizado
+###  Refactorizado
 - `scripts/snapshot_semanal.py`: dejó de reimplementar `_api`, `_api_upload`, `obtener_o_crear_release` y `asset_existe` — ahora importa todo de `scripts/github_release_helper.py`, que es lo que su propio docstring ya decía que hacía. De paso, `github_release_helper.py` gana el `timeout=30`, el manejo de `URLError` y el mensaje específico de rate-limit (403/429 con reset epoch) que antes solo tenía `snapshot_semanal.py` — ahora `subir_debug.py` también se beneficia. 145 → 103 líneas en `snapshot_semanal.py`, sin cambio de comportamiento (verificado generando el CSV real y corriendo los 28 tests).
 
-### 📝 Documentado
-- `## [2.2.5]` tenía la sección "🧹 Limpieza" duplicada dos veces de forma literal (error mecánico de otra sesión de trabajo sobre este mismo repo). Se corrige sacando la repetición; el contenido no cambia.
+###  Documentado
+- `## [2.2.5]` tenía la sección " Limpieza" duplicada dos veces de forma literal (error mecánico de otra sesión de trabajo sobre este mismo repo). Se corrige sacando la repetición; el contenido no cambia.
   
 ## [2.2.5] - 2026-07-19
 
-### 🐛 Corregido
+###  Corregido
 - `style.css`: sin foco visible en `#buscador` ni en los `<select>` de `.filtro-row` al navegar por teclado (WCAG 2.4.7) — se agrega `outline` en `:focus-visible`.
 - `style.css`: el checkbox de PAMI en `.filtro-toggle` usaba `display: none`, lo que lo saca por completo del orden de tabulación y de los lectores de pantalla — se reemplaza por ocultamiento visual accesible (`clip` + `position: absolute`), alcanzable con Tab y anunciado correctamente (WCAG 2.1.1).
 
-### 🔒 Seguridad
+###  Seguridad
 - `.github/workflows/*.yml`: `actions/checkout`, `actions/setup-python` y `github/codeql-action/{init,analyze}` pasan de tag mutable (`@v7`, `@v6`, `@v4`) a SHA de commit fijo, con el tag original en comentario. Mitiga riesgo de supply-chain sobre workflows con permiso `contents: write`. Dependabot ya está configurado para actualizar estos SHA vía PR.
 
-### ✨ Agregado
+###  Agregado
 - `.github/workflows/lint.yml`: corre `ruff check .` y `eslint js/` en cada push/PR a `main`. `continue-on-error: true` en ambos pasos — no bloquea merges, da visibilidad automática de algo que antes solo se corría a mano.
 - `.github/workflows/update_prices.yml`: si el paso de commit/push falla, se abre un Issue automático con label `ci-push-failure` (crea la label si no existe) y link directo al run — sin duplicar si ya hay uno abierto. No dispara si un paso anterior (como `pytest`) cortó la ejecución antes de llegar al commit. Sin pérdida de datos en ningún escenario: la próxima corrida programada regenera el JSON desde el PDF fuente.
 
-### 🧹 Limpieza
+###  Limpieza
 - Eliminadas 2 variables asignadas y nunca usadas (`droga_fixes.py`, `outliers.py`), 1 import muerto (`presentacion.py`), 1 nombre de variable ambiguo (`parser.py`) y 1 f-string sin placeholders (`test_etl_sanidad.py`). Ruff baja de 30 a 24 findings — los 24 restantes son puramente de estilo (E701/E702), ya documentados como no bloqueantes.
 
 ## [2.2.4] - 2026-07-17
 
-### 🐛 Corregido
+###  Corregido
 - `_headers`/README: el hash SHA-256 del CSP no coincidía con ningún script inline real de `index.html` — cubría un solo hash cuando en realidad hay dos scripts inline ejecutables (config de Google Analytics y registro de `sw.js`). Se recalculan ambos hashes byte a byte contra el `index.html` actual y se agregan los dos al `script-src`. El script `application/ld+json` no necesita hash: no es JavaScript ejecutable, así que `script-src` no se le aplica.
 - `index.html`: quitados `<meta http-equiv="X-Content-Type-Options">` y `<meta http-equiv="Permissions-Policy">` — ninguno de los dos tiene efecto declarado vía `<meta>` (los navegadores solo los respetan como header HTTP real). La protección real ya la da Cloudflare vía Response Header Transform Rules; dejarlos en el HTML solo generaba una falsa sensación de seguridad. `Referrer-Policy` se mantiene porque ese sí es válido vía `<meta>`.
 - `eslint.config.js`: la regla `eqeqeq` marcaba como error el patrón `!= null` / `== null` usado intencionalmente en `js/filters.js`, `js/uiRenderer.js` y `js/utils.js` para chequear `null`+`undefined` en una sola comparación. Se agrega la excepción `{"null": "ignore"}` para que el lint refleje el patrón real del código en vez de marcar falsos positivos.
 
-### 📝 Documentado
+###  Documentado
 - README: "Sin tracking" reemplazado por "Analítica anónima, sin tracking de terceros" — el proyecto sí usa Google Analytics 4 (documentado en el mismo README y en la política de privacidad), la frase anterior se contradecía con el resto del documento.
 - README: badge `Tracking-No` reemplazado por `Tracking-Anonymous only` — contradecía el badge `Analytics-GA4` de la misma sección de badges (mismo problema que en el punto anterior, quedó pendiente en este badge puntual).
 - README: sincronizado el snippet YAML de `## Workflow GitHub Actions` con el `update_prices.yml` real — le faltaban `permissions`, `concurrency`, `timeout-minutes`, el pineo por SHA de `checkout`/`setup-python`, el step de subida de debug y el step de aviso de fallo agregados en commits recientes.
 - `SECURITY.md`: aclarado que `admin.html` no vive commiteado en `main` — se sube manualmente al hosting solo cuando se usa y se retira después (ver commit `5af65b2`). La descripción de riesgo del panel sigue aplicando mientras el archivo exista como artefacto deployable, esté o no en el árbol de este repositorio en un momento dado.
 - `sitemap.xml`: `lastmod` actualizado de `2026-06-27` a `2026-07-17` en las 3 URLs.
 
-### ✅ Verificado en producción (2026-07-18)
+###  Verificado en producción (2026-07-18)
 - Confirmado con `curl -sI https://remedi.ar | grep -i content-security-policy` que la Transform Rule de Cloudflare quedó actualizada con los dos hashes nuevos.
 - Confirmado en DevTools (Application → Service Workers) que `sw.js` pasa a `activated and running` — antes lo bloqueaba el CSP viejo. Con esto, GA y el Service Worker corren en producción sin bloqueos de CSP.
 
 ## [2.2.3] - 2026-07-16
 
-### 🐛 Corregido
+###  Corregido
 - `scripts/etl/presentacion.py`: quedaban 15 claves duplicadas más en `_FORMAS_NORM_PRES` además de `'pda'` (`vial`, `fco`, `jbe`, `sol.iny`, `iny.liof`, `polv.p/susp.oral`, `caram`, `colir`, `ap.aplic.desc`, `autoinyect.prell`, `jga.prell`, `jga.pr`, `jer.prell`, `lap.prell`, `viales`) — todas con el mismo valor en ambas definiciones, detectadas con Ruff (`F601`) y no por revisión manual. Se elimina la entrada redundante en cada caso; el valor efectivo no cambia.
 - Publicado el release de GitHub correspondiente a la 2.2.2, que había quedado documentada en este CHANGELOG y en `package.json` pero nunca tageada ni publicada como release.
 
 ## [2.2.2] - 2026-07-14
 
-### 🐛 Corregido
+###  Corregido
 - Los fixes que el CHANGELOG de la 2.2.1 declaraba (duplicado de `'pda'` en `presentacion.py`, indentación de `js/store.js`, `"type": "module"` en `package.json`) nunca se aplicaron al código real — quedaron documentados pero no commiteados. Se aplican ahora de verdad, con verificación explícita línea por línea antes de cada commit.
 - README: corregido el conteo de tests de "13" a "28" en varios lugares, que habían quedado desactualizados desde que se agregaron los 15 tests unitarios del ETL modular.
 
 ## [2.2.1] - 2026-07-12
 
-### ✨ Agregado
+###  Agregado
 - 15 tests unitarios nuevos para las funciones puras de `scripts/etl/` (`utils`, `blacklist`, `outliers`, `droga_fixes`, `reparaciones`, `parser`) en `tests/test_etl_modulos.py` — 28 tests en total. Complementan a `test_etl_sanidad.py`/`test_schema.py`, que solo validan el JSON final agregado.
 - Ruff (`pyproject.toml`) y ESLint (`eslint.config.js`) configurados — set inicial pragmático (errores reales, no preferencias de estilo), sin bloquear CI todavía.
 
-### 🐛 Corregido
+###  Corregido
 - `scripts/etl/presentacion.py`: `'pda'` estaba definido dos veces en `_FORMAS_NORM_PRES` (`PARCHE` y `POMADA`) — la segunda definición ganaba en silencio. Se confirma que `POMADA` es el valor correcto y se elimina la entrada muerta.
 - `js/store.js`: indentación incorrecta en el cierre de `_extraerFiltros` (8 espacios de más).
 
-### 📝 Documentado
+###  Documentado
 - `## [2.2.0]` le faltaba el encabezado de versión en este archivo — el contenido (footer con versión dinámica, contraste WCAG, bump de `CACHE_NAME`) quedó flotando sin sección. Se corrige.
 
 ---
 
 ## [2.2.0] - 2026-07-11
 
-### ✨ Agregado
+###  Agregado
 - Footer: link a la licencia MIT (`opensource.org/license/mit`) y número de versión, leído dinámicamente desde `package.json`.
 
-### 🐛 Corregido
+###  Corregido
 - `style.css`: contraste de `--text-5` (#999999 → #6c6c6c) para cumplir WCAG AA en placeholder del buscador e íconos de filtros/footer.
 - `style.css`: elimina otra reaparición de la declaración duplicada de `.celda.valor.uppercase`.
 - `sw.js`: bump de `CACHE_NAME` (v3 → v6) para forzar actualización de assets estáticos cacheados.
@@ -294,134 +328,134 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 
 ## [2.1.9] - 2026-07-10
 
-### ♻️ Refactor
+###  Refactor
 - `pdf_to_json.py` modularizado: de 2024 a 138 líneas. La lógica se movió a 10 módulos nuevos en `scripts/etl/` (`config`, `parser`, `blacklist`, `reparaciones`, `droga_fixes`, `pami`, `presentacion`, `outliers`, `enriquecimiento`, `utils`) — `pdf_to_json.py` ahora solo orquesta el orden de ejecución.
 
-### 🐛 Corregido
+###  Corregido
 - `scripts/github_release_helper.py`: corrige referencia de repo.
 - `style.css`: elimina declaración duplicada de `.celda.valor.uppercase`.
 
-### 📝 Documentado
+###  Documentado
 - README actualizado con la nueva estructura de `scripts/etl/` (diagrama, tabla de funciones, árbol de archivos).
 
 ---
 
 ## [2.1.8] - 2026-07-07
 
-### 🔒 Seguridad
+###  Seguridad
 - CSP: `style-src` sin `unsafe-inline` — cierra el ítem M1, pendiente desde el inicio de la auditoría técnica. Se migraron los 12 `style="..."` inline de `index.html`/`admin.html` a clases CSS, y los bloques `<style>` embebidos de `admin.html` y `mantenimiento.html` se movieron a `admin.css`/`mantenimiento.css` nuevos. Un `style=` generado dinámicamente en `js/uiRenderer.js` (dentro de un template literal) se escapó del primer pase y se corrigió al detectarse en la consola del navegador en producción.
 - Actualizada la Response Header Transform Rule de Cloudflare con la CSP sin `unsafe-inline` (cambio de dashboard, no versionado en el repo).
 - Desactivado Cloudflare Web Analytics (no se usaba; generaba un bloqueo de CSP en consola por `static.cloudflareinsights.com`).
 
-### ✨ Agregado
+###  Agregado
 - Validación formal de schema (`tests/test_schema.py` + `tests/medicamentos.schema.json`) para `medicamentos.json` — valida el contrato estructural (claves, tipos, opcionalidad), separado de los umbrales de calidad de negocio que ya cubre `test_etl_sanidad.py`. `additionalProperties: false` a propósito: si el ETL cambia la forma del output, el test avisa hasta que el schema se actualice también.
 
-### 📝 Documentado
+###  Documentado
 - README: cuenta de tests actualizada de 12 a 13, con la salida de ejemplo real.
 
 ---
 
 ## [2.1.7] - 2026-07-05
 
-### ✨ Agregado
+###  Agregado
 - Deduplicación de registros exactos del PDF de SIAFAR antes de las capas de reparación del ETL.
 
-### 🐛 Corregido
+###  Corregido
 - `js/main.js`: el listener de `pageshow` leía `timestamp` en vez de `ts` del cache en `sessionStorage` — la limpieza de cache vieja al volver con el botón "atrás" nunca se ejecutaba.
 - `.gitignore`: línea `data/pami.xlsx.wrangler/` era dos patrones concatenados sin salto de línea — ninguno de los dos se aplicaba. Separados correctamente.
 - `snapshot_semanal.py`: agrega timeout (30s) y manejo explícito de rate limit / errores de red en las llamadas a la API de GitHub — antes podían colgarse sin límite propio ni mensaje claro.
 
-### ♻️ Refactor
+###  Refactor
 - Unificadas `esValorCorrupto` (`filters.js`) y `esLaboratorioCorrupto` (`utils.js`) en una sola función — evita que las dos heurísticas diverjan con el tiempo.
 
-### 🧹 Eliminado
+###  Eliminado
 - `pami.xlsx` y `scripts/__pycache__/` destrackeados de git (ya estaban en `.gitignore`, pero seguían en el índice desde antes de esa regla).
 
-### 🔒 Seguridad
+###  Seguridad
 - Confirmado: `remedi.ar` y `www.remedi.ar` (GitHub Pages, fuente de verdad) entregan CSP, `X-Frame-Options: DENY` y el resto de los headers de seguridad vía Cloudflare Response Header Transform Rules, con ambos hosts en modo Proxied. Antes dependían de `_headers`, que GitHub Pages nunca procesó. Verificado en producción con `curl -I`.
 - `Strict-Transport-Security: max-age=31536000` sumado a `_headers`.
 
-### ♿ Accesibilidad
+###  Accesibilidad
 - Contraste de texto teal corregido a `--teal-dark` en 7 selectores de `style.css` — cumple WCAG AA (antes ~3.54:1, insuficiente).
 
-### ⚙️ CI/CD
+###  CI/CD
 - `timeout-minutes` y `concurrency` en los 4 workflows — antes ninguno tenía límite de tiempo ni protección contra corridas superpuestas.
 
-### 📝 Documentado
+###  Documentado
 - README y `_headers`: se documenta que los headers de seguridad de producción se manejan vía Cloudflare, no vía `_headers` (exclusivo del mirror de Workers).
 
 ---
 
 ## [2.1.6] - 2026-07-04
 
-### 🔒 Seguridad
+###  Seguridad
 - Bloque `permissions: contents: write` explícito en `maintenance-on.yml` — quedó afuera cuando se aplicó el mismo fix a `update_prices.yml` y `maintenance-off.yml` en la 2.1.4. Cierra el último de los tres workflows sin permisos acotados del `GITHUB_TOKEN`.
 - Se versiona `.github/workflows/codeql.yml` (antes CodeQL corría vía configuración de la pestaña Security sin quedar reflejado en el código del repo). Cubre JS, Python y los propios workflows de Actions.
-### 🔍 SEO
+###  SEO
 - `robots.txt` ya no bloquea `/data/` ni `/js/` — esos paths son
   necesarios para que Googlebot renderice el contenido real del sitio
   (el fetch a `medicamentos.json` desde `main.js`). El bloqueo previo
   probablemente resultaba en indexación de una página sin contenido
   de producto.
-  ### 📝 Documentado
+  ###  Documentado
 - `SECURITY.md` — política de reporte de vulnerabilidades y canal de contacto directo.
 
 ---
 
 ## [2.1.5] - 2026-07-02
 
-### 🐛 Corregido
+###  Corregido
 - `onLimpiar()` no reseteaba el checkbox visual de `#togglePami` — el estado interno del store sí se resetea vía `limpiarFiltros()`, pero el DOM quedaba desincronizado. Variante del bug C2 original, ahora del lado de la UI en vez del store
 - Badge de versión del README y `package.json` desincronizados con el CHANGELOG (2.1.2 vs 2.1.4 real) — mismo problema que ya se había corregido en la 2.1.2, volvió a colarse
 
-### 🧹 Eliminado
+###  Eliminado
 - Variable de módulo `todos` en `main.js`, que duplicaba `state.todos` del store — reemplazada por `getTodos()` en los 5 lugares donde se leía
 
-### ♻️ Refactor
+###  Refactor
 - `js/core/store.js` → `js/store.js` — la carpeta `core/` solo contenía ese archivo, anticipaba una estructura que nunca se materializó. Actualizado el import en `main.js` y la ruta cacheada en `sw.js`
 
-### ♿ Mejorado
+###  Mejorado
 - Skip navigation link ("Saltar al contenido principal") — oculto por defecto, visible al recibir foco de teclado, salta a `#main-content`
 
-### 🔒 Seguridad
+###  Seguridad
 - `admin.html` ya no carga Google Fonts externas — reemplazadas por system font stacks equivalentes, sin request externa y consistente con la CSP `font-src 'self'`
 
 ---
 
 ## [2.1.4] - 2026-07-02
 
-### 🐛 Corregido
+###  Corregido
 - `update_prices.yml` seguía agregando `data/pami.xlsx` y `data/droga_fixes.json` al commit en cada corrida pese a que la entrada 2.1.2 de este changelog ya lo daba por resuelto — el cambio no había quedado aplicado en el YAML. Ahora ninguno de los dos se toca en el paso de commit.
 
-### 🔒 Seguridad
+###  Seguridad
 - Bloque `permissions: contents: write` explícito en `update_prices.yml` (hallazgo de CodeQL: el workflow no limitaba los permisos del `GITHUB_TOKEN`).
 
-### ⚡ Mejorado
+###  Mejorado
 - `_build_re_lab_pegado()` ya no se reconstruye dos veces sobre el dataset completo en `pdf_to_json.py` — se cachea una sola vez y se reutiliza entre `extraer_presentacion_de_marca()` y `limpiar_dosis_residual_en_marca()`.
 - Reemplazado `iterrows()` por `to_dict('records')`/`itertuples()` en los dos loops del crosswalk PAMI (`_build_pami_index()` y el fallback de dosis desde nombre de marca).
 
-### 📝 Documentado retroactivamente
+###  Documentado retroactivamente
 - `data/pami.xlsx` no se versiona en git desde algún punto entre 2.1.0 y 2.1.2 (fecha exacta no registrada en este changelog): se descarga fresco en cada corrida del ETL desde el portal de datos abiertos de PAMI (CKAN), con retry y backoff (`_descargar_pami()` en `pdf_to_json.py`), y está listado en `.gitignore`. Si la descarga falla, el crosswalk PAMI se omite sin bloquear el resto del pipeline. Esto corresponde al ítem de roadmap de la auditoría técnica "migrar pami.xlsx fuera de git → URL de descarga directa desde PAMI en cada corrida del ETL", que en los hechos ya estaba resuelto pero nunca quedó asentado acá.
 
 ---
 
 ## [2.1.2] - 2026-07-01
 
-### 🐛 Corregido
+###  Corregido
 - Badge de versión del README desincronizado con `package.json` (2.1.0 → 2.1.1)
 - `import urllib.parse` duplicado en `snapshot_semanal.py` — consolidado en el bloque de imports del módulo
 - `<nav class="footer-links">` estaba duplicado (dos aperturas, un cierre) — HTML inválido que además creaba un landmark de navegación repetido para lectores de pantalla
 
-> ⚠️ **Nota de corrección (agregada 2026-07-02):** este release originalmente incluía un ítem "`update_prices.yml` agregaba `data/pami.xlsx` y `data/droga_fixes.json` al commit... (Corregido)" que resultó no estar aplicado en el código. Se movió a la entrada 2.1.4, que es donde el fix realmente se aplicó.
+>  **Nota de corrección (agregada 2026-07-02):** este release originalmente incluía un ítem "`update_prices.yml` agregaba `data/pami.xlsx` y `data/droga_fixes.json` al commit... (Corregido)" que resultó no estar aplicado en el código. Se movió a la entrada 2.1.4, que es donde el fix realmente se aplicó.
 
-### 🔒 Seguridad
+###  Seguridad
 - `connect-src` de la CSP ahora incluye `https://www.googletagmanager.com`, además de `google-analytics.com` — gtag.js puede hacer llamadas de red a ambos dominios en runtime
 
-### ♿ Mejorado
+###  Mejorado
 - `aria-hidden="true"` en los 21 SVGs decorativos de `index.html` (todos acompañan texto visible o labels ya existentes; se excluyó el sprite de `<symbol>`, ya oculto por `display:none`)
 - `prefers-reduced-motion: reduce` en `@keyframes pulse` del `update-pill`, para respetar la preferencia de accesibilidad del sistema operativo
 
-### 🧹 Eliminado
+###  Eliminado
 - `setTodos()` en `store.js` — alias sin ninguna referencia en el repo
 - `ordenarPorPrecio()` en `filters.js` — alias legacy sin ninguna referencia en el repo
 
@@ -429,7 +463,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 
 ## [2.1.1] - 2026-06-29
 
-### 🐛 Corregido
+###  Corregido
 - Service Worker registrado en `index.html` — PWA operativa
 - `limpiarFiltros()` ahora resetea `soloPami` correctamente
 - Eliminado `window.normalizarLaboratorio` del namespace global en producción
@@ -438,14 +472,14 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 - `bfcache`: reemplazado `location.reload()` por invalidación de caché por timestamp
 - Badge de instalación PWA en footer con `beforeinstallprompt`
 
-### ✨ Añadido
+###  Añadido
 - `.gitignore` con `__pycache__/`, `*.pyc`, `.env`, `tests/debug_update_failed.txt`
 
 ---
 
 ## [2.1.0] - 2026-06-29
 
-### ✨ Añadido
+###  Añadido
 - Botón "Compartir" en cada tarjeta — menú nativo en mobile, copia al portapapeles en desktop
 - Deep links por medicamento: URL única con hash `remedi.ar/#droga--marca--laboratorio--presentacion`
 - Tarjeta destacada con glow teal y badge "Producto compartido" al abrir un link compartido
@@ -456,7 +490,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 - `scripts/snapshot_semanal.py` — genera CSV con precios confiables (`vigencia_score ≥ 50`) y sube a GitHub Releases via API
 - Badges de versión, estado del ETL, pytest, SSL, GA4, SIAFAR/COFA, PAMI, CSP, historial, share, idioma y país en README
 
-### 🔧 Modificado
+###  Modificado
 - `uiRenderer.js` — `renderPresentacion()` y `renderPrecios()` extraídos como funciones nombradas (sin IIFEs)
 - `main.js` — soporte de hash en URL al cargar, manejo de medicamento destacado
 - `style.css` — estilos de hover glow, tarjeta destacada, botón compartir y toast
@@ -467,7 +501,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 
 ## [2.0.5] - 2026-06-28
 
-### 🐛 Corregido
+###  Corregido
 - Doble encoding UTF-8 en claves de `blacklist.json` — medicamentos con acentos no estaban siendo filtrados
 - Query string `?v=2` inconsistente en importación de `uiRenderer.js` impedía cacheo del Service Worker
 - `</footer>` sin apertura en `index.html`
@@ -475,7 +509,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 - Indentación YAML rota en `update_prices.yml`
 - Escape de comilla simple faltante en `escapeHtml()` de `utils.js`
 
-### ✨ Añadido
+###  Añadido
 - `Access-Control-Allow-Origin: *` en `_headers` para el JSON público
 - CSP movido de meta tag a header HTTP con hash SHA256 del script inline de GA
 - Caché de dependencias pip (`cache: 'pip'`) en `setup-python@v5`
@@ -488,7 +522,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 - Service Worker bumpeado a `remediar-v3`
 - Bloque de auto-instalación de pymupdf eliminado del ETL
 
-### ⚡ Mejorado
+###  Mejorado
 - TTL de caché de datos reducido de 4 a 2 horas
 - README completamente reescrito con diagramas Mermaid, referencia de componentes y documentación de workflows
 
@@ -496,7 +530,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 
 ## [2.0.0] - 2026-06-22
 
-### ✨ Añadido
+###  Añadido
 - Toggle "Solo PAMI" en filtros con chip de cobertura y copago estimado
 - Modo precio PAMI: muestra copago como precio principal y PVP como referencia
 - `store.js` — estado centralizado con patrón pub/sub
@@ -511,7 +545,7 @@ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1
 - `package.json` con metadatos del proyecto
 - Workflow de precios con horario `30 13,21 * * 1-5` (10:30 y 18:30 AR)
 
-### 🔧 Modificado
+###  Modificado
 - Layout de resultados migrado de grid a flex
 - Ancho máximo del contenedor ampliado a 1024px
 - robots.txt simplificado con crawl-delay para bots agresivos
