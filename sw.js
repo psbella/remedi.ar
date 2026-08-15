@@ -1,5 +1,5 @@
 // sw.js — Service Worker remedi.ar
-const CACHE_NAME   = 'remediar-v12';
+const CACHE_NAME   = 'remediar-v13';
 const CACHE_STATIC = [
     '/',
     '/index.html',
