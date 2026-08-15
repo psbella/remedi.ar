@@ -7078,5 +7078,15 @@
     "tipo": "bajo_relativo",
     "motivo": "precio $41,560.00 < 25% mediana $212,200.00 (n=5)",
     "bloqueado_en": "2026-08-15T06:06"
+  },
+  "tadalafilo|firmel 36|20 mg comp.x 2|craveri": {
+    "droga": "tadalafilo",
+    "marca": "FIRMEL 36",
+    "presentacion": "20 mg comp.x 2",
+    "laboratorio": "Craveri",
+    "precio_detectado": 20300,
+    "tipo": "bajo_relativo",
+    "motivo": "precio $20,300.00 < 25% mediana $85,000.00 (n=67)",
+    "bloqueado_en": "2026-08-15T06:26"
   }
 }
