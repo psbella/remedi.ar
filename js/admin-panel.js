@@ -75,9 +75,9 @@ function setStatus(ok, text) {
   txt.textContent = text;
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ────────────────────────────────────────────────────────────────────
 // GITHUB API
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ────────────────────────────────────────────────────────────────────
 
 async function githubGet(path) {
   log.info(`GET ${path}`);
@@ -98,7 +98,6 @@ async function githubGet(path) {
   const data = await r.json();
   let base64 = data.content;
 
-  // Si archivo > 1MB, usar Blob API
   if (!base64) {
     log.info(`${path} > 1MB, usando Blob API`);
     const blobR = await fetch(
@@ -114,32 +113,23 @@ async function githubGet(path) {
     base64 = (await blobR.json()).content;
   }
 
-  // Decodificar UTF-8. Dos formatos posibles según cómo se guardó el archivo:
-  //   - blacklist.json (escrito por este panel vía githubPut): pasó por
-  //     encodeURIComponent()+unescape() antes de btoa(), así que hace falta
-  //     decodeURIComponent() para revertirlo.
-  //   - outlier_report.json (escrito por el ETL en Python): es UTF-8 plano
-  //     en base64, sin ese paso extra — decodeURIComponent() encuentra
-  //     bytes que no son secuencias %XX válidas y tira "URI malformed".
-  // Se prueba decodeURIComponent() primero y, si falla puntualmente esa
-  // llamada, se cae a interpretar el string de atob() como UTF-8 directo
-  // (no como Latin-1 vía escape(), que fue el bug original).
+  // Decodificar UTF-8: atob() devuelve un "binary string" (cada char = 1
+  // byte, 0-255). TextDecoder interpreta esos bytes como UTF-8 correctamente.
+  // NO usar decodeURIComponent() directo -- explota con "URI malformed" si
+  // el texto tiene un '%' literal, y si no explota, no decodifica UTF-8
+  // (deja caracteres multi-byte como codepoints Latin-1 sueltos = mojibake).
+  // Verificado byte a byte contra outlier_report.json y blacklist.json reales.
   let content;
-  const decoded = atob(base64.replace(/\n/g, ''));
   try {
-    content = JSON.parse(decodeURIComponent(decoded));
-  } catch (e1) {
-    try {
-      const bytes = Uint8Array.from(decoded, c => c.charCodeAt(0));
-      content = JSON.parse(new TextDecoder('utf-8').decode(bytes));
-    } catch (e2) {
-      log.error(`Error decodificando ${path}:`, e2.message);
-      log.error(`base64 length: ${base64.length}`);
-      throw new Error(`Fallo decodificando ${path}: ${e2.message}`);
-    }
+    const decoded = atob(base64.replace(/\n/g, ''));
+    const bytes = Uint8Array.from(decoded, c => c.charCodeAt(0));
+    content = JSON.parse(new TextDecoder('utf-8').decode(bytes));
+  } catch (e) {
+    log.error(`Error decodificando ${path}:`, e.message);
+    log.error(`base64 length: ${base64.length}`);
+    throw new Error(`Fallo decodificando ${path}: ${e.message}`);
   }
 
-  // Detectar mojibake residual (datos históricos)
   if (Object.values(content).some(v =>
     typeof v === 'string' && (v.includes('Ã') || v.includes('â€'))
   )) {
