@@ -679,6 +679,40 @@ body {
 }
 .footer-install-badge:hover { background: var(--teal); color: white; }
 
+.ios-install-wrap { position: relative; display: inline-flex; }
+.ios-install-tip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 240px;
+    background: var(--white);
+    color: var(--text-2);
+    border: 1px solid var(--teal-border);
+    border-radius: 12px;
+    padding: 12px 28px 12px 14px;
+    font-size: 12px;
+    line-height: 1.5;
+    text-align: left;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    z-index: 20;
+}
+.ios-install-tip strong { color: var(--teal-darker); }
+.ios-install-tip svg { stroke: var(--teal); vertical-align: -2px; }
+.ios-install-tip-cerrar {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    line-height: 1;
+    color: var(--text-4);
+    cursor: pointer;
+    padding: 2px;
+}
+.ios-install-tip-cerrar:hover { color: var(--text-2); }
+
 /* Páginas legales */
 .legal-container { max-width: 1024px; margin: 0 auto; background: var(--white); border-radius: var(--r-lg); padding: 40px; border: 0.5px solid var(--border); }
 .legal-container h1 { font-size: 1.8rem; font-weight: 500; color: var(--teal-dark); margin-bottom: 6px; }

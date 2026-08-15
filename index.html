@@ -91,6 +91,7 @@
         <symbol id="ic-shield"  viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
         <symbol id="ic-file"    viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></symbol>
         <symbol id="ic-mail"    viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></symbol>
+        <symbol id="ic-share-ios" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><polyline points="8 8 12 4 16 8"/><path d="M6 12v7a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-7"/></symbol>
       </svg>
     </div>
 
@@ -301,6 +302,16 @@
             </svg>
             Disponible como app
         </button>
+        <div class="ios-install-wrap hidden" id="iosInstalarWrap">
+            <button id="btnInstalarIOS" class="footer-install-badge" aria-expanded="false" aria-controls="iosInstalarTip">
+                <svg width="14" height="14" aria-hidden="true"><use href="#ic-share-ios"/></svg>
+                Instalar app
+            </button>
+            <div id="iosInstalarTip" class="ios-install-tip hidden" role="tooltip">
+                Tocá <strong>Compartir</strong> <svg width="13" height="13" aria-hidden="true"><use href="#ic-share-ios"/></svg> en Safari y elegí <strong>"Agregar a pantalla de inicio"</strong>.
+                <button id="btnCerrarIosTip" class="ios-install-tip-cerrar" aria-label="Cerrar">&times;</button>
+            </div>
+        </div>
         <div class="footer-legal">
             <a href="https://opensource.org/license/mit" target="_blank" rel="noopener">Licencia MIT</a>
             <span class="footer-sep">|</span>

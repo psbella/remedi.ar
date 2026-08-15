@@ -236,6 +236,45 @@ window.addEventListener('appinstalled', () => {
     deferredPrompt = null;
 });
 
+// PWA install — instrucciones manuales para iOS (Safari no dispara beforeinstallprompt)
+(function initInstalarIOS() {
+    const esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const yaInstalada = window.navigator.standalone === true
+        || window.matchMedia('(display-mode: standalone)').matches;
+    const descartado = localStorage.getItem('ios_install_tip_descartado') === '1';
+
+    if (!esIOS || yaInstalada || descartado) return;
+
+    const wrap = document.getElementById('iosInstalarWrap');
+    const btn = document.getElementById('btnInstalarIOS');
+    const tip = document.getElementById('iosInstalarTip');
+    const btnCerrar = document.getElementById('btnCerrarIosTip');
+    if (!wrap || !btn || !tip) return;
+
+    wrap.classList.remove('hidden');
+
+    btn.addEventListener('click', () => {
+        const abierto = !tip.classList.contains('hidden');
+        tip.classList.toggle('hidden', abierto);
+        btn.setAttribute('aria-expanded', String(!abierto));
+    });
+
+    btnCerrar?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        tip.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+        localStorage.setItem('ios_install_tip_descartado', '1');
+        wrap.classList.add('hidden');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!wrap.contains(e.target)) {
+            tip.classList.add('hidden');
+            btn.setAttribute('aria-expanded', 'false');
+        }
+    });
+})();
+
 window.addEventListener('pageshow', (event) => {
     if (event.persisted) {
         const cache = sessionStorage.getItem('remedios_data_v2');
