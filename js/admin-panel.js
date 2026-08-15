@@ -72,7 +72,12 @@ function setStatus(ok, text) {
   const dot = document.getElementById('status-dot');
   const txt = document.getElementById('status-text');
   dot.className = `dot ${ok ? 'ok' : 'err'}`;
-// Reemplazar la función githubGet
+  txt.textContent = text;
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// GITHUB API
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 async function githubGet(path) {
   log.info(`GET ${path}`);
@@ -109,31 +114,31 @@ async function githubGet(path) {
     base64 = (await blobR.json()).content;
   }
 
-  // Decodificar: intentar ambos formatos (encoded vs plain)
+  // Decodificar UTF-8. Dos formatos posibles según cómo se guardó el archivo:
+  //   - blacklist.json (escrito por este panel vía githubPut): pasó por
+  //     encodeURIComponent()+unescape() antes de btoa(), así que hace falta
+  //     decodeURIComponent() para revertirlo.
+  //   - outlier_report.json (escrito por el ETL en Python): es UTF-8 plano
+  //     en base64, sin ese paso extra — decodeURIComponent() encuentra
+  //     bytes que no son secuencias %XX válidas y tira "URI malformed".
+  // Se prueba decodeURIComponent() primero y, si falla puntualmente esa
+  // llamada, se cae a interpretar el string de atob() como UTF-8 directo
+  // (no como Latin-1 vía escape(), que fue el bug original).
   let content;
+  const decoded = atob(base64.replace(/\n/g, ''));
   try {
-    const decoded = atob(base64.replace(/\n/g, ''));
-    // Primero intentar con decodeURIComponent (para blacklist.json)
+    content = JSON.parse(decodeURIComponent(decoded));
+  } catch (e1) {
     try {
-      content = JSON.parse(decodeURIComponent(decoded));
-    } catch {
-      // Si falla, intentar sin decodeURIComponent (para outlier_report.json)
-      content = JSON.parse(decoded);
+      const bytes = Uint8Array.from(decoded, c => c.charCodeAt(0));
+      content = JSON.parse(new TextDecoder('utf-8').decode(bytes));
+    } catch (e2) {
+      log.error(`Error decodificando ${path}:`, e2.message);
+      log.error(`base64 length: ${base64.length}`);
+      throw new Error(`Fallo decodificando ${path}: ${e2.message}`);
     }
-  } catch (e) {
-    log.error(`Error decodificando ${path}:`, e.message);
-    throw new Error(`Fallo decodificando ${path}: ${e.message}`);
   }
 
-  // Detectar mojibake residual
-  if (Object.values(content).some(v =>
-    typeof v === 'string' && (v.includes('Ã') || v.includes('â€'))
-  )) {
-    log.warn(`Mojibake detectado en ${path}`);
-  }
-
-  return { content, sha: data.sha };
-}
   // Detectar mojibake residual (datos históricos)
   if (Object.values(content).some(v =>
     typeof v === 'string' && (v.includes('Ã') || v.includes('â€'))
