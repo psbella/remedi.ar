@@ -224,6 +224,24 @@ function updateStats(report) {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 function getFilteredOutliers() {
+  // 'blocked' muestra la lista negra COMPLETA (histórica), no solo las
+  // entradas que además coinciden con un outlier del reporte de hoy —
+  // la mayoría de los bloqueos históricos ya no son outliers vigentes.
+  if (state.filter === 'blocked') {
+    return Object.entries(state.blacklist).map(([key, entry]) => ({
+      _key: key,
+      droga: entry.droga,
+      marca: entry.marca,
+      presentacion: entry.presentacion,
+      laboratorio: entry.laboratorio,
+      precio: entry.precio_detectado,
+      mediana_droga: null,  // no se conserva en la blacklist, no inventar un valor
+      precio_outlier_tipo: entry.tipo,
+      motivo: entry.motivo,
+      bloqueado_en: entry.bloqueado_en,
+    }));
+  }
+  
   let list = [...state.outliers];
   
   switch (state.filter) {
@@ -233,8 +251,6 @@ function getFilteredOutliers() {
       return list.filter(o => 
         ['bajo_relativo', 'bajo_iqr', 'bajo_absoluto'].includes(o.precio_outlier_tipo)
       );
-    case 'blocked':
-      return list.filter(o => makeKey(o) in state.blacklist);
     default:
       return list;
   }
@@ -302,7 +318,9 @@ function renderTable(list) {
   }
   
   tbody.innerHTML = list.map(o => {
-    const key = makeKey(o);
+    // _key viene ya calculado cuando la fila sale de la blacklist (filtro
+    // 'blocked'); para outliers normales se calcula igual que siempre.
+    const key = o._key || makeKey(o);
     const isBlocked = key in state.blacklist;
     const isSelected = state.selected.has(key);
     const ratio = o.precio && o.mediana_droga
