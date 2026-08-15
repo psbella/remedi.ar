@@ -72,12 +72,7 @@ function setStatus(ok, text) {
   const dot = document.getElementById('status-dot');
   const txt = document.getElementById('status-text');
   dot.className = `dot ${ok ? 'ok' : 'err'}`;
-  txt.textContent = text;
-}
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// GITHUB API
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Reemplazar la función githubGet
 
 async function githubGet(path) {
   log.info(`GET ${path}`);
@@ -114,19 +109,31 @@ async function githubGet(path) {
     base64 = (await blobR.json()).content;
   }
 
-  // Decodificar UTF-8 correctamente
-  // atob() → UTF-8 raw → decodeURIComponent() → JSON.parse()
-  // NO usar escape() — causa doble-encoding
+  // Decodificar: intentar ambos formatos (encoded vs plain)
   let content;
   try {
     const decoded = atob(base64.replace(/\n/g, ''));
-    content = JSON.parse(decodeURIComponent(decoded));
+    // Primero intentar con decodeURIComponent (para blacklist.json)
+    try {
+      content = JSON.parse(decodeURIComponent(decoded));
+    } catch {
+      // Si falla, intentar sin decodeURIComponent (para outlier_report.json)
+      content = JSON.parse(decoded);
+    }
   } catch (e) {
     log.error(`Error decodificando ${path}:`, e.message);
-    log.error(`base64 length: ${base64.length}`);
     throw new Error(`Fallo decodificando ${path}: ${e.message}`);
   }
 
+  // Detectar mojibake residual
+  if (Object.values(content).some(v =>
+    typeof v === 'string' && (v.includes('Ã') || v.includes('â€'))
+  )) {
+    log.warn(`Mojibake detectado en ${path}`);
+  }
+
+  return { content, sha: data.sha };
+}
   // Detectar mojibake residual (datos históricos)
   if (Object.values(content).some(v =>
     typeof v === 'string' && (v.includes('Ã') || v.includes('â€'))
