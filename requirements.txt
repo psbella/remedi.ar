@@ -1,4 +1,4 @@
-pymupdf==1.28.0
+pymupdf==1.28.2
 pandas==3.0.5
 openpyxl==3.1.5
 certifi==2026.7.22
