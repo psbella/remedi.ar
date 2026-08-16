@@ -1,0 +1,15 @@
+/* TEAM */
+Autor: Pablo Bella
+Sitio: https://remedi.ar
+GitHub: https://github.com/psbella
+Ubicación: Argentina
+
+/* THANKS */
+Datos: SIAFAR / COFA / PAMI
+
+/* SITE */
+Última actualización: 2026/08/15
+Lenguaje: Español
+Stack: HTML, CSS, JS vanilla, Python (ETL)
+Hosting: GitHub Pages + Cloudflare
+Licencia: MIT
