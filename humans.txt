@@ -1,15 +1,40 @@
 /* TEAM */
-Autor: Pablo Bella
-Sitio: https://remedi.ar
-GitHub: https://github.com/psbella
-Ubicación: Argentina
-
-/* THANKS */
-Datos: SIAFAR / COFA / PAMI
+  Developer: Pablo Bella
+  Role: Diseño, desarrollo, mantenimiento, ETL
+  Location: Mar del Plata, Buenos Aires, Argentina
+  Contact: pablo.s.bella@gmail.com
+  GitHub: https://github.com/psbella
 
 /* SITE */
-Última actualización: 2026/08/15
-Lenguaje: Español
-Stack: HTML, CSS, JS vanilla, Python (ETL)
-Hosting: GitHub Pages + Cloudflare
-Licencia: MIT
+  Name: remedi.ar
+  URL: https://remedi.ar
+  Description: Buscador de precios de medicamentos en Argentina. Procesa el PDF oficial de SIAFAR/COFA dos veces al día y genera un comparador estático, sin publicidad y sin tracking. Incluye cobertura PAMI.
+  Status: Activa
+  Última actualización: 2026-08-15
+  Idioma: Español (Argentina)
+  Licencia: MIT
+
+/* TECH */
+  Frontend: HTML5, CSS3, JavaScript (ES6, vanilla)
+  ETL: Python (pymupdf, pandas, openpyxl)
+  Tests: pytest, jsonschema
+  PWA: Service Worker, Web App Manifest
+  Iconos: SVG nativos
+  Control de versiones: Git + GitHub
+  Hosting: GitHub Pages, proxy Cloudflare (Worker estático, sin lógica dinámica)
+  CI/CD: GitHub Actions (actualización automática dos veces al día)
+
+/* DATA */
+  Source: SIAFAR / COFA / PAMI (fuentes oficiales)
+  Method: ETL automatizado sobre PDF oficial
+  Update: Automática, dos veces al día vía GitHub Actions
+  Verificación: Validación de esquema (jsonschema) + tests automatizados
+
+  La información se presenta con fines exclusivamente informativos.
+  Se recomienda verificar los precios directamente en la farmacia
+  correspondiente antes de una compra.
+
+  Este sitio no vende medicamentos, no promueve el autoconsumo, no
+  recopila datos personales y no tiene fines comerciales.
+
+/* EL TÍTULO NO HACE EL CÓDIGO. LAS GANAS, SÍ. */
