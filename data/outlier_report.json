@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-08-14T18:52:14.642212-03:00",
-  "total_registros": 13131,
-  "total_outliers": 93,
+  "timestamp": "2026-08-17T11:03:14.130700-03:00",
+  "total_registros": 13128,
+  "total_outliers": 90,
   "outliers": [
     {
       "droga": "aciclovir",
@@ -73,12 +73,12 @@
       "marca": "AMOXI DUO MAR",
       "presentacion": "875 mg comp. x 14",
       "laboratorio": "Mar",
-      "precio": 11165.0,
+      "precio": 11390.0,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $12.76 << mediana_grupo $165.70"
+        "ppu $13.02 << mediana_grupo $169.00"
       ],
-      "mediana_droga": 11552.1,
+      "mediana_droga": 11588.0,
       "n_droga": 115
     },
     {
@@ -91,7 +91,7 @@
       "razones": [
         "ppu $16.97 << mediana_grupo $122.38"
       ],
-      "mediana_droga": 11552.1,
+      "mediana_droga": 11588.0,
       "n_droga": 115
     },
     {
@@ -117,7 +117,7 @@
       "razones": [
         "ppu $52.10 << mediana_grupo $15,974.22"
       ],
-      "mediana_droga": 23890.75,
+      "mediana_droga": 24128.25,
       "n_droga": 64
     },
     {
@@ -130,7 +130,7 @@
       "razones": [
         "ppu $200.17 << mediana_grupo $1,157.89"
       ],
-      "mediana_droga": 23890.75,
+      "mediana_droga": 24128.25,
       "n_droga": 64
     },
     {
@@ -238,32 +238,6 @@
       "n_droga": 38
     },
     {
-      "droga": "bupivacaína",
-      "marca": "DURACAINE",
-      "presentacion": "0.5% hiperbarica.x 5 x 4 ml",
-      "laboratorio": "Aspen Pharma",
-      "precio": 24804.94,
-      "precio_outlier_tipo": "bajo_relativo",
-      "razones": [
-        "precio $24,804.94 < 25% mediana $212,200.00 (n=5)"
-      ],
-      "mediana_droga": 212200.0,
-      "n_droga": 5
-    },
-    {
-      "droga": "bupivacaína",
-      "marca": "BUPICAINA",
-      "presentacion": "0.50% hiperbaripack estéril a.x 5 x 4ml",
-      "laboratorio": "Scott-Cassará",
-      "precio": 41560.0,
-      "precio_outlier_tipo": "bajo_relativo",
-      "razones": [
-        "precio $41,560.00 < 25% mediana $212,200.00 (n=5)"
-      ],
-      "mediana_droga": 212200.0,
-      "n_droga": 5
-    },
-    {
       "droga": "cabotegravir",
       "marca": "VOCABRIA",
       "presentacion": "600 mg iny. x 3 ml",
@@ -307,10 +281,10 @@
       "marca": "CICLOFOSFAMIDA FILAXIS",
       "presentacion": "1000 mg f.a.x 1",
       "laboratorio": "GP Pharm",
-      "precio": 190000.0,
+      "precio": 205000.0,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $190.00 << mediana_grupo $1,401.08"
+        "ppu $205.00 << mediana_grupo $1,511.69"
       ],
       "mediana_droga": 224784.7,
       "n_droga": 8
@@ -450,10 +424,10 @@
       "marca": "DESLORAMAR",
       "presentacion": "susp.fco.x 60 ml",
       "laboratorio": "Mar",
-      "precio": 10580.0,
+      "precio": 10790.0,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $176.33 << mediana_grupo $1,264.00"
+        "ppu $179.83 << mediana_grupo $1,289.00"
       ],
       "mediana_droga": 12384.56,
       "n_droga": 24
@@ -463,10 +437,10 @@
       "marca": "DESLORAMAR CORT",
       "presentacion": "susp.fco.x 60 ml",
       "laboratorio": "Mar",
-      "precio": 11735.0,
+      "precio": 11970.0,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $195.58 << mediana_grupo $1,187.79"
+        "ppu $199.50 << mediana_grupo $1,211.75"
       ],
       "mediana_droga": 13024.34,
       "n_droga": 12
@@ -624,7 +598,7 @@
       "razones": [
         "ppu $10.52 << mediana_grupo $1,174.40"
       ],
-      "mediana_droga": 8284.9,
+      "mediana_droga": 8427.5,
       "n_droga": 148
     },
     {
@@ -637,7 +611,7 @@
       "razones": [
         "ppu $12.12 << mediana_grupo $1,002.13"
       ],
-      "mediana_droga": 8284.9,
+      "mediana_droga": 8427.5,
       "n_droga": 148
     },
     {
@@ -650,7 +624,7 @@
       "razones": [
         "ppu $19.86 << mediana_grupo $1,133.14"
       ],
-      "mediana_droga": 8284.9,
+      "mediana_droga": 8427.5,
       "n_droga": 148
     },
     {
@@ -704,19 +678,6 @@
       ],
       "mediana_droga": 18637.02,
       "n_droga": 9
-    },
-    {
-      "droga": "latanoprost, timolol",
-      "marca": "LATIMODORF",
-      "presentacion": "gts.oft.x 2.5 ml",
-      "laboratorio": "PharmaDorf",
-      "precio": 34571.4,
-      "precio_outlier_tipo": "bajo_iqr",
-      "razones": [
-        "precio $34,571.40 < fence_low $34,722.45"
-      ],
-      "mediana_droga": 38741.03,
-      "n_droga": 6
     },
     {
       "droga": "lidocaína",
@@ -983,10 +944,10 @@
       "marca": "RISPERDAL",
       "presentacion": "sol.oral x 100 ml",
       "laboratorio": "Janssen-Cilag",
-      "precio": 188790.46,
+      "precio": 192755.05,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $1,887.90 << mediana_grupo $29,505.03"
+        "ppu $1,927.55 << mediana_grupo $30,124.63"
       ],
       "mediana_droga": 42358.71,
       "n_droga": 58
@@ -996,10 +957,10 @@
       "marca": "RISPERDAL",
       "presentacion": "sol.oral x 30 ml",
       "laboratorio": "Janssen-Cilag",
-      "precio": 63443.28,
+      "precio": 64775.6,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $2,114.78 << mediana_grupo $29,505.03"
+        "ppu $2,159.19 << mediana_grupo $30,124.63"
       ],
       "mediana_droga": 42358.71,
       "n_droga": 58
@@ -1016,6 +977,19 @@
       ],
       "mediana_droga": 305017.54,
       "n_droga": 3
+    },
+    {
+      "droga": "salbutamol",
+      "marca": "YONTAL",
+      "presentacion": "sol.p/nebul.x 20 ml",
+      "laboratorio": "Duncan",
+      "precio": 4653.77,
+      "precio_outlier_tipo": "bajo_relativo",
+      "razones": [
+        "precio $4,653.77 < 25% mediana $19,929.67 (n=20)"
+      ],
+      "mediana_droga": 19929.67,
+      "n_droga": 20
     },
     {
       "droga": "sildenafil",
@@ -1131,21 +1105,8 @@
       "razones": [
         "ppu $2,105.06 << mediana_grupo $11,902.45"
       ],
-      "mediana_droga": 85000.0,
-      "n_droga": 67
-    },
-    {
-      "droga": "tadalafilo",
-      "marca": "FIRMEL 36",
-      "presentacion": "20 mg comp.x 2",
-      "laboratorio": "Craveri",
-      "precio": 20300.0,
-      "precio_outlier_tipo": "bajo_relativo",
-      "razones": [
-        "precio $20,300.00 < 25% mediana $85,000.00 (n=67)"
-      ],
-      "mediana_droga": 85000.0,
-      "n_droga": 67
+      "mediana_droga": 85205.14,
+      "n_droga": 66
     },
     {
       "droga": "triticum vulgare, asoc.",
@@ -1191,12 +1152,12 @@
       "marca": "ABNOBA VISCUM FRAXINI",
       "presentacion": "20 mg iny.a.x 8",
       "laboratorio": "GP Pharm",
-      "precio": 429221.25,
+      "precio": 445960.88,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $21,461.06 << mediana_grupo $118,035.84"
+        "ppu $22,298.04 << mediana_grupo $122,639.24"
       ],
-      "mediana_droga": 429221.25,
+      "mediana_droga": 445960.88,
       "n_droga": 4
     },
     {
