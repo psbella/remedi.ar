@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-08-18T18:50:02.066925-03:00",
-  "total_registros": 13128,
-  "total_outliers": 90,
+  "timestamp": "2026-08-19T11:08:27.614027-03:00",
+  "total_registros": 13127,
+  "total_outliers": 89,
   "outliers": [
     {
       "droga": "aciclovir",
@@ -977,19 +977,6 @@
       ],
       "mediana_droga": 305017.54,
       "n_droga": 3
-    },
-    {
-      "droga": "salbutamol",
-      "marca": "YONTAL",
-      "presentacion": "sol.p/nebul.x 20 ml",
-      "laboratorio": "Duncan",
-      "precio": 4653.77,
-      "precio_outlier_tipo": "bajo_relativo",
-      "razones": [
-        "precio $4,653.77 < 25% mediana $19,929.67 (n=20)"
-      ],
-      "mediana_droga": 19929.67,
-      "n_droga": 20
     },
     {
       "droga": "sildenafil",
