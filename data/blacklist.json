@@ -7088,5 +7088,15 @@
     "tipo": "bajo_relativo",
     "motivo": "precio $20,300.00 < 25% mediana $85,000.00 (n=67)",
     "bloqueado_en": "2026-08-15T06:26"
+  },
+  "salbutamol|yontal|sol.p/nebul.x 20 ml|duncan": {
+    "droga": "salbutamol",
+    "marca": "YONTAL",
+    "presentacion": "sol.p/nebul.x 20 ml",
+    "laboratorio": "Duncan",
+    "precio_detectado": 4653.77,
+    "tipo": "bajo_relativo",
+    "motivo": "precio $4,653.77 < 25% mediana $19,929.67 (n=20)",
+    "bloqueado_en": "2026-08-19T09:20"
   }
 }
