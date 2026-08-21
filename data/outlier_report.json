@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-20T18:55:31.446233-03:00",
+  "timestamp": "2026-08-21T11:08:26.753334-03:00",
   "total_registros": 13127,
   "total_outliers": 90,
   "outliers": [
@@ -156,7 +156,7 @@
       "razones": [
         "ppu $2,173.60 << mediana_grupo $33,690.79"
       ],
-      "mediana_droga": 134484.76,
+      "mediana_droga": 135672.27,
       "n_droga": 26
     },
     {
@@ -255,12 +255,12 @@
       "marca": "ACANTEX",
       "presentacion": "500 mg IM f.a.x 1",
       "laboratorio": "Siegfried",
-      "precio": 13841.36,
+      "precio": 14088.43,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $27.68 << mediana_grupo $18,762.29"
+        "ppu $28.18 << mediana_grupo $19,097.20"
       ],
-      "mediana_droga": 17697.93,
+      "mediana_droga": 17866.75,
       "n_droga": 10
     },
     {
@@ -411,10 +411,10 @@
       "marca": "HEXALER",
       "presentacion": "jbe.x 60 ml",
       "laboratorio": "Siegfried",
-      "precio": 12926.86,
+      "precio": 13157.61,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $215.45 << mediana_grupo $1,512.84"
+        "ppu $219.29 << mediana_grupo $1,539.85"
       ],
       "mediana_droga": 12384.56,
       "n_droga": 24
@@ -535,6 +535,19 @@
       ],
       "mediana_droga": 12662.73,
       "n_droga": 22
+    },
+    {
+      "droga": "ergotamina, cafeína, asoc.",
+      "marca": "MIGRA DIOXADOL",
+      "presentacion": "comp.x 10",
+      "laboratorio": "Bagó",
+      "precio": 5536.86,
+      "precio_outlier_tipo": "bajo_relativo",
+      "razones": [
+        "precio $5,536.86 < 25% mediana $22,349.72 (n=14)"
+      ],
+      "mediana_droga": 22349.72,
+      "n_droga": 14
     },
     {
       "droga": "eritropoyetina recombinante humana",
@@ -819,7 +832,7 @@
       "razones": [
         "ppu $1,342.09 << mediana_grupo $8,164.56"
       ],
-      "mediana_droga": 42632.93,
+      "mediana_droga": 42670.29,
       "n_droga": 50
     },
     {
@@ -912,19 +925,6 @@
       ],
       "mediana_droga": 56392.68,
       "n_droga": 32
-    },
-    {
-      "droga": "prucalopride",
-      "marca": "ERCANOL",
-      "presentacion": "1 mg comp.x 30",
-      "laboratorio": "Casasco",
-      "precio": 48064.55,
-      "precio_outlier_tipo": "bajo_iqr",
-      "razones": [
-        "precio $48,064.55 < fence_low $48,479.84"
-      ],
-      "mediana_droga": 63685.96,
-      "n_droga": 11
     },
     {
       "droga": "rifampicina",
@@ -1040,7 +1040,7 @@
       "razones": [
         "ppu $159.07 << mediana_grupo $893.43"
       ],
-      "mediana_droga": 17283.36,
+      "mediana_droga": 17443.35,
       "n_droga": 20
     },
     {
@@ -1053,7 +1053,7 @@
       "razones": [
         "ppu $167.97 << mediana_grupo $1,418.92"
       ],
-      "mediana_droga": 17283.36,
+      "mediana_droga": 17443.35,
       "n_droga": 20
     },
     {
@@ -1066,7 +1066,7 @@
       "razones": [
         "ppu $105.24 << mediana_grupo $682.29"
       ],
-      "mediana_droga": 17283.36,
+      "mediana_droga": 17443.35,
       "n_droga": 20
     },
     {
