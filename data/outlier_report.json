@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-21T18:51:31.997793-03:00",
+  "timestamp": "2026-08-24T11:20:01.568356-03:00",
   "total_registros": 13127,
   "total_outliers": 90,
   "outliers": [
@@ -115,7 +115,7 @@
       "precio": 26051.35,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $52.10 << mediana_grupo $15,974.22"
+        "ppu $52.10 << mediana_grupo $16,293.18"
       ],
       "mediana_droga": 24128.25,
       "n_droga": 64
@@ -195,7 +195,7 @@
       "razones": [
         "ppu $48.41 << mediana_grupo $892.39"
       ],
-      "mediana_droga": 19936.62,
+      "mediana_droga": 20130.82,
       "n_droga": 68
     },
     {
@@ -210,19 +210,6 @@
       ],
       "mediana_droga": 17044.42,
       "n_droga": 5
-    },
-    {
-      "droga": "benzocaína",
-      "marca": "ORALSONE BENZOCAINA GEL",
-      "presentacion": "gel x 10 g",
-      "laboratorio": "Laboratorio Gra",
-      "precio": 11965.52,
-      "precio_outlier_tipo": "bajo_iqr",
-      "razones": [
-        "precio $11,965.52 < fence_low $12,319.09"
-      ],
-      "mediana_droga": 13380.08,
-      "n_droga": 6
     },
     {
       "droga": "betametasona",
@@ -251,6 +238,19 @@
       "n_droga": 2
     },
     {
+      "droga": "cannabidiol",
+      "marca": "KANBIS",
+      "presentacion": "Sol. oral x 30 ml",
+      "laboratorio": "Elea",
+      "precio": 137156.02,
+      "precio_outlier_tipo": "bajo_relativo",
+      "razones": [
+        "precio $137,156.02 < 25% mediana $550,666.81 (n=4)"
+      ],
+      "mediana_droga": 550666.81,
+      "n_droga": 4
+    },
+    {
       "droga": "ceftriaxona",
       "marca": "ACANTEX",
       "presentacion": "500 mg IM f.a.x 1",
@@ -260,7 +260,7 @@
       "razones": [
         "ppu $28.18 << mediana_grupo $19,097.20"
       ],
-      "mediana_droga": 17866.75,
+      "mediana_droga": 18015.08,
       "n_droga": 10
     },
     {
@@ -268,12 +268,12 @@
       "marca": "CEFUROXIMA RICHET",
       "presentacion": "500 mg comp.x 8",
       "laboratorio": "Richet",
-      "precio": 118840.83,
+      "precio": 124782.87,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $237.68 << mediana_grupo $18,066.06"
+        "ppu $249.57 << mediana_grupo $18,969.36"
       ],
-      "mediana_droga": 118840.83,
+      "mediana_droga": 124782.87,
       "n_droga": 3
     },
     {
@@ -377,7 +377,7 @@
       "razones": [
         "ppu $614.38 << mediana_grupo $7,730.46"
       ],
-      "mediana_droga": 60010.19,
+      "mediana_droga": 61090.37,
       "n_droga": 7
     },
     {
@@ -390,7 +390,7 @@
       "razones": [
         "ppu $213.72 << mediana_grupo $1,419.11"
       ],
-      "mediana_droga": 12384.56,
+      "mediana_droga": 12491.75,
       "n_droga": 24
     },
     {
@@ -403,7 +403,7 @@
       "razones": [
         "ppu $214.32 << mediana_grupo $2,070.20"
       ],
-      "mediana_droga": 12384.56,
+      "mediana_droga": 12491.75,
       "n_droga": 24
     },
     {
@@ -416,7 +416,7 @@
       "razones": [
         "ppu $219.29 << mediana_grupo $1,539.85"
       ],
-      "mediana_droga": 12384.56,
+      "mediana_droga": 12491.75,
       "n_droga": 24
     },
     {
@@ -429,7 +429,7 @@
       "razones": [
         "ppu $179.83 << mediana_grupo $1,289.00"
       ],
-      "mediana_droga": 12384.56,
+      "mediana_droga": 12491.75,
       "n_droga": 24
     },
     {
@@ -455,7 +455,7 @@
       "razones": [
         "ppu $198.16 << mediana_grupo $1,930.29"
       ],
-      "mediana_droga": 15472.42,
+      "mediana_droga": 15797.34,
       "n_droga": 95
     },
     {
@@ -476,10 +476,10 @@
       "marca": "BENADRYL",
       "presentacion": "jbe.x 240 ml",
       "laboratorio": "Elea",
-      "precio": 28938.45,
+      "precio": 29517.22,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $120.58 << mediana_grupo $959.34"
+        "ppu $122.99 << mediana_grupo $959.34"
       ],
       "mediana_droga": 10834.63,
       "n_droga": 17
@@ -489,10 +489,10 @@
       "marca": "DIPIRONA KLONAL",
       "presentacion": "jbe.x 100 ml",
       "laboratorio": "Klonal",
-      "precio": 11842.57,
+      "precio": 12316.27,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $118.43 << mediana_grupo $300,829.46"
+        "ppu $123.16 << mediana_grupo $315,870.34"
       ],
       "mediana_droga": 12662.73,
       "n_droga": 22
@@ -567,12 +567,12 @@
       "marca": "ESMOLOL RICHET",
       "presentacion": "2500 mg a.x 10 ml x 1",
       "laboratorio": "Richet",
-      "precio": 874505.73,
+      "precio": 890246.83,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $349.80 << mediana_grupo $2,190.56"
+        "ppu $356.10 << mediana_grupo $2,229.99"
       ],
-      "mediana_droga": 638819.2,
+      "mediana_droga": 650317.94,
       "n_droga": 2
     },
     {
@@ -580,12 +580,12 @@
       "marca": "HIDROCORTISONA RICHET",
       "presentacion": "500 mg liof.f.a.x 1",
       "laboratorio": "Richet",
-      "precio": 58038.01,
+      "precio": 59082.7,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $116.08 << mediana_grupo $911.15"
+        "ppu $118.17 << mediana_grupo $927.55"
       ],
-      "mediana_droga": 17479.46,
+      "mediana_droga": 17633.01,
       "n_droga": 22
     },
     {
@@ -611,7 +611,7 @@
       "razones": [
         "ppu $10.74 << mediana_grupo $1,199.06"
       ],
-      "mediana_droga": 8427.5,
+      "mediana_droga": 8470.0,
       "n_droga": 148
     },
     {
@@ -624,7 +624,7 @@
       "razones": [
         "ppu $12.12 << mediana_grupo $1,002.13"
       ],
-      "mediana_droga": 8427.5,
+      "mediana_droga": 8470.0,
       "n_droga": 148
     },
     {
@@ -632,12 +632,12 @@
       "marca": "IBUPROFENO KLONAL FORTE",
       "presentacion": "600 mg comp.x 30",
       "laboratorio": "Klonal",
-      "precio": 11916.85,
+      "precio": 12393.53,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $19.86 << mediana_grupo $1,133.14"
+        "ppu $20.66 << mediana_grupo $1,133.54"
       ],
-      "mediana_droga": 8427.5,
+      "mediana_droga": 8470.0,
       "n_droga": 148
     },
     {
@@ -650,7 +650,7 @@
       "razones": [
         "ppu $1,104,628.17 << mediana_grupo $6,075,093.02"
       ],
-      "mediana_droga": 5990452.89,
+      "mediana_droga": 6051278.79,
       "n_droga": 30
     },
     {
@@ -749,12 +749,12 @@
       "marca": "MEROPENEM RICHET",
       "presentacion": "500 mg IV iny.f.a.x 1",
       "laboratorio": "Richet",
-      "precio": 115974.68,
+      "precio": 118062.23,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $231.95 << mediana_grupo $107,367.20"
+        "ppu $236.12 << mediana_grupo $109,299.81"
       ],
-      "mediana_droga": 115974.68,
+      "mediana_droga": 118062.23,
       "n_droga": 7
     },
     {
@@ -832,7 +832,7 @@
       "razones": [
         "ppu $1,342.09 << mediana_grupo $8,164.56"
       ],
-      "mediana_droga": 42670.29,
+      "mediana_droga": 42757.1,
       "n_droga": 50
     },
     {
@@ -866,12 +866,12 @@
       "marca": "DITROPAN",
       "presentacion": "jbe.x 200 ml",
       "laboratorio": "Elea",
-      "precio": 52799.76,
+      "precio": 53855.75,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $264.00 << mediana_grupo $1,374.53"
+        "ppu $269.28 << mediana_grupo $1,402.02"
       ],
-      "mediana_droga": 59009.37,
+      "mediana_droga": 59115.76,
       "n_droga": 16
     },
     {
@@ -884,7 +884,7 @@
       "razones": [
         "precio $6,929,634.85 < fence_low $7,017,354.55"
       ],
-      "mediana_droga": 9438727.01,
+      "mediana_droga": 9536912.6,
       "n_droga": 32
     },
     {
@@ -897,7 +897,7 @@
       "razones": [
         "precio $6,929,634.85 < fence_low $7,017,354.55"
       ],
-      "mediana_droga": 9438727.01,
+      "mediana_droga": 9536912.6,
       "n_droga": 32
     },
     {
@@ -921,7 +921,7 @@
       "precio": 19234.57,
       "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "precio $19,234.57 < fence_low $20,149.12"
+        "precio $19,234.57 < fence_low $20,106.69"
       ],
       "mediana_droga": 56392.68,
       "n_droga": 32
@@ -931,12 +931,12 @@
       "marca": "RIFAMPICINA RICHET",
       "presentacion": "300 mg caps.x 8",
       "laboratorio": "Richet",
-      "precio": 22757.82,
+      "precio": 23167.46,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $75.86 << mediana_grupo $633.50"
+        "ppu $77.22 << mediana_grupo $644.91"
       ],
-      "mediana_droga": 22757.82,
+      "mediana_droga": 23167.46,
       "n_droga": 5
     },
     {
@@ -1105,7 +1105,7 @@
       "razones": [
         "ppu $2,105.06 << mediana_grupo $11,902.45"
       ],
-      "mediana_droga": 85205.14,
+      "mediana_droga": 86015.92,
       "n_droga": 66
     },
     {
@@ -1126,12 +1126,12 @@
       "marca": "VANCOMICINA RICHET",
       "presentacion": "500 mg iny.IV f.a.x 1",
       "laboratorio": "Richet",
-      "precio": 27009.48,
+      "precio": 27495.65,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $54.02 << mediana_grupo $23,089.45"
+        "ppu $54.99 << mediana_grupo $23,505.07"
       ],
-      "mediana_droga": 27009.48,
+      "mediana_droga": 27495.65,
       "n_droga": 7
     },
     {
