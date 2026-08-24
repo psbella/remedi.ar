@@ -136,7 +136,7 @@
 | JSON size | ~3.8 MB |
 | Gzip size | ~345 KB |
 | With PAMI coverage | ~6,400 (48%) |
-| Blacklist entries | 929 |
+| Blacklist entries | 710 |
 | Presentation parser coverage | ~99.5% |
 | Updates | 2x/day (Monday to Friday) |
 | Sanity tests | 28 automated checks post-ETL |
@@ -472,7 +472,7 @@ jobs:
 |---|---|
 | `data/pami.xlsx` | PAMI formulary, downloaded automatically on every run from the [PAMI open-data API](https://datos.pami.org.ar/dataset/medicamentos-para-afiliados) (not versioned in git). Used for: (1) coverage by brand+presentation, (2) recovering missing drug, (3) correcting lab, (4) normalizing the `presentacion` field |
 | `data/droga_fixes.json` | Manual brand→drug corrections for cases not solvable with regex |
-| `data/blacklist.json` | 569 manually excluded records. Keys use the format `droga\|marca\|presentacion\|laboratorio` in lowercase |
+| `data/blacklist.json` | 710 manually excluded records. Keys use the format `droga\|marca\|presentacion\|laboratorio` in lowercase |
 | `data/outlier_report.json` | Detailed outlier report from the last run |
 | `data/presentaciones_debug.csv` | Parser audit: `presentacion_original` vs. parsed fields (`forma`, `dosis`, `unidad`, `cantidad`) |
 | `.debug/medicamentos.pretty.json` | `indent=2` formatted version of the dataset, for local debugging only — **not published** on the site nor versioned in git |
@@ -620,7 +620,7 @@ flowchart LR
     subgraph REF["📋 REFERENCE"]
         H["PAMI Formulary\n(API, runtime download)"]
         I["droga_fixes.json"]
-        J["blacklist.json (569)"]
+        J["blacklist.json (710)"]
     end
 
     subgraph FIVE["🌐 FRONTEND"]
@@ -668,7 +668,7 @@ remediar/
 ├── privacidad.html
 ├── terminos.html
 ├── about.html
-├── admin.html            # internal panel (outliers/blacklist), noindex, GitHub PAT auth
+├── admin-panel.html      # internal panel (outliers/blacklist), noindex, GitHub PAT auth
 ├── mantenimiento.html    # maintenance page, copied to index.html via workflow
 ├── {droga}.html          # 100 generated SEO landing pages (one per drug) — see below
 ├── README.md
@@ -678,7 +678,7 @@ remediar/
 │
 ├── css/
 │   ├── style.css
-│   ├── admin.css
+│   ├── admin-panel.css
 │   └── mantenimiento.css
 │
 ├── img/
@@ -697,6 +697,7 @@ remediar/
 │   ├── uiRenderer.js
 │   ├── utils.js
 │   ├── about.js
+│   ├── admin-panel.js
 │   └── landing.js        # shared by the 100 landing pages
 │
 ├── data/
@@ -714,6 +715,8 @@ remediar/
 │   ├── subir_debug.py
 │   ├── checks/
 │   │   └── a11y-check.mjs   # accessibility check with axe-core, non-blocking
+│   ├── mantenimiento/
+│   │   └── fix_blacklist_encoding.py  # one-off repair for corrupted encoding in blacklist.json
 │   ├── etl/
 │   │   ├── config.py            # shared constants and paths
 │   │   ├── parser.py             # PDF download and parsing into a medication list
@@ -844,6 +847,7 @@ docker run -p 8080:80 remediar
 | `scripts/generar_landings.py` | Generates the 100 static landing pages (one per drug) from `medicamentos.json`, and regenerates `sitemap.xml` with all 100 URLs. See [Landing pages (long-tail SEO)](#landing-pages-long-tail-seo). |
 | `scripts/github_release_helper.py` | Shared functions to create/fetch GitHub releases and upload/replace/verify assets. Used by `snapshot_semanal.py` and `subir_debug.py`, not run directly. |
 | `scripts/checks/a11y-check.mjs` | Accessibility check with axe-core + Puppeteer against the static pages served locally. Doesn't block CI (same policy as Ruff/ESLint in this repo) — warns, doesn't break the build. |
+| `scripts/mantenimiento/fix_blacklist_encoding.py` | One-off repair for entries with corrupted encoding in `blacklist.json`, via cross-reference and git history. Run manually, not part of the automated pipeline. |
 | `tests/test_etl_sanidad.py` | 12 sanity tests over the ETL output: record count, required fields, price ranges, data quality and JSON structure |
 
 ### `scripts/etl/` Package (normalization layers)
@@ -1049,7 +1053,7 @@ flowchart TD
     C5C[Layer 5c: limpiar_dosis_residual_en_marca]
     C6[Layer 6: crosswalk_pami]
     C7[Layer 7: aplicar_droga_fixes]
-    BL[Blacklist 569 entries]
+    BL[Blacklist 710 entries]
     OUT[IQR outlier detection]
     PRES[Presentation parser]
     T[🧪 pytest 28 tests]
@@ -1349,9 +1353,9 @@ A single mobile-first breakpoint at `600px` — there's no separate intermediate
 | `update_prices.yml` | Cron `30 13,21 * * 1-5` + manual | Main ETL: downloads the PDF, generates the JSON, runs tests, commits |
 | `maintenance-on.yml` | Manual | Replaces `index.html` with a maintenance page |
 | `maintenance-off.yml` | Manual | Restores `index.html` from backup |
-| `codeql.yml` | Push/PR to `main` + weekly cron (Monday 06:00 UTC) | Static security analysis (CodeQL) over JS and Python |
-| `accessibility.yml` | Push/PR to `main` touching `index.html`, `about.html`, `css/style.css`, `js/**`, or the check itself + manual | Runs `scripts/checks/a11y-check.mjs` (axe-core + Puppeteer). Doesn't block the build — warns, doesn't break, same policy as Ruff/ESLint |
-| `dependabot.yml` (config, not a workflow) | Weekly | Proposes updates for `requirements.txt` and the actions used in the workflows |
+| `codeql.yml` | Push/PR to `main` + weekly cron (Saturday 01:33 UTC) | Static security analysis (CodeQL) over JS, Python, and the GitHub Actions workflows themselves |
+| `accessibility.yml` | Push/PR to `main` touching any `*.html`, `css/style.css`, `js/**`, or the check itself + weekly cron (Sunday 05:00 UTC) + manual | Runs `scripts/checks/a11y-check.mjs` (axe-core + Puppeteer). Quick mode (`index.html`, `about.html`, `terminos.html`, `privacidad.html`) on push/PR/manual; full mode (all `.html` files) only on the weekly run. `admin-panel.html` is always excluded. Doesn't block the build — warns, doesn't break, same policy as Ruff/ESLint |
+| `dependabot.yml` (config, not a workflow) | Weekly | Proposes updates for `requirements.txt` (pip), the actions used in the workflows (`github-actions`), and `package.json` (`npm` — `axe-core`/`puppeteer`, used only by `a11y-check.mjs`) |
 
 | Parameter | Value |
 |---|---|

@@ -12,8 +12,8 @@
 //     corre en cada push/PR/manual sin sumar minutos de CI.
 //   - Completo (A11Y_FULL=1): TODAS las .html de la raíz, descubiertas
 //     dinámicamente -- pensado para la corrida semanal programada.
-// admin.html queda excluido siempre: panel interno, no público, no forma
-// parte de la superficie que le importa a este chequeo.
+// admin-panel.html queda excluido siempre: panel interno, no público, no
+// forma parte de la superficie que le importa a este chequeo.
 //
 // Uso: node scripts/checks/a11y-check.mjs
 //      A11Y_FULL=1 node scripts/checks/a11y-check.mjs
@@ -29,7 +29,7 @@ const axeSource = require.resolve('axe-core/axe.min.js');
 
 const ROOT = path.resolve(import.meta.dirname, '..', '..');
 const PORT = 4173;
-const EXCLUIDAS = new Set(['admin.html']);
+const EXCLUIDAS = new Set(['admin-panel.html']);
 const PAGINAS_RAPIDAS = ['index.html', 'about.html', 'terminos.html', 'privacidad.html'];
 
 async function listarPaginas() {

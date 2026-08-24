@@ -136,7 +136,7 @@
 | Tamaño JSON | ~3.8 MB |
 | Tamaño gzip | ~345 KB |
 | Con cobertura PAMI | ~6.400 (48%) |
-| Entradas en blacklist | 929 |
+| Entradas en blacklist | 710 |
 | Cobertura parser de presentaciones | ~99.5% |
 | Actualizaciones | 2 veces/día (lunes a viernes) |
 | Tests de sanidad | 28 checks automáticos post-ETL |
@@ -472,7 +472,7 @@ jobs:
 |---|---|
 | `data/pami.xlsx` | Vademécum PAMI, descargado automáticamente en cada corrida desde la [API de datos abiertos de PAMI](https://datos.pami.org.ar/dataset/medicamentos-para-afiliados) (no se versiona en git). Usado para: (1) cobertura por marca+presentacion, (2) recuperar droga faltante, (3) corregir laboratorio, (4) normalizar el campo `presentacion` |
 | `data/droga_fixes.json` | Correcciones manuales marca→droga para casos no resolubles con regex |
-| `data/blacklist.json` | 569 registros excluidos manualmente. Las claves usan el formato `droga\|marca\|presentacion\|laboratorio` en minúsculas |
+| `data/blacklist.json` | 710 registros excluidos manualmente. Las claves usan el formato `droga\|marca\|presentacion\|laboratorio` en minúsculas |
 | `data/outlier_report.json` | Reporte detallado de outliers de la última corrida |
 | `data/presentaciones_debug.csv` | Auditoría del parser: `presentacion_original` vs. campos parseados (`forma`, `dosis`, `unidad`, `cantidad`) |
 | `.debug/medicamentos.pretty.json` | Versión formateada con `indent=2` del dataset, solo para debug local — **no se publica** en el sitio ni se versiona en git |
@@ -619,7 +619,7 @@ flowchart LR
     subgraph REF["📋 REFERENCIA"]
         H["Vademécum PAMI\n(API, descarga en runtime)"]
         I["droga_fixes.json"]
-        J["blacklist.json (569)"]
+        J["blacklist.json (710)"]
     end
 
     subgraph FIVE["🌐 FRONTEND"]
@@ -667,7 +667,7 @@ remediar/
 ├── privacidad.html
 ├── terminos.html
 ├── about.html
-├── admin.html            # panel interno (outliers/lista negra), noindex, auth por GitHub PAT
+├── admin-panel.html      # panel interno (outliers/lista negra), noindex, auth por GitHub PAT
 ├── mantenimiento.html    # pagina de mantenimiento, se copia a index.html vía workflow
 ├── {droga}.html          # 100 landing pages SEO (una por droga), generadas — ver más abajo
 ├── README.md
@@ -677,7 +677,7 @@ remediar/
 │
 ├── css/
 │   ├── style.css
-│   ├── admin.css
+│   ├── admin-panel.css
 │   └── mantenimiento.css
 │
 ├── img/
@@ -696,6 +696,7 @@ remediar/
 │   ├── uiRenderer.js
 │   ├── utils.js
 │   ├── about.js
+│   ├── admin-panel.js
 │   └── landing.js        # compartido por las 100 landing pages
 │
 ├── data/
@@ -713,6 +714,8 @@ remediar/
 │   ├── subir_debug.py
 │   ├── checks/
 │   │   └── a11y-check.mjs   # chequeo de accesibilidad con axe-core, no bloqueante
+│   ├── mantenimiento/
+│   │   └── fix_blacklist_encoding.py  # reparación puntual de encoding en blacklist.json
 │   ├── etl/
 │   │   ├── config.py            # constantes y paths compartidos
 │   │   ├── parser.py             # descarga del PDF y parseo a lista de medicamentos
@@ -844,6 +847,7 @@ docker run -p 8080:80 remediar
 | `scripts/generar_landings.py` | Genera las 100 landing pages estáticas (una por droga) a partir de `medicamentos.json`, y regenera `sitemap.xml` con las 100 URLs. Ver [Landing pages (long-tail SEO)](#landing-pages-long-tail-seo). |
 | `scripts/github_release_helper.py` | Funciones compartidas para crear/obtener releases de GitHub y subir/reemplazar/verificar assets. Usado por `snapshot_semanal.py` y `subir_debug.py`, no se ejecuta directamente. |
 | `scripts/checks/a11y-check.mjs` | Chequeo de accesibilidad con axe-core + Puppeteer contra las páginas estáticas servidas localmente. No bloquea el CI (mismo criterio que Ruff/ESLint en este repo) — avisa, no rompe el build. |
+| `scripts/mantenimiento/fix_blacklist_encoding.py` | Reparación puntual de entradas con encoding corrupto en `blacklist.json`, vía cross-reference e historial de git. Ejecución manual, no forma parte del pipeline automático. |
 | `tests/test_etl_sanidad.py` | 12 tests de sanidad sobre el output del ETL: cantidad de registros, campos obligatorios, rangos de precios, calidad de datos y estructura del JSON |
 
 ### Paquete `scripts/etl/` (capas de normalización)
@@ -1049,7 +1053,7 @@ flowchart TD
     C5C[Capa 5c: limpiar_dosis_residual_en_marca]
     C6[Capa 6: crosswalk_pami]
     C7[Capa 7: aplicar_droga_fixes]
-    BL[Blacklist 569 entradas]
+    BL[Blacklist 710 entradas]
     OUT[Detección de outliers IQR]
     PRES[Parser de presentaciones]
     T[🧪 pytest 28 tests]
@@ -1350,7 +1354,7 @@ Un único breakpoint mobile-first en `600px` — no hay un nivel intermedio de t
 | `maintenance-on.yml` | Manual | Reemplaza `index.html` con página de mantenimiento |
 | `maintenance-off.yml` | Manual | Restaura `index.html` desde backup |
 | `codeql.yml` | Push/PR a `main` + cron semanal (sábado 01:33 UTC) | Análisis estático de seguridad (CodeQL) sobre JS, Python y los propios workflows de GitHub Actions |
-| `accessibility.yml` | Push/PR a `main` que toque cualquier `*.html`, `css/style.css`, `js/**` o el propio check + cron semanal (domingo 05:00 UTC) + manual | Corre `scripts/checks/a11y-check.mjs` (axe-core + Puppeteer). Modo rápido (`index.html`, `about.html`, `terminos.html`, `privacidad.html`) en push/PR/manual; modo completo (todas las .html) solo en la corrida semanal. `admin.html` queda excluido siempre. No bloquea el build — avisa, no rompe, mismo criterio que Ruff/ESLint |
+| `accessibility.yml` | Push/PR a `main` que toque cualquier `*.html`, `css/style.css`, `js/**` o el propio check + cron semanal (domingo 05:00 UTC) + manual | Corre `scripts/checks/a11y-check.mjs` (axe-core + Puppeteer). Modo rápido (`index.html`, `about.html`, `terminos.html`, `privacidad.html`) en push/PR/manual; modo completo (todas las .html) solo en la corrida semanal. `admin-panel.html` queda excluido siempre. No bloquea el build — avisa, no rompe, mismo criterio que Ruff/ESLint |
 | `dependabot.yml` (config, no workflow) | Semanal | Propone actualizaciones de `requirements.txt` (pip), de las actions usadas en los workflows (`github-actions`) y de `package.json` (`npm` — `axe-core`/`puppeteer`, usados solo por `a11y-check.mjs`) |
 
 | Parámetro | Valor |
@@ -1489,3 +1493,4 @@ Datos proporcionados por [SIAFAR / COFA](https://siafar.com/precios/pdf/). Cober
 <p align="center">
   <strong>Hecho con ❤️ para que los medicamentos sean más accesibles en Argentina.</strong>
 </p>
+
