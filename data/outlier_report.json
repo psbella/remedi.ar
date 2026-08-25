@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-24T18:55:41.006312-03:00",
+  "timestamp": "2026-08-25T11:22:19.354878-03:00",
   "total_registros": 13127,
   "total_outliers": 90,
   "outliers": [
@@ -13,7 +13,7 @@
       "razones": [
         "ppu $140.58 << mediana_grupo $854.30"
       ],
-      "mediana_droga": 21844.0,
+      "mediana_droga": 22303.0,
       "n_droga": 35
     },
     {
@@ -26,7 +26,7 @@
       "razones": [
         "ppu $48.77 << mediana_grupo $854.30"
       ],
-      "mediana_droga": 21844.0,
+      "mediana_droga": 22303.0,
       "n_droga": 35
     },
     {
@@ -39,7 +39,7 @@
       "razones": [
         "ppu $83.90 << mediana_grupo $854.30"
       ],
-      "mediana_droga": 21844.0,
+      "mediana_droga": 22303.0,
       "n_droga": 35
     },
     {
@@ -102,9 +102,9 @@
       "precio": 34433.0,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $245.95 << mediana_grupo $1,481.08"
+        "ppu $245.95 << mediana_grupo $1,509.58"
       ],
-      "mediana_droga": 36230.0,
+      "mediana_droga": 36629.0,
       "n_droga": 2
     },
     {
@@ -177,10 +177,10 @@
       "marca": "IRAZEM",
       "presentacion": "Sol.oral x 150 ml",
       "laboratorio": "Roemmers",
-      "precio": 46933.0,
+      "precio": 47919.0,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $312.89 << mediana_grupo $3,223.00"
+        "ppu $319.46 << mediana_grupo $3,281.40"
       ],
       "mediana_droga": 32832.07,
       "n_droga": 41
@@ -297,7 +297,7 @@
       "precio": 13155.0,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $146.17 << mediana_grupo $926.07"
+        "ppu $146.17 << mediana_grupo $945.53"
       ],
       "mediana_droga": 14959.0,
       "n_droga": 7
@@ -390,7 +390,7 @@
       "razones": [
         "ppu $213.72 << mediana_grupo $1,419.11"
       ],
-      "mediana_droga": 12491.75,
+      "mediana_droga": 12623.48,
       "n_droga": 24
     },
     {
@@ -398,12 +398,12 @@
       "marca": "FRENALER",
       "presentacion": "jbe.x 60 ml",
       "laboratorio": "Roemmers",
-      "precio": 12859.0,
+      "precio": 13129.0,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $214.32 << mediana_grupo $2,070.20"
+        "ppu $218.82 << mediana_grupo $2,113.60"
       ],
-      "mediana_droga": 12491.75,
+      "mediana_droga": 12623.48,
       "n_droga": 24
     },
     {
@@ -416,7 +416,7 @@
       "razones": [
         "ppu $219.29 << mediana_grupo $1,539.85"
       ],
-      "mediana_droga": 12491.75,
+      "mediana_droga": 12623.48,
       "n_droga": 24
     },
     {
@@ -429,7 +429,7 @@
       "razones": [
         "ppu $179.83 << mediana_grupo $1,289.00"
       ],
-      "mediana_droga": 12491.75,
+      "mediana_droga": 12623.48,
       "n_droga": 24
     },
     {
@@ -442,7 +442,7 @@
       "razones": [
         "ppu $199.50 << mediana_grupo $1,211.75"
       ],
-      "mediana_droga": 13024.34,
+      "mediana_droga": 13151.34,
       "n_droga": 12
     },
     {
@@ -494,7 +494,7 @@
       "razones": [
         "ppu $123.16 << mediana_grupo $315,870.34"
       ],
-      "mediana_droga": 12662.73,
+      "mediana_droga": 12787.73,
       "n_droga": 22
     },
     {
@@ -507,7 +507,7 @@
       "razones": [
         "ppu $151.47 << mediana_grupo $958.20"
       ],
-      "mediana_droga": 12662.73,
+      "mediana_droga": 12787.73,
       "n_droga": 22
     },
     {
@@ -520,7 +520,7 @@
       "razones": [
         "ppu $95.94 << mediana_grupo $691.04"
       ],
-      "mediana_droga": 12662.73,
+      "mediana_droga": 12787.73,
       "n_droga": 22
     },
     {
@@ -533,7 +533,7 @@
       "razones": [
         "ppu $113.22 << mediana_grupo $958.20"
       ],
-      "mediana_droga": 12662.73,
+      "mediana_droga": 12787.73,
       "n_droga": 22
     },
     {
@@ -840,12 +840,12 @@
       "marca": "NIXORAN",
       "presentacion": "500 mg comp.rec.x 6",
       "laboratorio": "Roemmers",
-      "precio": 13821.0,
+      "precio": 14001.0,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $27.64 << mediana_grupo $3,469.07"
+        "ppu $28.00 << mediana_grupo $3,514.25"
       ],
-      "mediana_droga": 13821.0,
+      "mediana_droga": 14001.0,
       "n_droga": 2
     },
     {
@@ -1168,9 +1168,9 @@
       "precio": 13471.14,
       "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "precio $13,471.14 < fence_low $14,534.14"
+        "precio $13,471.14 < fence_low $15,111.35"
       ],
-      "mediana_droga": 15198.78,
+      "mediana_droga": 15215.12,
       "n_droga": 6
     }
   ]
