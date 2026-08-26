@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-25T18:54:55.698776-03:00",
+  "timestamp": "2026-08-26T11:20:17.866031-03:00",
   "total_registros": 13127,
   "total_outliers": 90,
   "outliers": [
@@ -86,10 +86,10 @@
       "marca": "TRIFAMOX DUO",
       "presentacion": "875 mg comp.x 14",
       "laboratorio": "Bagó",
-      "precio": 14850.04,
+      "precio": 15295.54,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $16.97 << mediana_grupo $122.38"
+        "ppu $17.48 << mediana_grupo $122.63"
       ],
       "mediana_droga": 11588.0,
       "n_droga": 115
@@ -138,12 +138,12 @@
       "marca": "TRIFAMOX IBL DUO",
       "presentacion": "875 mg comp.x 14",
       "laboratorio": "Bagó",
-      "precio": 31432.79,
+      "precio": 32375.77,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $35.92 << mediana_grupo $956.27"
+        "ppu $37.00 << mediana_grupo $968.77"
       ],
-      "mediana_droga": 32958.93,
+      "mediana_droga": 33947.7,
       "n_droga": 4
     },
     {
@@ -156,7 +156,7 @@
       "razones": [
         "ppu $2,173.60 << mediana_grupo $33,690.79"
       ],
-      "mediana_droga": 135672.27,
+      "mediana_droga": 136351.84,
       "n_droga": 26
     },
     {
@@ -338,7 +338,7 @@
       "razones": [
         "ppu $758.64 << mediana_grupo $10,880.55"
       ],
-      "mediana_droga": 15648.99,
+      "mediana_droga": 15767.19,
       "n_droga": 116
     },
     {
@@ -351,7 +351,7 @@
       "razones": [
         "ppu $771.14 << mediana_grupo $4,851.25"
       ],
-      "mediana_droga": 15648.99,
+      "mediana_droga": 15767.19,
       "n_droga": 116
     },
     {
@@ -359,12 +359,12 @@
       "marca": "NEURYL",
       "presentacion": "gts.x 20 ml",
       "laboratorio": "Bagó",
-      "precio": 15513.4,
+      "precio": 15777.13,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $775.67 << mediana_grupo $11,193.96"
+        "ppu $788.86 << mediana_grupo $11,193.96"
       ],
-      "mediana_droga": 15648.99,
+      "mediana_droga": 15767.19,
       "n_droga": 116
     },
     {
@@ -450,10 +450,10 @@
       "marca": "DIOXAFLEX",
       "presentacion": "75 mg comp.x 15",
       "laboratorio": "Bagó",
-      "precio": 14861.75,
+      "precio": 15084.68,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $198.16 << mediana_grupo $1,930.29"
+        "ppu $201.13 << mediana_grupo $1,932.44"
       ],
       "mediana_droga": 15797.34,
       "n_droga": 95
@@ -468,7 +468,7 @@
       "razones": [
         "ppu $1,503.20 << mediana_grupo $9,276.70"
       ],
-      "mediana_droga": 32981.02,
+      "mediana_droga": 33289.35,
       "n_droga": 40
     },
     {
@@ -832,7 +832,7 @@
       "razones": [
         "ppu $1,342.09 << mediana_grupo $8,164.56"
       ],
-      "mediana_droga": 42757.1,
+      "mediana_droga": 42963.93,
       "n_droga": 50
     },
     {
@@ -921,7 +921,7 @@
       "precio": 19234.57,
       "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "precio $19,234.57 < fence_low $20,106.69"
+        "precio $19,234.57 < fence_low $20,490.47"
       ],
       "mediana_droga": 56392.68,
       "n_droga": 32
