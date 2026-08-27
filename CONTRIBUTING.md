@@ -17,7 +17,14 @@ git push origin feature/nueva-funcion
 # abrir Pull Request (se completa solo con el template del repo)
 ```
 
-Antes de abrir el PR: si tocaste el ETL, corré `pytest tests/` y confirmá que pasen los 28 tests (12 de sanidad + 1 de schema + 15 unitarios de scripts/etl/); si tocaste JS/CSS/HTML, probá el cambio en el navegador, no alcanza con leer el diff. También conviene correr `ruff check .` (Python) y `eslint js/` (JS) — todavía no bloquean el CI, pero sirven para agarrar errores antes de mergear.
+Setup local (una vez):
+
+```bash
+pip install -r requirements.txt ruff
+npm install --save-dev eslint
+```
+
+Antes de abrir el PR: si tocaste el ETL, corré `pytest tests/` y confirmá que pasen los 31 tests (12 de sanidad + 1 de schema + 18 unitarios de scripts/etl/); si tocaste JS/CSS/HTML, probá el cambio en el navegador, no alcanza con leer el diff. También conviene correr `ruff check .` (Python) y `eslint js/` (JS) — todavía no bloquean el CI, pero sirven para agarrar errores antes de mergear.
 
 ## Convenciones de commits
 
@@ -27,8 +34,11 @@ Antes de abrir el PR: si tocaste el ETL, corré `pytest tests/` y confirmá que 
 | `fix` | Corrección de bug |
 | `docs` | Documentación |
 | `perf` | Performance |
+| `refactor` | Reestructuración sin cambio de comportamiento |
 | `chore` | Mantenimiento / limpieza |
 | `security` | Cambios de seguridad |
+
+Los commits con prefijo `admin:` en el historial no son parte de esta convención: los genera automáticamente el panel admin al bloquear outliers, no un contribuidor humano.
 
 ## Sobre la rama `main`
 
