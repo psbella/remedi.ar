@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-08-26T22:00:25.416255-03:00",
+  "timestamp": "2026-08-27T20:02:35.657624-03:00",
   "total_registros": 13127,
-  "total_outliers": 90,
+  "total_outliers": 92,
   "outliers": [
     {
       "droga": "aciclovir",
@@ -78,7 +78,7 @@
       "razones": [
         "ppu $13.02 << mediana_grupo $169.00"
       ],
-      "mediana_droga": 11588.0,
+      "mediana_droga": 11600.0,
       "n_droga": 115
     },
     {
@@ -91,7 +91,7 @@
       "razones": [
         "ppu $17.48 << mediana_grupo $122.63"
       ],
-      "mediana_droga": 11588.0,
+      "mediana_droga": 11600.0,
       "n_droga": 115
     },
     {
@@ -485,6 +485,19 @@
       "n_droga": 17
     },
     {
+      "droga": "dimetil fumarato",
+      "marca": "LIXERAL",
+      "presentacion": "120 mg cáps.x 14",
+      "laboratorio": "Casasco",
+      "precio": 1737609.99,
+      "precio_outlier_tipo": "bajo_relativo",
+      "razones": [
+        "precio $1,737,609.99 < 25% mediana $6,953,214.25 (n=11)"
+      ],
+      "mediana_droga": 6953214.25,
+      "n_droga": 11
+    },
+    {
       "droga": "dipirona",
       "marca": "DIPIRONA KLONAL",
       "presentacion": "jbe.x 100 ml",
@@ -661,7 +674,7 @@
       "precio": 182648.12,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $2,609.26 << mediana_grupo $43,608.79"
+        "ppu $2,609.26 << mediana_grupo $44,524.58"
       ],
       "mediana_droga": 196776.58,
       "n_droga": 17
@@ -993,6 +1006,19 @@
     },
     {
       "droga": "sildenafil",
+      "marca": "BIFORT",
+      "presentacion": "25 mg comp.rec.x 2",
+      "laboratorio": "Finadiet",
+      "precio": 4516.36,
+      "precio_outlier_tipo": "bajo_relativo",
+      "razones": [
+        "precio $4,516.36 < 25% mediana $18,223.86 (n=85)"
+      ],
+      "mediana_droga": 18223.86,
+      "n_droga": 85
+    },
+    {
+      "droga": "sildenafil",
       "marca": "VIAGRA",
       "presentacion": "50 mg comp.x 2",
       "laboratorio": "Aspen Pharma",
@@ -1001,7 +1027,7 @@
       "razones": [
         "ppu $360.03 << mediana_grupo $2,136.73"
       ],
-      "mediana_droga": 18001.46,
+      "mediana_droga": 18223.86,
       "n_droga": 85
     },
     {
