@@ -7,16 +7,16 @@ usuario) que procesa datos públicos de precios de medicamentos. No maneja datos
 personales de los visitantes del sitio más allá de analítica anónima (Google Analytics).
 
 El único componente con superficie de ataque no trivial es el panel de administración
-(`admin.html`), de uso exclusivo del mantenedor del proyecto. `admin.html` vive
-commiteado en `main` de forma permanente. El modelo anterior (subirlo manualmente al
+(`admin-panel.html`), de uso exclusivo del mantenedor del proyecto. `admin-panel.html`
+vive commiteado en `main` de forma permanente. El modelo anterior (subirlo manualmente al
 hosting solo cuando se necesitaba usarlo y retirarlo después — ver commit `5af65b2`,
 "security: saca admin.html del repo público") quedó descartado: la mitigación real no
 es ocultar el archivo del repo público, sino dos cosas — no está indexado (`noindex,
 nofollow`) y las acciones que expone requieren un GitHub Personal Access Token que el
 mantenedor ingresa manualmente y que se guarda solo en memoria del navegador (nunca en
-el repo ni en el archivo servido). Quien acceda a `admin.html` sin ese token ve el panel
-pero no puede ejecutar ninguna acción contra la API de GitHub. La descripción de riesgo
-de este documento sigue aplicando igual mientras ese archivo exista.
+el repo ni en el archivo servido). Quien acceda a `admin-panel.html` sin ese token ve el
+panel pero no puede ejecutar ninguna acción contra la API de GitHub. La descripción de
+riesgo de este documento sigue aplicando igual mientras ese archivo exista.
 
 ## Versiones soportadas
 
@@ -51,9 +51,10 @@ Incluí, en la medida de lo posible:
 
 - El dataset de `data/medicamentos.json` es intencionalmente público y descargable
   (CORS abierto) — no reportar esto como una "exposición de datos".
-- `admin.html` no está indexado (`noindex, nofollow`) mediante seguridad por oscuridad,
-  no por control de acceso a nivel de servidor; esta limitación es conocida y está
-  documentada como riesgo aceptado por el mantenedor.
+- `admin-panel.html` no aparece en buscadores (`noindex, nofollow`), pero esto no es
+  una medida de seguridad real: el código del panel es público en este mismo
+  repositorio. La única barrera de acceso es el token, que se pide en cada sesión y
+  nunca se persiste.
 
 ## Alcance fuera de este repositorio
 
