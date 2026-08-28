@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-27T20:02:35.657624-03:00",
+  "timestamp": "2026-08-28T20:10:51.119666-03:00",
   "total_registros": 13127,
   "total_outliers": 92,
   "outliers": [
@@ -934,7 +934,7 @@
       "precio": 19234.57,
       "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "precio $19,234.57 < fence_low $20,490.47"
+        "precio $19,234.57 < fence_low $19,511.38"
       ],
       "mediana_droga": 56392.68,
       "n_droga": 32
@@ -1165,12 +1165,12 @@
       "marca": "VENCLEXTA",
       "presentacion": "100 mg comp.x 120",
       "laboratorio": "Abbvie",
-      "precio": 35314126.56,
+      "precio": 36903262.25,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $353,141.27 << mediana_grupo $3,987,459.07"
+        "ppu $369,032.62 << mediana_grupo $4,166,894.73"
       ],
-      "mediana_droga": 21467951.71,
+      "mediana_droga": 22434009.54,
       "n_droga": 2
     },
     {
