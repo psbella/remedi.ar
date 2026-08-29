@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-08-28T20:10:51.119666-03:00",
+  "timestamp": "2026-08-29T18:22:39.857337-03:00",
   "total_registros": 13127,
-  "total_outliers": 92,
+  "total_outliers": 95,
   "outliers": [
     {
       "droga": "aciclovir",
@@ -78,7 +78,7 @@
       "razones": [
         "ppu $13.02 << mediana_grupo $169.00"
       ],
-      "mediana_droga": 11600.0,
+      "mediana_droga": 11626.22,
       "n_droga": 115
     },
     {
@@ -91,7 +91,7 @@
       "razones": [
         "ppu $17.48 << mediana_grupo $122.63"
       ],
-      "mediana_droga": 11600.0,
+      "mediana_droga": 11626.22,
       "n_droga": 115
     },
     {
@@ -125,10 +125,10 @@
       "marca": "DARZITIL PLUS",
       "presentacion": "susp.x 90 ml",
       "laboratorio": "Fabra",
-      "precio": 18015.0,
+      "precio": 18393.0,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $200.17 << mediana_grupo $1,157.89"
+        "ppu $204.37 << mediana_grupo $1,182.20"
       ],
       "mediana_droga": 24128.25,
       "n_droga": 64
@@ -148,13 +148,26 @@
     },
     {
       "droga": "apixaban",
+      "marca": "PIXATEMIS 5",
+      "presentacion": "5 mg comp.x 60",
+      "laboratorio": "Temis-Lostaló",
+      "precio": 114122.05,
+      "precio_outlier_tipo": "bajo_iqr",
+      "razones": [
+        "precio $114,122.05 < fence_low $115,185.13"
+      ],
+      "mediana_droga": 136351.84,
+      "n_droga": 26
+    },
+    {
+      "droga": "apixaban",
       "marca": "CIARAN",
       "presentacion": "5mg comp.x 60",
       "laboratorio": "Montpellier",
-      "precio": 130415.97,
+      "precio": 133024.3,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $2,173.60 << mediana_grupo $33,690.79"
+        "ppu $2,217.07 << mediana_grupo $34,364.61"
       ],
       "mediana_droga": 136351.84,
       "n_droga": 26
@@ -190,10 +203,10 @@
       "marca": "TREXBIOTIC",
       "presentacion": "500 mg comp.rec.x 6",
       "laboratorio": "Casasco",
-      "precio": 24207.03,
+      "precio": 24715.38,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $48.41 << mediana_grupo $892.39"
+        "ppu $49.43 << mediana_grupo $911.13"
       ],
       "mediana_droga": 20130.82,
       "n_droga": 68
@@ -203,12 +216,12 @@
       "marca": "ERNEX",
       "presentacion": "liq.x 120 ml",
       "laboratorio": "Casasco",
-      "precio": 17044.42,
+      "precio": 17402.36,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $142.04 << mediana_grupo $935.25"
+        "ppu $145.02 << mediana_grupo $954.89"
       ],
-      "mediana_droga": 17044.42,
+      "mediana_droga": 17402.36,
       "n_droga": 5
     },
     {
@@ -216,10 +229,10 @@
       "marca": "CORTEROID",
       "presentacion": "cr.x 30 g",
       "laboratorio": "Montpellier",
-      "precio": 12465.88,
+      "precio": 12777.53,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $415.53 << mediana_grupo $7,659.59"
+        "ppu $425.92 << mediana_grupo $7,812.77"
       ],
       "mediana_droga": 9662.01,
       "n_droga": 38
@@ -312,7 +325,7 @@
       "razones": [
         "ppu $35.52 << mediana_grupo $1,229.12"
       ],
-      "mediana_droga": 19380.5,
+      "mediana_droga": 19419.53,
       "n_droga": 46
     },
     {
@@ -329,17 +342,17 @@
       "n_droga": 5
     },
     {
-      "droga": "clonazepam",
-      "marca": "QUAZEMIC",
-      "presentacion": "gts.x 20 ml",
-      "laboratorio": "Casasco",
-      "precio": 15172.79,
-      "precio_outlier_tipo": "inconsistencia_escala",
+      "droga": "clindamicina, ketoconazol",
+      "marca": "MACRIL DUO",
+      "presentacion": "cáps.bl.vag.x 7",
+      "laboratorio": "Andrómaco",
+      "precio": 24099.84,
+      "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "ppu $758.64 << mediana_grupo $10,880.55"
+        "precio $24,099.84 < fence_low $24,232.56"
       ],
-      "mediana_droga": 15767.19,
-      "n_droga": 116
+      "mediana_droga": 26758.0,
+      "n_droga": 8
     },
     {
       "droga": "clonazepam",
@@ -351,7 +364,20 @@
       "razones": [
         "ppu $771.14 << mediana_grupo $4,851.25"
       ],
-      "mediana_droga": 15767.19,
+      "mediana_droga": 15817.77,
+      "n_droga": 116
+    },
+    {
+      "droga": "clonazepam",
+      "marca": "QUAZEMIC",
+      "presentacion": "gts.x 20 ml",
+      "laboratorio": "Casasco",
+      "precio": 15627.98,
+      "precio_outlier_tipo": "inconsistencia_escala",
+      "razones": [
+        "ppu $781.40 << mediana_grupo $11,206.97"
+      ],
+      "mediana_droga": 15817.77,
       "n_droga": 116
     },
     {
@@ -364,7 +390,7 @@
       "razones": [
         "ppu $788.86 << mediana_grupo $11,193.96"
       ],
-      "mediana_droga": 15767.19,
+      "mediana_droga": 15817.77,
       "n_droga": 116
     },
     {
@@ -485,19 +511,6 @@
       "n_droga": 17
     },
     {
-      "droga": "dimetil fumarato",
-      "marca": "LIXERAL",
-      "presentacion": "120 mg cáps.x 14",
-      "laboratorio": "Casasco",
-      "precio": 1737609.99,
-      "precio_outlier_tipo": "bajo_relativo",
-      "razones": [
-        "precio $1,737,609.99 < 25% mediana $6,953,214.25 (n=11)"
-      ],
-      "mediana_droga": 6953214.25,
-      "n_droga": 11
-    },
-    {
       "droga": "dipirona",
       "marca": "DIPIRONA KLONAL",
       "presentacion": "jbe.x 100 ml",
@@ -507,7 +520,7 @@
       "razones": [
         "ppu $123.16 << mediana_grupo $315,870.34"
       ],
-      "mediana_droga": 12787.73,
+      "mediana_droga": 12916.98,
       "n_droga": 22
     },
     {
@@ -515,12 +528,12 @@
       "marca": "NOVALGINA",
       "presentacion": "jbe.x 100 ml",
       "laboratorio": "Opella Healthca",
-      "precio": 15146.69,
+      "precio": 15464.77,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $151.47 << mediana_grupo $958.20"
+        "ppu $154.65 << mediana_grupo $978.32"
       ],
-      "mediana_droga": 12787.73,
+      "mediana_droga": 12916.98,
       "n_droga": 22
     },
     {
@@ -533,7 +546,7 @@
       "razones": [
         "ppu $95.94 << mediana_grupo $691.04"
       ],
-      "mediana_droga": 12787.73,
+      "mediana_droga": 12916.98,
       "n_droga": 22
     },
     {
@@ -541,12 +554,12 @@
       "marca": "NOVALGINA",
       "presentacion": "jbe.x 200 ml",
       "laboratorio": "Opella Healthca",
-      "precio": 22644.43,
+      "precio": 23119.96,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $113.22 << mediana_grupo $958.20"
+        "ppu $115.60 << mediana_grupo $978.32"
       ],
-      "mediana_droga": 12787.73,
+      "mediana_droga": 12916.98,
       "n_droga": 22
     },
     {
@@ -557,9 +570,9 @@
       "precio": 5536.86,
       "precio_outlier_tipo": "bajo_relativo",
       "razones": [
-        "precio $5,536.86 < 25% mediana $22,349.72 (n=14)"
+        "precio $5,536.86 < 25% mediana $22,549.04 (n=14)"
       ],
-      "mediana_droga": 22349.72,
+      "mediana_droga": 22549.04,
       "n_droga": 14
     },
     {
@@ -606,12 +619,12 @@
       "marca": "BUSCAPINA",
       "presentacion": "grag.x 20",
       "laboratorio": "Opella Healthca",
-      "precio": 12500.0,
+      "precio": 12900.0,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $625.00 << mediana_grupo $3,679.17"
+        "ppu $645.00 << mediana_grupo $3,789.17"
       ],
-      "mediana_droga": 13438.34,
+      "mediana_droga": 13900.0,
       "n_droga": 5
     },
     {
@@ -676,7 +689,7 @@
       "razones": [
         "ppu $2,609.26 << mediana_grupo $44,524.58"
       ],
-      "mediana_droga": 196776.58,
+      "mediana_droga": 200908.88,
       "n_droga": 17
     },
     {
@@ -706,6 +719,19 @@
       "n_droga": 9
     },
     {
+      "droga": "latanoprost, timolol",
+      "marca": "LATIMODORF",
+      "presentacion": "gts.oft.x 2.5 ml",
+      "laboratorio": "PharmaDorf",
+      "precio": 34571.4,
+      "precio_outlier_tipo": "bajo_iqr",
+      "razones": [
+        "precio $34,571.40 < fence_low $35,742.65"
+      ],
+      "mediana_droga": 39428.94,
+      "n_droga": 6
+    },
+    {
       "droga": "lidocaína",
       "marca": "LIGNOCAINA GRAY",
       "presentacion": "2% f.a.x 20 ml",
@@ -723,12 +749,12 @@
       "marca": "ALERPRIV",
       "presentacion": "jbe.x 60 ml",
       "laboratorio": "Montpellier",
-      "precio": 7766.56,
+      "precio": 7921.88,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $129.44 << mediana_grupo $809.85"
+        "ppu $132.03 << mediana_grupo $826.05"
       ],
-      "mediana_droga": 7836.03,
+      "mediana_droga": 7913.69,
       "n_droga": 38
     },
     {
@@ -736,12 +762,12 @@
       "marca": "HISTAMINO CORTEROID L",
       "presentacion": "jbe.x 60 ml",
       "laboratorio": "Montpellier",
-      "precio": 11252.42,
+      "precio": 11477.47,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $187.54 << mediana_grupo $1,073.37"
+        "ppu $191.29 << mediana_grupo $1,094.84"
       ],
-      "mediana_droga": 11261.81,
+      "mediana_droga": 11470.15,
       "n_droga": 14
     },
     {
@@ -840,12 +866,12 @@
       "marca": "MONTRATE",
       "presentacion": "sob.x 30",
       "laboratorio": "Casasco",
-      "precio": 40262.65,
+      "precio": 40463.96,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $1,342.09 << mediana_grupo $8,164.56"
+        "ppu $1,348.80 << mediana_grupo $8,205.38"
       ],
-      "mediana_droga": 42963.93,
+      "mediana_droga": 43119.35,
       "n_droga": 50
     },
     {
@@ -934,7 +960,7 @@
       "precio": 19234.57,
       "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "precio $19,234.57 < fence_low $19,511.38"
+        "precio $19,234.57 < fence_low $19,765.58"
       ],
       "mediana_droga": 56392.68,
       "n_droga": 32
@@ -962,7 +988,7 @@
       "razones": [
         "ppu $1,189.40 << mediana_grupo $16,927.47"
       ],
-      "mediana_droga": 42414.11,
+      "mediana_droga": 42767.07,
       "n_droga": 58
     },
     {
@@ -975,7 +1001,7 @@
       "razones": [
         "ppu $1,927.55 << mediana_grupo $30,124.63"
       ],
-      "mediana_droga": 42414.11,
+      "mediana_droga": 42767.07,
       "n_droga": 58
     },
     {
@@ -988,7 +1014,7 @@
       "razones": [
         "ppu $2,159.19 << mediana_grupo $30,124.63"
       ],
-      "mediana_droga": 42414.11,
+      "mediana_droga": 42767.07,
       "n_droga": 58
     },
     {
@@ -1061,10 +1087,10 @@
       "marca": "ADRENOL",
       "presentacion": "jbe.x 100 ml",
       "laboratorio": "Fabra",
-      "precio": 15907.0,
+      "precio": 16241.0,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $159.07 << mediana_grupo $893.43"
+        "ppu $162.41 << mediana_grupo $912.21"
       ],
       "mediana_droga": 17443.35,
       "n_droga": 20
@@ -1123,6 +1149,19 @@
     },
     {
       "droga": "tadalafilo",
+      "marca": "TADAL 20",
+      "presentacion": "20 mg comp.rec.x 2",
+      "laboratorio": "Finadiet",
+      "precio": 21548.21,
+      "precio_outlier_tipo": "bajo_relativo",
+      "razones": [
+        "precio $21,548.21 < 25% mediana $86,531.06 (n=66)"
+      ],
+      "mediana_droga": 86531.06,
+      "n_droga": 66
+    },
+    {
+      "droga": "tadalafilo",
       "marca": "MOMENTUM",
       "presentacion": "20 mg comp.rec.x 4",
       "laboratorio": "Panalab",
@@ -1131,7 +1170,7 @@
       "razones": [
         "ppu $2,105.06 << mediana_grupo $11,902.45"
       ],
-      "mediana_droga": 86015.92,
+      "mediana_droga": 86531.06,
       "n_droga": 66
     },
     {
@@ -1191,12 +1230,12 @@
       "marca": "FACTOR X POLVO",
       "presentacion": "pvo.x 50 g",
       "laboratorio": "Casasco",
-      "precio": 13471.14,
+      "precio": 13700.15,
       "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "precio $13,471.14 < fence_low $15,111.35"
+        "precio $13,700.15 < fence_low $14,231.86"
       ],
-      "mediana_droga": 15215.12,
+      "mediana_droga": 15530.56,
       "n_droga": 6
     }
   ]
