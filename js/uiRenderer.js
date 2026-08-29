@@ -472,7 +472,9 @@ export function abrirModalInfo(hash) {
                 <dd>${_escapeConSaltos(valor)}</dd>
             `).join('')}
         </dl>
-        <p class="modal-info-fuente">Información de referencia, puede no reflejar cambios recientes.</p>`;
+        <p class="modal-info-fuente">${info.inferido
+            ? 'Clasificación general de la droga, no específica de este producto — puede no reflejar cambios recientes.'
+            : 'Información de referencia, puede no reflejar cambios recientes.'}</p>`;
 
     _elQueVolverFoco = document.activeElement;
     modal.classList.add('visible');
