@@ -1,6 +1,20 @@
 // js/uiRenderer.js — Renderizado con badges de vigencia y escape seguro
 import { formatearPrecio, escapeHtml, extraerFiltros, normalizarLaboratorio, parsearPresentacion } from './utils.js';
 
+// Mapa hash -> info complementaria de AlfaBeta. null mientras no se cargó
+// todavía (ver alfabetaInfo.js, cargado en segundo plano desde main.js).
+let _alfabetaMap = null;
+// Elemento al que devolver el foco al cerrar el modal de info.
+let _elQueVolverFoco = null;
+
+/**
+ * Registra el mapa de info de AlfaBeta ya cargado para que
+ * renderizarTarjeta() pueda decidir si mostrar el botón "+ Info".
+ */
+export function setAlfabetaMap(mapa) {
+    _alfabetaMap = mapa || {};
+}
+
 /**
  * Muestra tarjetas placeholder animadas mientras cargan los datos reales.
  */
@@ -204,12 +218,28 @@ const SVG_COPY = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" st
     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
 </svg>`;
 
+const SVG_INFO = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+</svg>`;
+
 function renderBotonCompartir() {
     const tieneShare = !!navigator.share;
     const icono = tieneShare ? SVG_SHARE : SVG_COPY;
     const texto = tieneShare ? 'Compartir' : 'Copiar link';
     return `<button class="btn-compartir" aria-label="Compartir medicamento">
         ${icono}<span>${texto}</span>
+    </button>`;
+}
+
+/**
+ * Botón "+ Info" que abre el modal con datos de AlfaBeta. Solo se renderiza
+ * si el mapa ya cargó Y tiene una entrada para este hash (el mapa cubre
+ * ~56% de los medicamentos; para el resto no hay nada que mostrar).
+ */
+function renderBotonInfo(hash) {
+    if (!_alfabetaMap || !_alfabetaMap[hash]) return '';
+    return `<button class="btn-info-alfabeta" aria-label="Ver información adicional del medicamento" data-hash="${escapeHtml(hash)}">
+        ${SVG_INFO}<span>+ Info</span>
     </button>`;
 }
 
@@ -260,6 +290,7 @@ function renderPrecios(med, soloPami) {
  */
 function renderizarTarjeta(med, soloPami = false, destacada = false) {
     const esSosp = (med.vigencia_score ?? 100) < 50;
+    const hash = hashMedicamento(med);
     const clases = [
         'tarjeta',
         esSosp    ? 'tarjeta-sospechosa' : '',
@@ -267,7 +298,7 @@ function renderizarTarjeta(med, soloPami = false, destacada = false) {
     ].filter(Boolean).join(' ');
 
     return `
-        <article class="${clases}" data-hash="${escapeHtml(hashMedicamento(med))}">
+        <article class="${clases}" data-hash="${escapeHtml(hash)}">
             ${destacada ? '<div class="badge-compartida">Producto compartido</div>' : ''}
             ${badgeVigencia(med)}
             <div class="tarjeta-header">
@@ -296,6 +327,7 @@ function renderizarTarjeta(med, soloPami = false, destacada = false) {
                 ${renderPrecios(med, soloPami)}
             </div>
             <div class="tarjeta-footer">
+                ${renderBotonInfo(hash)}
                 ${renderBotonCompartir()}
             </div>
         </article>`;
@@ -386,4 +418,99 @@ function badgeVigencia(med) {
     return `<div class="vigencia-badge ${escapeHtml(cls)}" title="Score: ${score}/100 — Flags: ${escapeHtml(flags.join(', '))}">
         ${escapeHtml(msg)}
     </div>`;
+}
+
+// ── Modal de información complementaria (AlfaBeta) ─────────────────────
+/**
+ * Escapa texto para HTML preservando saltos de línea como <br>. Algunos
+ * campos de AlfaBeta (drogas, clases_terapeuticas) traen varios ítems
+ * separados por '\n' cuando el medicamento tiene más de un valor.
+ */
+function _escapeConSaltos(texto) {
+    return (texto || '').split('\n').map(escapeHtml).join('<br>');
+}
+
+/**
+ * Abre el modal con la información complementaria de AlfaBeta para el
+ * medicamento cuyo hash se recibe. No hace nada si el mapa todavía no
+ * cargó o no hay info para ese hash (no debería ocurrir: el botón que
+ * dispara esto solo se renderiza cuando sí hay datos).
+ */
+export function abrirModalInfo(hash) {
+    const info = _alfabetaMap && _alfabetaMap[hash];
+    if (!info) return;
+
+    const modal = _obtenerModalInfo();
+    const panel = modal.querySelector('.modal-info-panel');
+
+    const filas = [
+        ['Laboratorio', info.laboratorio],
+        ['Droga(s)', info.drogas],
+        ['Clasificación ATC', info.atc],
+        ['Clases terapéuticas', info.clases_terapeuticas],
+    ].filter(([, valor]) => valor);
+
+    let vigenciaHtml = '';
+    if (info.vigencia?.estado) {
+        const esVigente = info.vigencia.estado === 'vigente';
+        vigenciaHtml = `<div class="modal-info-vigencia ${esVigente ? 'vigente' : 'discontinuado'}">
+            ${esVigente ? '✓ Alta vigente' : '⚠ Baja registrada'}
+            ${info.vigencia.fecha_alta ? ` · alta ${escapeHtml(info.vigencia.fecha_alta)}` : ''}
+            ${info.vigencia.fecha_baja ? ` · baja ${escapeHtml(info.vigencia.fecha_baja)}` : ''}
+        </div>`;
+    }
+
+    panel.innerHTML = `
+        <button type="button" class="modal-info-cerrar" aria-label="Cerrar">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <h3 class="modal-info-titulo">Información adicional</h3>
+        ${vigenciaHtml}
+        <dl class="modal-info-lista">
+            ${filas.map(([label, valor]) => `
+                <dt>${escapeHtml(label)}</dt>
+                <dd>${_escapeConSaltos(valor)}</dd>
+            `).join('')}
+        </dl>
+        <p class="modal-info-fuente">Fuente: AlfaBeta.net — información de referencia, puede no reflejar cambios recientes.</p>`;
+
+    _elQueVolverFoco = document.activeElement;
+    modal.classList.add('visible');
+    modal.querySelector('.modal-info-cerrar')?.focus();
+    document.body.style.overflow = 'hidden';
+}
+
+function _cerrarModalInfo() {
+    const modal = document.getElementById('alfabeta-modal');
+    if (!modal || !modal.classList.contains('visible')) return;
+    modal.classList.remove('visible');
+    document.body.style.overflow = '';
+    _elQueVolverFoco?.focus?.();
+    _elQueVolverFoco = null;
+}
+
+/**
+ * Crea (una sola vez, de forma perezosa) el overlay del modal y sus
+ * listeners de cierre (click en backdrop, click en botón cerrar, tecla
+ * Escape). Mismo patrón que _mostrarToast: crear el elemento en el DOM
+ * la primera vez que hace falta, reusarlo después.
+ */
+function _obtenerModalInfo() {
+    let modal = document.getElementById('alfabeta-modal');
+    if (modal) return modal;
+
+    modal = document.createElement('div');
+    modal.id = 'alfabeta-modal';
+    modal.className = 'modal-info-overlay';
+    modal.innerHTML = `<div class="modal-info-panel" role="dialog" aria-modal="true" aria-label="Información adicional del medicamento"></div>`;
+    document.body.appendChild(modal);
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal || e.target.closest('.modal-info-cerrar')) _cerrarModalInfo();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') _cerrarModalInfo();
+    });
+
+    return modal;
 }

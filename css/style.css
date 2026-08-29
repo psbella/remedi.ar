@@ -477,7 +477,7 @@ body {
 .pami-price { font-size: 13px; font-weight: 500; color: var(--teal-darker); }
 
 /* Footer de tarjeta + compartir */
-.tarjeta-footer { display: flex; justify-content: flex-end; margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--bg); }
+.tarjeta-footer { display: flex; justify-content: flex-end; align-items: center; gap: 4px; margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--bg); }
 
 .btn-compartir {
     display: flex;
@@ -516,6 +516,115 @@ body {
     white-space: nowrap;
 }
 #share-toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Botón "+ Info" (AlfaBeta) — mismo estilo que btn-compartir */
+.btn-info-alfabeta {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--muted-teal);
+    font-size: 12px;
+    padding: 4px 6px;
+    border-radius: 6px;
+    transition: color 0.15s, opacity 0.15s;
+    opacity: 0.7;
+}
+.btn-info-alfabeta span { font-weight: 500; }
+.tarjeta:hover .btn-info-alfabeta,
+.tarjeta:focus-within .btn-info-alfabeta { opacity: 1; color: var(--teal-darker); }
+.btn-info-alfabeta:hover { color: var(--teal-darker); background: var(--teal-light); opacity: 1; }
+
+/* Modal de información complementaria (AlfaBeta) */
+.modal-info-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 1500;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.modal-info-overlay.visible { display: flex; }
+
+.modal-info-panel {
+    background: var(--white);
+    border-radius: var(--r-lg);
+    padding: 24px;
+    max-width: 480px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+.modal-info-cerrar {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-4);
+    padding: 4px;
+    border-radius: 6px;
+    display: flex;
+    transition: background 0.15s, color 0.15s;
+}
+.modal-info-cerrar:hover { background: var(--teal-light); color: var(--teal-darker); }
+
+.modal-info-titulo {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--teal-darker);
+    margin-bottom: 12px;
+    padding-right: 24px;
+}
+
+.modal-info-vigencia {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 10px;
+    border-radius: 6px;
+    margin-bottom: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+.modal-info-vigencia.vigente { background: var(--teal-light); color: var(--teal-darker); }
+.modal-info-vigencia.discontinuado { background: var(--verify-bg); color: var(--verify-text); }
+
+.modal-info-lista { display: flex; flex-direction: column; gap: 12px; }
+.modal-info-lista dt {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-4);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 3px;
+}
+.modal-info-lista dd {
+    font-size: 13px;
+    color: var(--text-2);
+    line-height: 1.5;
+}
+
+.modal-info-fuente {
+    font-size: 11px;
+    color: var(--text-5);
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line-faint);
+    line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+    .modal-info-panel { padding: 20px; max-height: 90vh; }
+}
 
 /* Mensajes y loaders */
 .mensaje-inicial {
