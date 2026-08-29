@@ -6,7 +6,9 @@ import {
     mostrarSkeleton, mostrarMensajeInicial, mostrarError,
     mostrarResultados, cargarOpcionesFiltros, actualizarFechaEnFooter,
     hashMedicamento, buscarPorHash, compartirMedicamento,
+    setInfoAdicionalMap, abrirModalInfo,
 } from './uiRenderer.js';
+import { cargarInfoAdicional } from './infoAdicional.js';
 import {
     getState, getResultados, getFiltros, getTodos,
     setFiltroTexto, setFiltroPresentacion,
@@ -18,7 +20,7 @@ let timeout       = null;
 let medDestacada  = null;  // medicamento llegado por hash en URL
 
 // ── Suscripción al store ───────────────────────────────────────────────
-suscribirse((state) => {
+function _render(state) {
     const { resultados, filtros } = state;
 
     const hayTexto  = filtros.texto && filtros.texto.trim().length >= 2;
@@ -34,7 +36,9 @@ suscribirse((state) => {
     cargarOpcionesFiltros(baseDropdown, filtros);
 
     mostrarResultados(resultados, filtros.texto, filtros.soloPami, medDestacada);
-});
+}
+
+suscribirse(_render);
 
 // ── Handlers ──────────────────────────────────────────────────────────
 function onInput() {
@@ -121,6 +125,15 @@ function _initCompartir() {
     });
 }
 
+// ── Info adicional: escuchar click delegado ─────────────────────────────
+function _initInfoModal() {
+    document.getElementById('resultados')?.addEventListener('click', (e) => {
+        const btn = e.target.closest('.btn-info-adicional');
+        if (!btn) return;
+        abrirModalInfo(btn.dataset.hash);
+    });
+}
+
 // ── Persistencia URL ──────────────────────────────────────────────────
 function _actualizarURL(q) {
     const url = new URL(window.location.href);
@@ -187,6 +200,14 @@ async function init() {
         }
 
         setLoading(false);
+
+        // Info complementaria: se carga en segundo plano (no
+        // bloquea el render principal). Cuando esté lista, se re-renderiza
+        // para que aparezcan los botones "+ Info" en las tarjetas visibles.
+        cargarInfoAdicional().then(mapa => {
+            setInfoAdicionalMap(mapa);
+            _render(getState());
+        });
     } catch (err) {
         console.error(err);
         const msg = 'No se pudieron cargar los datos. Intentá recargar la página.';
@@ -211,6 +232,7 @@ async function init() {
     document.getElementById('togglePami')?.addEventListener('change', e => setSoloPami(e.target.checked));
 
     _initCompartir();
+    _initInfoModal();
 }
 
 init();
