@@ -124,6 +124,12 @@ def construir_consenso_por_composicion(info_adicional):
     activos únicos como combinaciones reales de 2+ principios, siempre que
     dos o más donantes coincidan en el mismo conjunto exacto de tokens.
 
+    Solo se consideran donantes las entradas exactas (no "inferido": true):
+    de lo contrario, cada corrida de CI votaría con las inferencias que ella
+    misma generó en la corrida anterior, inflando artificialmente el soporte
+    del valor ganador y dificultando cada vez más la detección de un
+    conflicto real si en el futuro aparece evidencia genuina distinta.
+
     Valores vacíos/None de un donante no cuentan como voto en contra: se
     ignoran al buscar consenso. Para "clases_terapeuticas" se exige
     coincidencia exacta entre todos los donantes no vacíos (es información
@@ -135,6 +141,8 @@ def construir_consenso_por_composicion(info_adicional):
     clases_por_composicion = defaultdict(list)
 
     for info in info_adicional.values():
+        if info.get("inferido"):
+            continue  # no contar como voto lo que el propio script ya infirió antes
         drogas_raw = (info.get("drogas") or "").strip()
         if not drogas_raw:
             continue

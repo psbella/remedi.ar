@@ -35,6 +35,8 @@ jobs:
         run: python scripts/subir_debug.py
       - name: Verificar sanidad del output
         run: pytest tests/ -v
+      - name: Extender cobertura de info adicional
+        run: python scripts/enriquecer_info_adicional_por_droga.py
       - name: Snapshot semanal (solo viernes)
         if: github.event_name == 'schedule'
         env:
@@ -51,6 +53,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "actions@github.com"
           git add data/medicamentos.json
+          git add data/info-adicional/info_adicional.json
           git add data/outlier_report.json
           git add data/presentaciones_debug.csv
           git add *.html
