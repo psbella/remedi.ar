@@ -486,12 +486,12 @@ body {
     background: none;
     border: none;
     cursor: pointer;
-    color: var(--muted-teal);
+    color: var(--teal-accent);
     font-size: 12px;
     padding: 4px 6px;
     border-radius: 6px;
     transition: color 0.15s, opacity 0.15s;
-    opacity: 0.7;
+    opacity: 0.92;
 }
 .btn-compartir span { font-weight: 500; }
 .tarjeta:hover .btn-compartir,
@@ -525,12 +525,12 @@ body {
     background: none;
     border: none;
     cursor: pointer;
-    color: var(--muted-teal);
+    color: var(--teal-accent);
     font-size: 12px;
     padding: 4px 6px;
     border-radius: 6px;
     transition: color 0.15s, opacity 0.15s;
-    opacity: 0.7;
+    opacity: 0.92;
 }
 .btn-info-adicional span { font-weight: 500; }
 .tarjeta:hover .btn-info-adicional,
