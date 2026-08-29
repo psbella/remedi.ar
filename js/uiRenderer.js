@@ -1,18 +1,18 @@
 // js/uiRenderer.js — Renderizado con badges de vigencia y escape seguro
 import { formatearPrecio, escapeHtml, extraerFiltros, normalizarLaboratorio, parsearPresentacion } from './utils.js';
 
-// Mapa hash -> info complementaria de AlfaBeta. null mientras no se cargó
-// todavía (ver alfabetaInfo.js, cargado en segundo plano desde main.js).
-let _alfabetaMap = null;
+// Mapa hash -> info complementaria. null mientras no se cargó
+// todavía (ver infoAdicional.js, cargado en segundo plano desde main.js).
+let _infoAdicionalMap = null;
 // Elemento al que devolver el foco al cerrar el modal de info.
 let _elQueVolverFoco = null;
 
 /**
- * Registra el mapa de info de AlfaBeta ya cargado para que
+ * Registra el mapa de info adicional ya cargado para que
  * renderizarTarjeta() pueda decidir si mostrar el botón "+ Info".
  */
-export function setAlfabetaMap(mapa) {
-    _alfabetaMap = mapa || {};
+export function setInfoAdicionalMap(mapa) {
+    _infoAdicionalMap = mapa || {};
 }
 
 /**
@@ -232,13 +232,13 @@ function renderBotonCompartir() {
 }
 
 /**
- * Botón "+ Info" que abre el modal con datos de AlfaBeta. Solo se renderiza
+ * Botón "+ Info" que abre el modal con info adicional. Solo se renderiza
  * si el mapa ya cargó Y tiene una entrada para este hash (el mapa cubre
  * ~56% de los medicamentos; para el resto no hay nada que mostrar).
  */
 function renderBotonInfo(hash) {
-    if (!_alfabetaMap || !_alfabetaMap[hash]) return '';
-    return `<button class="btn-info-alfabeta" aria-label="Ver información adicional del medicamento" data-hash="${escapeHtml(hash)}">
+    if (!_infoAdicionalMap || !_infoAdicionalMap[hash]) return '';
+    return `<button class="btn-info-adicional" aria-label="Ver información adicional del medicamento" data-hash="${escapeHtml(hash)}">
         ${SVG_INFO}<span>+ Info</span>
     </button>`;
 }
@@ -420,10 +420,10 @@ function badgeVigencia(med) {
     </div>`;
 }
 
-// ── Modal de información complementaria (AlfaBeta) ─────────────────────
+// ── Modal de información complementaria ─────────────────────────────────
 /**
  * Escapa texto para HTML preservando saltos de línea como <br>. Algunos
- * campos de AlfaBeta (drogas, clases_terapeuticas) traen varios ítems
+ * campos (drogas, clases_terapeuticas) traen varios ítems
  * separados por '\n' cuando el medicamento tiene más de un valor.
  */
 function _escapeConSaltos(texto) {
@@ -431,13 +431,13 @@ function _escapeConSaltos(texto) {
 }
 
 /**
- * Abre el modal con la información complementaria de AlfaBeta para el
+ * Abre el modal con la información complementaria para el
  * medicamento cuyo hash se recibe. No hace nada si el mapa todavía no
  * cargó o no hay info para ese hash (no debería ocurrir: el botón que
  * dispara esto solo se renderiza cuando sí hay datos).
  */
 export function abrirModalInfo(hash) {
-    const info = _alfabetaMap && _alfabetaMap[hash];
+    const info = _infoAdicionalMap && _infoAdicionalMap[hash];
     if (!info) return;
 
     const modal = _obtenerModalInfo();
@@ -472,7 +472,7 @@ export function abrirModalInfo(hash) {
                 <dd>${_escapeConSaltos(valor)}</dd>
             `).join('')}
         </dl>
-        <p class="modal-info-fuente">Fuente: AlfaBeta.net — información de referencia, puede no reflejar cambios recientes.</p>`;
+        <p class="modal-info-fuente">Información de referencia, puede no reflejar cambios recientes.</p>`;
 
     _elQueVolverFoco = document.activeElement;
     modal.classList.add('visible');
@@ -481,7 +481,7 @@ export function abrirModalInfo(hash) {
 }
 
 function _cerrarModalInfo() {
-    const modal = document.getElementById('alfabeta-modal');
+    const modal = document.getElementById('info-adicional-modal');
     if (!modal || !modal.classList.contains('visible')) return;
     modal.classList.remove('visible');
     document.body.style.overflow = '';
@@ -496,11 +496,11 @@ function _cerrarModalInfo() {
  * la primera vez que hace falta, reusarlo después.
  */
 function _obtenerModalInfo() {
-    let modal = document.getElementById('alfabeta-modal');
+    let modal = document.getElementById('info-adicional-modal');
     if (modal) return modal;
 
     modal = document.createElement('div');
-    modal.id = 'alfabeta-modal';
+    modal.id = 'info-adicional-modal';
     modal.className = 'modal-info-overlay';
     modal.innerHTML = `<div class="modal-info-panel" role="dialog" aria-modal="true" aria-label="Información adicional del medicamento"></div>`;
     document.body.appendChild(modal);

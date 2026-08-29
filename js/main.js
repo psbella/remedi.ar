@@ -6,9 +6,9 @@ import {
     mostrarSkeleton, mostrarMensajeInicial, mostrarError,
     mostrarResultados, cargarOpcionesFiltros, actualizarFechaEnFooter,
     hashMedicamento, buscarPorHash, compartirMedicamento,
-    setAlfabetaMap, abrirModalInfo,
+    setInfoAdicionalMap, abrirModalInfo,
 } from './uiRenderer.js';
-import { cargarAlfabetaInfo } from './alfabetaInfo.js';
+import { cargarInfoAdicional } from './infoAdicional.js';
 import {
     getState, getResultados, getFiltros, getTodos,
     setFiltroTexto, setFiltroPresentacion,
@@ -125,10 +125,10 @@ function _initCompartir() {
     });
 }
 
-// ── Info AlfaBeta: escuchar click delegado ─────────────────────────────
+// ── Info adicional: escuchar click delegado ─────────────────────────────
 function _initInfoModal() {
     document.getElementById('resultados')?.addEventListener('click', (e) => {
-        const btn = e.target.closest('.btn-info-alfabeta');
+        const btn = e.target.closest('.btn-info-adicional');
         if (!btn) return;
         abrirModalInfo(btn.dataset.hash);
     });
@@ -201,11 +201,11 @@ async function init() {
 
         setLoading(false);
 
-        // Info complementaria de AlfaBeta: se carga en segundo plano (no
+        // Info complementaria: se carga en segundo plano (no
         // bloquea el render principal). Cuando esté lista, se re-renderiza
         // para que aparezcan los botones "+ Info" en las tarjetas visibles.
-        cargarAlfabetaInfo().then(mapa => {
-            setAlfabetaMap(mapa);
+        cargarInfoAdicional().then(mapa => {
+            setInfoAdicionalMap(mapa);
             _render(getState());
         });
     } catch (err) {

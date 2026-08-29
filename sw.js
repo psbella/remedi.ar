@@ -18,6 +18,7 @@ const CACHE_STATIC = [
     '/js/filters.js',
     '/js/searchEngine.js',
     '/js/uiRenderer.js',
+    '/js/infoAdicional.js',
     '/js/utils.js',
     '/js/landing.js',
 ];
