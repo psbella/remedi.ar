@@ -135,6 +135,24 @@ def _valor_mas_completo_por_lineas(valores):
     return None, False
 
 
+def _valor_mayoritario_tolerando_outlier_aislado(valores):
+    """
+    Segunda capa, para cuando _valor_mas_completo_por_lineas no encuentra
+    relación de superset entre los valores. Un solo donante con un valor
+    aislado (soporte 1), sin ninguna otra ficha que lo respalde, se trata
+    como ruido de scraping puntual y no bloquea el consenso del resto.
+    Conflicto real = dos or más valores distintos con soporte >=2 cada
+    uno (ahí sí hay evidencia real de ambos lados, no un solo error).
+    """
+    conteo = Counter(valores)
+    ranking = conteo.most_common()
+    valor_top, soporte_top = ranking[0]
+    otros_con_soporte = [v for v, c in ranking[1:] if c >= 2]
+    if soporte_top >= 2 and not otros_con_soporte:
+        return valor_top, True
+    return None, False
+
+
 def _elegir_consenso_clases(valores):
     """
     valores: lista de strings de clases_terapeuticas (ya sin None/vacíos) de
@@ -142,14 +160,17 @@ def _elegir_consenso_clases(valores):
     hay_conflicto_real).
 
     clases_terapeuticas puede tener varias líneas (un medicamento puede
-    pertenecer a más de una clase). Ver _valor_mas_completo_por_lineas:
-    si una versión es superset de las demás, se usa esa. Conflicto real =
-    ningún valor contiene a todos los demás (categorías genuinamente
-    distintas, no una más completa que otra).
+    pertenecer a más de una clase). Primero se intenta
+    _valor_mas_completo_por_lineas; si no resuelve, se tolera un outlier
+    aislado (ver _valor_mayoritario_tolerando_outlier_aislado). Conflicto
+    real = ninguna de las dos resuelve.
     """
     if not valores:
         return None, False
     ganador, resuelto = _valor_mas_completo_por_lineas(valores)
+    if resuelto:
+        return ganador, False
+    ganador, resuelto = _valor_mayoritario_tolerando_outlier_aislado(valores)
     return (ganador, False) if resuelto else (None, True)
 
 
@@ -163,22 +184,26 @@ def _elegir_consenso_atc(atcs):
     primero). Algunas fichas de AlfaBeta listan solo la clase general,
     otras el código específico, y otras ambos juntos en dos líneas — esto
     no es un desacuerdo, es distinto nivel de detalle del mismo dato. Se
-    usa la misma lógica de "superset de líneas" que para clases
-    terapéuticas para detectarlo (ver _valor_mas_completo_por_lineas), y
-    si el valor ganador tiene más de una línea y todas menos la más larga
-    son prefijos de texto de esa línea más larga (el patrón exacto de la
-    jerarquía ATC), se devuelve solo el código específico — no tiene
-    sentido mostrarle al usuario la clase general Y el código específico
-    juntos cuando el código específico ya la implica.
+    intenta primero con _valor_mas_completo_por_lineas y, si el valor
+    ganador tiene más de una línea con relación de prefijo (el patrón
+    exacto de la jerarquía ATC), se devuelve solo el código más
+    específico. Si eso no resuelve, se tolera un outlier aislado (ver
+    _valor_mayoritario_tolerando_outlier_aislado) — un solo donante con un
+    código sin relación jerárquica con el resto, típicamente un glitch de
+    scraping puntual.
 
-    Conflicto real = ningún valor contiene a todos los demás Y no hay
-    relación de prefijo entre ellos (códigos genuinamente distintos).
+    Conflicto real = ninguna de las dos capas resuelve (códigos
+    genuinamente distintos, con soporte real de más de un lado).
     """
     if not atcs:
         return None, False
+
     ganador, resuelto = _valor_mas_completo_por_lineas(atcs)
     if not resuelto:
-        return None, True
+        ganador, resuelto = _valor_mayoritario_tolerando_outlier_aislado(atcs)
+        if not resuelto:
+            return None, True
+        return ganador, False  # outlier aislado tolerado: no hay líneas que colapsar
 
     lineas = [l.strip() for l in ganador.splitlines() if l.strip()]
     if len(lineas) <= 1:
