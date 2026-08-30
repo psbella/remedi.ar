@@ -94,6 +94,36 @@ def _cargar_medicamentos():
     return data
 
 
+def _elegir_consenso_clases(valores):
+    """
+    valores: lista de strings de clases_terapeuticas (ya sin None/vacíos) de
+    los donantes de una misma composición. Devuelve (valor_elegido,
+    hay_conflicto_real).
+
+    clases_terapeuticas puede tener varias líneas (un medicamento puede
+    pertenecer a más de una clase). Si entre los valores distintos hay uno
+    cuyo conjunto de líneas es superset de todos los demás, se usa ese —
+    los demás son versiones incompletas del mismo dato (una ficha de
+    AlfaBeta a la que le falta una línea), no un desacuerdo real. Conflicto
+    real = ningún valor contiene a todos los demás (categorías genuinamente
+    distintas, no una más completa que otra).
+    """
+    if not valores:
+        return None, False
+    distintos = list(dict.fromkeys(valores))
+    if len(distintos) == 1:
+        return distintos[0], False
+    linesets = {
+        v: frozenset(l.strip() for l in v.splitlines() if l.strip())
+        for v in distintos
+    }
+    for candidato in distintos:
+        ls_candidato = linesets[candidato]
+        if all(linesets[otro] <= ls_candidato for otro in distintos):
+            return candidato, False
+    return None, True
+
+
 def _elegir_consenso_atc(atcs):
     """
     atcs: lista de valores de ATC (ya sin None/vacíos) de los donantes de
@@ -131,11 +161,13 @@ def construir_consenso_por_composicion(info_adicional):
     conflicto real si en el futuro aparece evidencia genuina distinta.
 
     Valores vacíos/None de un donante no cuentan como voto en contra: se
-    ignoran al buscar consenso. Para "clases_terapeuticas" se exige
-    coincidencia exacta entre todos los donantes no vacíos (es información
-    clínica central). Para "atc" se tolera un glitch aislado de un único
-    donante (ver _elegir_consenso_atc), pero un desacuerdo con soporte real
-    de ambos lados se descarta igual.
+    ignoran al buscar consenso. Para "clases_terapeuticas" se tolera que
+    algunos donantes tengan una versión incompleta (subconjunto de líneas)
+    de la de otro donante más completo — se usa la más completa (ver
+    _elegir_consenso_clases). Para "atc" se tolera un glitch aislado de un
+    único donante (ver _elegir_consenso_atc). En ambos casos, un desacuerdo
+    real (dos valores distintos, ninguno subconjunto del otro / con soporte
+    real de ambos lados) se descarta.
     """
     atcs_por_composicion = defaultdict(list)
     clases_por_composicion = defaultdict(list)
@@ -163,10 +195,7 @@ def construir_consenso_por_composicion(info_adicional):
 
     for tokens in set(atcs_por_composicion) | set(clases_por_composicion):
         atc, atc_conflicto = _elegir_consenso_atc(atcs_por_composicion.get(tokens, []))
-
-        clases_vals = set(clases_por_composicion.get(tokens, []))
-        clases_conflicto = len(clases_vals) > 1
-        clases = next(iter(clases_vals)) if len(clases_vals) == 1 else None
+        clases, clases_conflicto = _elegir_consenso_clases(clases_por_composicion.get(tokens, []))
 
         if atc_conflicto or clases_conflicto:
             detalle = {
@@ -184,6 +213,32 @@ def construir_consenso_por_composicion(info_adicional):
     return consenso, conflictos
 
 
+def _combinar_por_componentes(tokens, consenso):
+    """Arma un resultado combinado para `tokens` (2+ principios) a partir
+    del consenso individual (mono) de cada uno. None si falta alguno."""
+    if len(tokens) < 2:
+        return None
+    atcs = []
+    lineas_clases = []
+    for tok in tokens:
+        indiv = consenso.get(frozenset({tok}))
+        if not indiv:
+            return None  # falta el consenso individual de algún componente
+        if indiv.get("atc"):
+            atcs.append(indiv["atc"])
+        if indiv.get("clases_terapeuticas"):
+            for linea in indiv["clases_terapeuticas"].splitlines():
+                linea = linea.strip()
+                if linea and linea not in lineas_clases:
+                    lineas_clases.append(linea)
+    if not atcs and not lineas_clases:
+        return None
+    return {
+        "atc": " + ".join(atcs) if atcs else None,
+        "clases_terapeuticas": "\n".join(lineas_clases) if lineas_clases else None,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dry-run", action="store_true",
@@ -198,6 +253,7 @@ def main():
     consenso, conflictos = construir_consenso_por_composicion(info_adicional)
 
     agregados = 0
+    agregados_combinados = 0
     for m in medicamentos:
         h = _hash_medicamento(m)
         if h in info_adicional:
@@ -206,6 +262,10 @@ def main():
         if not tokens:
             continue
         match = consenso.get(tokens)
+        combinado = False
+        if not match:
+            match = _combinar_por_componentes(tokens, consenso)
+            combinado = match is not None
         if not match:
             continue
         info_adicional[h] = {
@@ -214,6 +274,9 @@ def main():
             "clases_terapeuticas": match["clases_terapeuticas"],
             "inferido": True,
         }
+        if combinado:
+            info_adicional[h]["combinado"] = True
+            agregados_combinados += 1
         agregados += 1
 
     cobertura_despues = cobertura_antes + agregados
@@ -221,7 +284,8 @@ def main():
     print(f"Medicamentos totales:              {len(medicamentos)}")
     print(f"Cobertura antes (match exacto):    {cobertura_antes} "
           f"({100 * cobertura_antes / len(medicamentos):.1f}%)")
-    print(f"Agregados por consenso de droga:   {agregados}")
+    print(f"Agregados por consenso de droga:   {agregados} "
+          f"(de los cuales {agregados_combinados} combinando componentes por separado)")
     print(f"Cobertura después:                 {cobertura_despues} "
           f"({100 * cobertura_despues / len(medicamentos):.1f}%)")
     print(f"Principios activos con conflicto (no propagados): {len(conflictos)}")
