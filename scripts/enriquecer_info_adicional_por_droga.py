@@ -34,6 +34,23 @@ RAIZ = Path(__file__).resolve().parent.parent
 MEDICAMENTOS_PATH = RAIZ / "data" / "medicamentos.json"
 INFO_ADICIONAL_PATH = RAIZ / "data" / "info-adicional" / "info_adicional.json"
 
+# Entradas de AlfaBeta verificadas manualmente como mal etiquetadas en su
+# propio campo "drogas" (composición incompleta o incorrecta respecto al
+# producto real). Se excluyen como donantes para no contaminar el consenso
+# de otros productos que sí comparten esa composición real.
+#
+# - amoxicilina-clavulanicoac--clavulox--elea--*: AlfaBeta lista
+#   drogas="Amoxicilina" (1 sola línea) para Clavulox, que en realidad es
+#   amoxicilina + ácido clavulánico (así lo confirma el propio hash de
+#   AlfaBeta, y así lo tiene correctamente medicamentos.json). Sin excluir
+#   esto, contaminaba el consenso de "amoxicilina" sola con su ATC/clase
+#   (J01CR02, combinación) en vez del que corresponde a la droga sola
+#   (J01CA04).
+DONANTES_EXCLUIDOS = {
+    "amoxicilina-clavulanicoac--clavulox--elea--1-g-compx-14",
+    "amoxicilina-clavulanicoac--clavulox--elea--500-mg-comprecx-14",
+}
+
 
 def _slug(s):
     if not s:
@@ -172,7 +189,9 @@ def construir_consenso_por_composicion(info_adicional):
     atcs_por_composicion = defaultdict(list)
     clases_por_composicion = defaultdict(list)
 
-    for info in info_adicional.values():
+    for clave, info in info_adicional.items():
+        if clave in DONANTES_EXCLUIDOS:
+            continue
         if info.get("inferido"):
             continue  # no contar como voto lo que el propio script ya infirió antes
         drogas_raw = (info.get("drogas") or "").strip()
