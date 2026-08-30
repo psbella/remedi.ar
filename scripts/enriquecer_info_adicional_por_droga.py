@@ -111,25 +111,19 @@ def _cargar_medicamentos():
     return data
 
 
-def _elegir_consenso_clases(valores):
+def _valor_mas_completo_por_lineas(valores):
     """
-    valores: lista de strings de clases_terapeuticas (ya sin None/vacíos) de
-    los donantes de una misma composición. Devuelve (valor_elegido,
-    hay_conflicto_real).
-
-    clases_terapeuticas puede tener varias líneas (un medicamento puede
-    pertenecer a más de una clase). Si entre los valores distintos hay uno
-    cuyo conjunto de líneas es superset de todos los demás, se usa ese —
-    los demás son versiones incompletas del mismo dato (una ficha de
-    AlfaBeta a la que le falta una línea), no un desacuerdo real. Conflicto
-    real = ningún valor contiene a todos los demás (categorías genuinamente
-    distintas, no una más completa que otra).
+    valores: lista de strings no vacíos. Si entre los valores distintos hay
+    uno cuyo conjunto de líneas es superset de todos los demás, lo
+    devuelve tal cual (con su formato/orden original) — los demás son
+    versiones incompletas del mismo dato (a una ficha de AlfaBeta le
+    falta una línea), no un desacuerdo real. Devuelve (valor, True) si
+    encuentra ese superset universal, o (None, False) si no hay ninguno
+    (desacuerdo real: categorías genuinamente distintas).
     """
-    if not valores:
-        return None, False
     distintos = list(dict.fromkeys(valores))
     if len(distintos) == 1:
-        return distintos[0], False
+        return distintos[0], True
     linesets = {
         v: frozenset(l.strip() for l in v.splitlines() if l.strip())
         for v in distintos
@@ -137,8 +131,26 @@ def _elegir_consenso_clases(valores):
     for candidato in distintos:
         ls_candidato = linesets[candidato]
         if all(linesets[otro] <= ls_candidato for otro in distintos):
-            return candidato, False
-    return None, True
+            return candidato, True
+    return None, False
+
+
+def _elegir_consenso_clases(valores):
+    """
+    valores: lista de strings de clases_terapeuticas (ya sin None/vacíos) de
+    los donantes de una misma composición. Devuelve (valor_elegido,
+    hay_conflicto_real).
+
+    clases_terapeuticas puede tener varias líneas (un medicamento puede
+    pertenecer a más de una clase). Ver _valor_mas_completo_por_lineas:
+    si una versión es superset de las demás, se usa esa. Conflicto real =
+    ningún valor contiene a todos los demás (categorías genuinamente
+    distintas, no una más completa que otra).
+    """
+    if not valores:
+        return None, False
+    ganador, resuelto = _valor_mas_completo_por_lineas(valores)
+    return (ganador, False) if resuelto else (None, True)
 
 
 def _elegir_consenso_atc(atcs):
@@ -146,22 +158,36 @@ def _elegir_consenso_atc(atcs):
     atcs: lista de valores de ATC (ya sin None/vacíos) de los donantes de
     una misma droga. Devuelve (valor_elegido, hay_conflicto_real).
 
-    Un solo valor con apariciones aisladas de otros valores (soporte 1,
-    típicamente un glitch de scraping puntual en una sola página de
-    AlfaBeta) no cuenta como conflicto real. Conflicto real = dos o más
-    valores distintos con soporte >=2 cada uno.
+    El código ATC es jerárquico (ej. "M01AE" = clase, "M01AE01" = código
+    específico dentro de esa clase, donde el segundo empieza igual que el
+    primero). Algunas fichas de AlfaBeta listan solo la clase general,
+    otras el código específico, y otras ambos juntos en dos líneas — esto
+    no es un desacuerdo, es distinto nivel de detalle del mismo dato. Se
+    usa la misma lógica de "superset de líneas" que para clases
+    terapéuticas para detectarlo (ver _valor_mas_completo_por_lineas), y
+    si el valor ganador tiene más de una línea y todas menos la más larga
+    son prefijos de texto de esa línea más larga (el patrón exacto de la
+    jerarquía ATC), se devuelve solo el código específico — no tiene
+    sentido mostrarle al usuario la clase general Y el código específico
+    juntos cuando el código específico ya la implica.
+
+    Conflicto real = ningún valor contiene a todos los demás Y no hay
+    relación de prefijo entre ellos (códigos genuinamente distintos).
     """
     if not atcs:
         return None, False
-    conteo = Counter(atcs)
-    if len(conteo) == 1:
-        return atcs[0], False
-    ranking = conteo.most_common()
-    valor_top, soporte_top = ranking[0]
-    otros_con_soporte = [v for v, c in ranking[1:] if c >= 2]
-    if soporte_top >= 2 and not otros_con_soporte:
-        return valor_top, False
-    return None, True
+    ganador, resuelto = _valor_mas_completo_por_lineas(atcs)
+    if not resuelto:
+        return None, True
+
+    lineas = [l.strip() for l in ganador.splitlines() if l.strip()]
+    if len(lineas) <= 1:
+        return ganador, False
+
+    mas_larga = max(lineas, key=len)
+    if all(mas_larga.startswith(l) for l in lineas):
+        return mas_larga, False  # colapsa clase+código específico al código específico
+    return ganador, False  # no es relación de prefijo limpia: se deja tal cual, completo
 
 
 def construir_consenso_por_composicion(info_adicional):
@@ -178,13 +204,12 @@ def construir_consenso_por_composicion(info_adicional):
     conflicto real si en el futuro aparece evidencia genuina distinta.
 
     Valores vacíos/None de un donante no cuentan como voto en contra: se
-    ignoran al buscar consenso. Para "clases_terapeuticas" se tolera que
-    algunos donantes tengan una versión incompleta (subconjunto de líneas)
-    de la de otro donante más completo — se usa la más completa (ver
-    _elegir_consenso_clases). Para "atc" se tolera un glitch aislado de un
-    único donante (ver _elegir_consenso_atc). En ambos casos, un desacuerdo
-    real (dos valores distintos, ninguno subconjunto del otro / con soporte
-    real de ambos lados) se descarta.
+    ignoran al buscar consenso. Tanto para "clases_terapeuticas" como para
+    "atc" se tolera que algunos donantes tengan una versión incompleta o
+    menos específica que otro donante (ver _valor_mas_completo_por_lineas
+    y, para el colapso jerárquico propio de ATC, _elegir_consenso_atc). Un
+    desacuerdo real (dos valores distintos, ninguno más completo que el
+    otro) se descarta en ambos casos.
     """
     atcs_por_composicion = defaultdict(list)
     clases_por_composicion = defaultdict(list)
