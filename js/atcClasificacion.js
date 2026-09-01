@@ -1,0 +1,142 @@
+// js/atcClasificacion.js — Carga en segundo plano de los lookups ATC
+// (fuente: dataset propio ANMAT https://github.com/psbella/Codigos-ATC-ANMAT).
+// Mismo patrón de cache/errores que infoAdicional.js: dato secundario,
+// no crítico, con fallback silencioso si falla la carga.
+const CACHE_TTL_MS = 2 * 60 * 60 * 1000; // 2 horas, igual criterio que dataLoader.js
+
+const _promesasCarga = {};
+
+/**
+ * Carga (una sola vez por url, con cache en sessionStorage) un JSON
+ * estático. Es un dato secundario y no crítico: si falla la carga, no
+ * debe interrumpir la app — se resuelve con un objeto vacío y se loguea
+ * el error, dejando la lista principal de medicamentos intacta.
+ */
+function _cargarJsonConCache(url, cacheKey) {
+    if (_promesasCarga[cacheKey]) return _promesasCarga[cacheKey];
+
+    _promesasCarga[cacheKey] = (async () => {
+        try {
+            const cached = sessionStorage.getItem(cacheKey);
+            if (cached) {
+                const { ts, data } = JSON.parse(cached);
+                if (Date.now() - ts < CACHE_TTL_MS) return data;
+            }
+        } catch (_) { /* sessionStorage bloqueado: continuar */ }
+
+        try {
+            const res = await fetch(url, { cache: 'default' });
+            if (!res.ok) throw new Error(`Error al cargar ${url}: ${res.status}`);
+            const data = await res.json();
+            try {
+                sessionStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data }));
+            } catch (_) { /* sessionStorage lleno: no es crítico */ }
+            return data;
+        } catch (err) {
+            console.warn(`[atcClasificacion] No se pudo cargar ${url}:`, err);
+            return {};
+        }
+    })();
+
+    return _promesasCarga[cacheKey];
+}
+
+/**
+ * Lookup jerárquico ATC: { n1: {cod: desc}, n23: {cod: desc}, n4: {cod: desc} }.
+ */
+export function cargarClasificacionATC() {
+    return _cargarJsonConCache('data/atc/atc_niveles.json', 'atc_niveles_v1');
+}
+
+/**
+ * Lookup droga (normalizada) -> lista de códigos N5_COD que le
+ * corresponden según el dataset ANMAT. Algunas drogas tienen más de un
+ * código (mismo principio activo, distinta vía/uso) — de ahí la lista.
+ */
+export function cargarAtcPorDroga() {
+    return _cargarJsonConCache('data/atc/atc_por_droga.json', 'atc_por_droga_v1');
+}
+
+/**
+ * Normaliza un nombre de droga para matchear contra el dataset ANMAT:
+ * minúsculas, sin acentos, sin espacios sobrantes. Debe coincidir con
+ * la normalización usada al generar data/atc/atc_por_droga.json.
+ */
+function normalizarDroga(s) {
+    return (s || '')
+        .trim()
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+}
+
+/**
+ * Arma el "breadcrumb" jerárquico oficial ANMAT (Nivel 1 › Nivel 2-3 ›
+ * Nivel 4) a partir de uno o más códigos ATC crudos (separados por '\n').
+ * Cada código puede llegar truncado a distintos niveles (1, 4, 5 o 7
+ * caracteres) — se arma con los niveles que el código alcance y que
+ * existan en el lookup, ignorando el resto.
+ *
+ * Devuelve null si no hay lookup cargado, no hay código, o ningún
+ * código matcheó ningún nivel (para que el llamador pueda hacer fallback
+ * a otro campo).
+ */
+export function obtenerJerarquiaATC(atcRaw, mapaNiveles) {
+    if (!atcRaw || !mapaNiveles || !mapaNiveles.n1) return null;
+
+    const codigos = atcRaw.split('\n').map(c => c.trim()).filter(Boolean);
+    const breadcrumbs = [];
+
+    for (const cod of codigos) {
+        const partes = [];
+        if (cod.length >= 1) {
+            const desc = mapaNiveles.n1[cod.slice(0, 1)];
+            if (desc) partes.push(desc);
+        }
+        if (cod.length >= 4) {
+            const desc = mapaNiveles.n23[cod.slice(0, 4)];
+            if (desc) partes.push(desc);
+        }
+        if (cod.length >= 5) {
+            const desc = mapaNiveles.n4[cod.slice(0, 5)];
+            if (desc) partes.push(desc);
+        }
+        if (partes.length > 0) {
+            const breadcrumb = partes.join(' › ');
+            if (!breadcrumbs.includes(breadcrumb)) breadcrumbs.push(breadcrumb);
+        }
+    }
+
+    return breadcrumbs.length > 0 ? breadcrumbs.join('\n') : null;
+}
+
+/**
+ * Clasificación ATC a partir de la droga propia del medicamento (campo
+ * `droga` de medicamentos.json — combos separados por ', '), matcheada
+ * contra el dataset ANMAT. Es la fuente primaria: propia y verificable,
+ * sin depender del scrape de terceros.
+ *
+ * Un mismo principio activo puede tener más de un código ATC (distinta
+ * vía o uso clínico) — se muestran todos, deduplicados.
+ *
+ * Devuelve null si no hay lookups cargados o ninguna de las drogas
+ * matcheó (para que el llamador haga fallback a la fuente scrapeada).
+ */
+export function obtenerClasificacionPorDroga(drogaMed, mapaPorDroga, mapaNiveles) {
+    if (!drogaMed || !mapaPorDroga || !mapaNiveles || !mapaNiveles.n1) return null;
+
+    const codigos = [];
+    for (const parte of drogaMed.split(',')) {
+        const norm = normalizarDroga(parte);
+        if (!norm) continue;
+        for (const cod of (mapaPorDroga[norm] || [])) {
+            if (!codigos.includes(cod)) codigos.push(cod);
+        }
+    }
+    if (codigos.length === 0) return null;
+
+    const jerarquia = obtenerJerarquiaATC(codigos.join('\n'), mapaNiveles);
+    if (!jerarquia) return null;
+
+    return { codigos: codigos.join('\n'), jerarquia };
+}
