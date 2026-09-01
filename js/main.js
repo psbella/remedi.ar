@@ -6,9 +6,10 @@ import {
     mostrarSkeleton, mostrarMensajeInicial, mostrarError,
     mostrarResultados, cargarOpcionesFiltros, actualizarFechaEnFooter,
     hashMedicamento, buscarPorHash, compartirMedicamento,
-    setInfoAdicionalMap, abrirModalInfo,
+    setInfoAdicionalMap, setAtcNivelesMap, setAtcPorDrogaMap, abrirModalInfo,
 } from './uiRenderer.js';
 import { cargarInfoAdicional } from './infoAdicional.js';
+import { cargarClasificacionATC, cargarAtcPorDroga } from './atcClasificacion.js';
 import {
     getState, getResultados, getFiltros, getTodos,
     setFiltroTexto, setFiltroPresentacion,
@@ -130,7 +131,9 @@ function _initInfoModal() {
     document.getElementById('resultados')?.addEventListener('click', (e) => {
         const btn = e.target.closest('.btn-info-adicional');
         if (!btn) return;
-        abrirModalInfo(btn.dataset.hash);
+        const hash = btn.dataset.hash;
+        const med = getTodos().find(m => hashMedicamento(m) === hash);
+        abrirModalInfo(hash, med?.droga);
     });
 }
 
@@ -208,6 +211,13 @@ async function init() {
             setInfoAdicionalMap(mapa);
             _render(getState());
         });
+
+        // Clasificación ATC (jerarquía oficial ANMAT + lookup por droga
+        // propia): se cargan en paralelo, también en segundo plano y sin
+        // bloquear. Solo se usan dentro del modal de info complementaria,
+        // así que no hace falta re-renderizar la lista al terminar.
+        cargarClasificacionATC().then(setAtcNivelesMap);
+        cargarAtcPorDroga().then(setAtcPorDrogaMap);
     } catch (err) {
         console.error(err);
         const msg = 'No se pudieron cargar los datos. Intentá recargar la página.';

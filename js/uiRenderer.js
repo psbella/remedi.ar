@@ -1,9 +1,17 @@
 // js/uiRenderer.js — Renderizado con badges de vigencia y escape seguro
 import { formatearPrecio, escapeHtml, extraerFiltros, normalizarLaboratorio, parsearPresentacion } from './utils.js';
+import { obtenerJerarquiaATC, obtenerClasificacionPorDroga } from './atcClasificacion.js';
 
 // Mapa hash -> info complementaria. null mientras no se cargó
 // todavía (ver infoAdicional.js, cargado en segundo plano desde main.js).
 let _infoAdicionalMap = null;
+// Lookup jerárquico ATC (n1/n23/n4 -> descripción). null mientras no se
+// cargó todavía (ver atcClasificacion.js, cargado en segundo plano desde
+// main.js en paralelo con la info adicional).
+let _atcNivelesMap = null;
+// Lookup droga normalizada -> lista de códigos ATC (dataset propio ANMAT).
+// null mientras no se cargó todavía.
+let _atcPorDrogaMap = null;
 // Elemento al que devolver el foco al cerrar el modal de info.
 let _elQueVolverFoco = null;
 
@@ -13,6 +21,25 @@ let _elQueVolverFoco = null;
  */
 export function setInfoAdicionalMap(mapa) {
     _infoAdicionalMap = mapa || {};
+}
+
+/**
+ * Registra el lookup jerárquico ATC ya cargado para que abrirModalInfo()
+ * pueda mostrar la clasificación oficial ANMAT en vez del texto de
+ * "clases_terapeuticas" scrapeado.
+ */
+export function setAtcNivelesMap(mapa) {
+    _atcNivelesMap = mapa || {};
+}
+
+/**
+ * Registra el lookup droga -> códigos ATC (dataset propio ANMAT) ya
+ * cargado, para que abrirModalInfo() pueda clasificar directamente por
+ * la droga propia del medicamento en vez de depender del código
+ * scrapeado de terceros.
+ */
+export function setAtcPorDrogaMap(mapa) {
+    _atcPorDrogaMap = mapa || {};
 }
 
 /**
@@ -435,19 +462,33 @@ function _escapeConSaltos(texto) {
  * medicamento cuyo hash se recibe. No hace nada si el mapa todavía no
  * cargó o no hay info para ese hash (no debería ocurrir: el botón que
  * dispara esto solo se renderiza cuando sí hay datos).
+ *
+ * `drogaMed` es el campo `droga` propio del medicamento (medicamentos.json,
+ * no el scrapeado): se usa como fuente primaria para clasificar por ATC
+ * contra el dataset propio ANMAT. Si no matchea (o no se pasó), se cae a
+ * los campos `atc` / `clases_terapeuticas` scrapeados de terceros.
  */
-export function abrirModalInfo(hash) {
+export function abrirModalInfo(hash, drogaMed) {
     const info = _infoAdicionalMap && _infoAdicionalMap[hash];
     if (!info) return;
 
     const modal = _obtenerModalInfo();
     const panel = modal.querySelector('.modal-info-panel');
 
+    // Clasificación ATC: se prioriza el match por droga propia contra el
+    // dataset propio ANMAT (fuente primaria, verificable); si no matchea,
+    // se cae al código y texto scrapeados de terceros.
+    const clasificacionPropia = obtenerClasificacionPorDroga(drogaMed, _atcPorDrogaMap, _atcNivelesMap);
+    const atcMostrado = clasificacionPropia?.codigos || info.atc;
+    const jerarquiaMostrada = clasificacionPropia?.jerarquia
+        || obtenerJerarquiaATC(info.atc, _atcNivelesMap)
+        || info.clases_terapeuticas;
+
     const filas = [
         ['Laboratorio', info.laboratorio],
         ['Droga(s)', info.drogas],
-        ['Clasificación ATC', info.atc],
-        ['Clases terapéuticas', info.clases_terapeuticas],
+        ['Clasificación ATC', atcMostrado],
+        ['Clases terapéuticas', jerarquiaMostrada],
     ].filter(([, valor]) => valor);
 
     let vigenciaHtml = '';
