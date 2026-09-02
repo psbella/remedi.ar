@@ -71,6 +71,29 @@ function normalizarDroga(s) {
 }
 
 /**
+ * Variantes de "ácido" a probar cuando el nombre normalizado no matchea
+ * tal cual: remedi.ar a veces lo abrevia ("ac.clavulanico") y a veces lo
+ * omite directamente ("acetilsalicilico" en vez de "acido acetilsalicilico").
+ * Devuelve el nombre original primero (caso más común) y después las
+ * variantes, en ese orden — se usa la primera que matchee.
+ *
+ * Se probaron además abreviaturas de sales (clorh., fosf., sulf., etc.,
+ * incluso respetando el formato invertido real del CSV "droga, sal de")
+ * y no recuperaron ningún match adicional — no vale la pena la
+ * complejidad extra, así que no se incluyen.
+ */
+function variantesAcido(norm) {
+    const variantes = [norm];
+    if (norm.startsWith('ac.')) {
+        const resto = norm.slice(3).trim();
+        variantes.push('acido ' + resto, resto);
+    } else if (!norm.startsWith('acido ')) {
+        variantes.push('acido ' + norm);
+    }
+    return variantes;
+}
+
+/**
  * Arma el "breadcrumb" jerárquico oficial ANMAT (Nivel 1 › Nivel 2-3 ›
  * Nivel 4) a partir de uno o más códigos ATC crudos (separados por '\n').
  * Cada código puede llegar truncado a distintos niveles (1, 4, 5 o 7
@@ -111,29 +134,90 @@ export function obtenerJerarquiaATC(atcRaw, mapaNiveles) {
 }
 
 /**
+ * Excepciones manuales verificadas: combos donde el nombre que usa ANMAT
+ * para el código ATC no tiene relación textual con los nombres de sus
+ * componentes, así que ningún matching por texto (por más variantes que
+ * se prueben) puede llegar solo. Cada excepción se aplica si el nombre
+ * completo de la droga (normalizado, sin partir por comas) contiene TODOS
+ * los tokens de `requiere` — así es tolerante a cómo esté puntuado o
+ * fragmentado el campo `droga` de origen (ver casos reales abajo).
+ *
+ * Lista deliberadamente corta y explícita — no es un sistema de consenso
+ * automático, cada entrada se agrega a mano y se verifica contra el CSV
+ * ANMAT antes de sumarla.
+ */
+const EXCEPCIONES_COMBO = [
+    {
+        // "amoxicilina, clavulánico,ác." (64 productos, ej. Amoxidal Duo,
+        // Amoclav, Clavulox Duo) y "amoxicilina, ác.clavulánico, a" (2
+        // productos, mismo principio activo con el campo droga
+        // fragmentado distinto) — ninguna variante de "clavulanico"
+        // aparece como principio activo propio en el CSV ANMAT: ahí
+        // figura como N5_COD=J01CR02, PRINCIPIO ACTIVO="AMOXICILINA E
+        // INHIBIDORES DE LA ENZIMA". Sin esta excepción, el match parcial
+        // de "amoxicilina" sola daría J01CR02→J01CA04 (incorrecto:
+        // penicilina simple en vez de combinación con inhibidor de
+        // betalactamasa). Verificado contra codigos_atc.csv el 2026-09-02.
+        requiere: ['amoxicilina', 'clavulanico'],
+        codigos: ['J01CR02'],
+    },
+];
+
+function _clasificacionPorExcepcion(drogaNormCompleta) {
+    for (const exc of EXCEPCIONES_COMBO) {
+        if (exc.requiere.every(tok => drogaNormCompleta.includes(tok))) {
+            return exc.codigos;
+        }
+    }
+    return null;
+}
+
+/**
  * Clasificación ATC a partir de la droga propia del medicamento (campo
  * `droga` de medicamentos.json — combos separados por ', '), matcheada
  * contra el dataset ANMAT. Es la fuente primaria: propia y verificable,
  * sin depender del scrape de terceros.
  *
- * Un mismo principio activo puede tener más de un código ATC (distinta
- * vía o uso clínico) — se muestran todos, deduplicados.
+ * Primero revisa EXCEPCIONES_COMBO (ver arriba). Si no aplica ninguna,
+ * intenta el match automático por componente: para combos (más de una
+ * droga), exige que TODAS las partes matcheen antes de devolver algo. Si
+ * solo matchea una parte (ej. "amoxicilina" dentro de "amoxicilina,
+ * clavulánico,ác." sin la excepción), mostrar solo esa clasificación
+ * sería incorrecto: un combo con inhibidor de betalactamasa tiene un
+ * código ATC propio (J01CR02), distinto al de la droga base sola
+ * (J01CA04) — mostrar el de la droga base sería mostrar el dato
+ * equivocado, no uno incompleto.
  *
- * Devuelve null si no hay lookups cargados o ninguna de las drogas
- * matcheó (para que el llamador haga fallback a la fuente scrapeada).
+ * Un mismo principio activo puede tener más de un código ATC (distinta
+ * vía o uso clínico) — para esos sí se muestran todos, deduplicados.
+ *
+ * Devuelve null si no hay lookups cargados, si alguna droga del combo no
+ * matcheó (y ninguna excepción aplica), o si ninguna matcheó.
  */
 export function obtenerClasificacionPorDroga(drogaMed, mapaPorDroga, mapaNiveles) {
     if (!drogaMed || !mapaPorDroga || !mapaNiveles || !mapaNiveles.n1) return null;
 
+    const normCompleta = normalizarDroga(drogaMed);
+    const codigosExcepcion = _clasificacionPorExcepcion(normCompleta);
+    if (codigosExcepcion) {
+        const jerarquia = obtenerJerarquiaATC(codigosExcepcion.join('\n'), mapaNiveles);
+        return jerarquia ? { codigos: codigosExcepcion.join('\n'), jerarquia } : null;
+    }
+
+    const partes = drogaMed.split(',').map(normalizarDroga).filter(Boolean);
+    if (partes.length === 0) return null;
+
     const codigos = [];
-    for (const parte of drogaMed.split(',')) {
-        const norm = normalizarDroga(parte);
-        if (!norm) continue;
-        for (const cod of (mapaPorDroga[norm] || [])) {
+    for (const norm of partes) {
+        let cods = null;
+        for (const variante of variantesAcido(norm)) {
+            if (mapaPorDroga[variante]) { cods = mapaPorDroga[variante]; break; }
+        }
+        if (!cods) return null; // esta parte del combo no matcheó: no mostrar nada
+        for (const cod of cods) {
             if (!codigos.includes(cod)) codigos.push(cod);
         }
     }
-    if (codigos.length === 0) return null;
 
     const jerarquia = obtenerJerarquiaATC(codigos.join('\n'), mapaNiveles);
     if (!jerarquia) return null;
