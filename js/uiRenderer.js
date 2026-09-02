@@ -1,6 +1,6 @@
 // js/uiRenderer.js — Renderizado con badges de vigencia y escape seguro
 import { formatearPrecio, escapeHtml, extraerFiltros, normalizarLaboratorio, parsearPresentacion } from './utils.js';
-import { obtenerJerarquiaATC, obtenerClasificacionPorDroga } from './atcClasificacion.js';
+import { obtenerClasificacionPorDroga } from './atcClasificacion.js';
 
 // Mapa hash -> info complementaria. null mientras no se cargó
 // todavía (ver infoAdicional.js, cargado en segundo plano desde main.js).
@@ -464,9 +464,11 @@ function _escapeConSaltos(texto) {
  * dispara esto solo se renderiza cuando sí hay datos).
  *
  * `drogaMed` es el campo `droga` propio del medicamento (medicamentos.json,
- * no el scrapeado): se usa como fuente primaria para clasificar por ATC
- * contra el dataset propio ANMAT. Si no matchea (o no se pasó), se cae a
- * los campos `atc` / `clases_terapeuticas` scrapeados de terceros.
+ * no el scrapeado): es la única fuente para clasificar por ATC, contra el
+ * dataset propio ANMAT. Si no matchea (o no se pasó), la fila de
+ * clasificación ATC simplemente no se muestra — sin fallback al dato
+ * scrapeado/consenso de terceros (decisión deliberada: se prioriza tener
+ * una única fuente propia y verificable, aunque cubra menos productos).
  */
 export function abrirModalInfo(hash, drogaMed) {
     const info = _infoAdicionalMap && _infoAdicionalMap[hash];
@@ -475,14 +477,12 @@ export function abrirModalInfo(hash, drogaMed) {
     const modal = _obtenerModalInfo();
     const panel = modal.querySelector('.modal-info-panel');
 
-    // Clasificación ATC: se prioriza el match por droga propia contra el
-    // dataset propio ANMAT (fuente primaria, verificable); si no matchea,
-    // se cae al código y texto scrapeados de terceros.
+    // Clasificación ATC: exclusivamente por droga propia contra el dataset
+    // propio ANMAT. Sin match, sin fila — no se recurre al atc/clases_
+    // terapeuticas scrapeados (ver nota arriba).
     const clasificacionPropia = obtenerClasificacionPorDroga(drogaMed, _atcPorDrogaMap, _atcNivelesMap);
-    const atcMostrado = clasificacionPropia?.codigos || info.atc;
-    const jerarquiaMostrada = clasificacionPropia?.jerarquia
-        || obtenerJerarquiaATC(info.atc, _atcNivelesMap)
-        || info.clases_terapeuticas;
+    const atcMostrado = clasificacionPropia?.codigos;
+    const jerarquiaMostrada = clasificacionPropia?.jerarquia;
 
     const filas = [
         ['Laboratorio', info.laboratorio],
