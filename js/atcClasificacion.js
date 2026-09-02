@@ -71,6 +71,37 @@ function normalizarDroga(s) {
 }
 
 /**
+ * Tokens que aparecen en el campo `droga` como parte de un combo pero no
+ * son un principio activo en sí — son palabras del dataset ANMAT que
+ * indican "combinado con otras drogas" o el sufijo de sal de una droga
+ * escrita en formato invertido "droga,sal" (ej: "morfina,sulfato" es UNA
+ * sola droga — sulfato de morfina — no un combo de dos). Si se tratan
+ * como una droga más del combo, nunca van a matchear en
+ * atc_por_droga.json y el combo entero queda sin clasificar aunque la
+ * droga principal sí esté clasificada.
+ * Ej: "fenilefrina, asoc." → sin filtrar "asoc.", el combo da null.
+ * Ej: "bencidamina,clorhidrato" → sin filtrar "clorhidrato", da null.
+ * Se comparan sin el punto final.
+ *
+ * Verificado (2026-09-02) que ninguno de estos sufijos de sal tiene
+ * entrada propia en atc_por_droga.json, y que filtrarlos no cambia el
+ * código de ningún medicamento que ya clasificaba correctamente antes
+ * del cambio (0 regresiones sobre las 13127 entradas de medicamentos.json).
+ * Riesgo conocido y aceptado: en un caso hipotético donde la sal
+ * específica cambie el código ATC real (no observado en los 33 casos
+ * recuperados), este filtro daría el código de la droga base en vez del
+ * código específico de esa sal.
+ */
+const STOPWORDS_DROGA = new Set([
+    'asoc',
+    'clorhidrato', 'clorh', 'diclorh', 'sulfato', 'acetato', 'citrato',
+    'bromuro', 'cloruro', 'fosfato', 'sodio', 'potasio', 'calcio',
+    'maleato', 'fumarato', 'tartrato', 'besilato', 'mesilato', 'succinato',
+    'bicarbonato', 'carbonato', 'nitrato', 'yoduro', 'gluconato', 'lactato',
+    'picosulfato', 'valproato', 'fluoruro', 'ranelato'
+]);
+
+/**
  * Variantes de "ácido" a probar cuando el nombre normalizado no matchea
  * tal cual: remedi.ar a veces lo abrevia ("ac.clavulanico") y a veces lo
  * omite directamente ("acetilsalicilico" en vez de "acido acetilsalicilico").
@@ -204,7 +235,10 @@ export function obtenerClasificacionPorDroga(drogaMed, mapaPorDroga, mapaNiveles
         return jerarquia ? { codigos: codigosExcepcion.join('\n'), jerarquia } : null;
     }
 
-    const partes = drogaMed.split(',').map(normalizarDroga).filter(Boolean);
+    const partes = drogaMed.split(',')
+        .map(normalizarDroga)
+        .filter(Boolean)
+        .filter(p => !STOPWORDS_DROGA.has(p.replace(/\.$/, '')));
     if (partes.length === 0) return null;
 
     const codigos = [];
