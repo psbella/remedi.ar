@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-01T20:31:27.281246-03:00",
+  "timestamp": "2026-09-02T14:16:21.328532-03:00",
   "total_registros": 13127,
   "total_outliers": 92,
   "outliers": [
@@ -242,12 +242,12 @@
       "marca": "VOCABRIA",
       "presentacion": "600 mg iny. x 3 ml",
       "laboratorio": "GlaxoSmithKline",
-      "precio": 2643747.81,
+      "precio": 2699266.51,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $4,406.25 << mediana_grupo $22,925.07"
+        "ppu $4,498.78 << mediana_grupo $23,406.49"
       ],
-      "mediana_droga": 1943532.22,
+      "mediana_droga": 1984346.38,
       "n_droga": 2
     },
     {
@@ -299,7 +299,7 @@
       "razones": [
         "ppu $205.00 << mediana_grupo $1,511.69"
       ],
-      "mediana_droga": 224784.7,
+      "mediana_droga": 236303.53,
       "n_droga": 8
     },
     {
@@ -336,7 +336,7 @@
       "precio": 99489.61,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $198.98 << mediana_grupo $75,676.74"
+        "ppu $198.98 << mediana_grupo $77,263.86"
       ],
       "mediana_droga": 99489.61,
       "n_droga": 5
@@ -481,7 +481,7 @@
       "razones": [
         "ppu $1,503.20 << mediana_grupo $9,276.70"
       ],
-      "mediana_droga": 33289.35,
+      "mediana_droga": 33836.96,
       "n_droga": 40
     },
     {
