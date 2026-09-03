@@ -1469,6 +1469,8 @@ Sí, desde el primer viernes de implementación. Cada viernes se genera un snaps
 
 # 🙏 Fuente de Datos
 
+La clasificación ATC de `data/atc/atc_por_droga.json` se completa con el índice oficial [ATC/DDD de la WHO Collaborating Centre for Drug Statistics Methodology (WHOCC)](https://atcddd.fhi.no/atc_ddd_index/), obtenido vía el scraper [fabkury/atcd](https://github.com/fabkury/atcd) (licencia [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/), uso no comercial). Los nombres de droga en inglés se cruzan contra el dataset local mediante reglas de sufijo INN estándar (ver `scripts/traducir_atc_who.py`).
+
 Datos proporcionados por [SIAFAR / COFA](https://siafar.com/precios/pdf/). Cobertura PAMI desde el [vademécum oficial del PAMI](https://datos.pami.org.ar/dataset/medicamentos-para-afiliados).
 
 ---
