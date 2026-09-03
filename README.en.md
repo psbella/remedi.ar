@@ -1476,7 +1476,9 @@ Yes, since the first Friday after implementation. Every Friday a CSV snapshot is
 
 # 🙏 Data Source
 
-Data provided by [SIAFAR / COFA](https://siafar.com/precios/pdf/). PAMI coverage from the [official PAMI formulary](https://datos.pami.org.ar/dataset/medicamentos-para-afiliados).
+Data provided by [SIAFAR / COFA](https://siafar.com/precios/pdf/) (prices) and the [official PAMI formulary](https://datos.pami.org.ar/dataset/medicamentos-para-afiliados) (coverage).
+
+ATC classification starts from [ANMAT's official ATC codes page](https://www.anmat.gob.ar/atc/CodigosATC.asp), extracted into the own [Codigos-ATC-ANMAT](https://github.com/psbella/Codigos-ATC-ANMAT) dataset (`data/atc/atc_por_droga.json` / `atc_niveles.json`). Coverage is completed with the official [WHO Collaborating Centre for Drug Statistics Methodology (WHOCC) ATC/DDD index](https://atcddd.fhi.no/atc_ddd_index/), obtained via the [fabkury/atcd](https://github.com/fabkury/atcd) scraper (license [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/), non-commercial use). English drug names are cross-matched against the local dataset using standard INN suffix rules (see `scripts/traducir_atc_who.py`).
 
 ---
 

@@ -1476,9 +1476,9 @@ Sí, desde el primer viernes de implementación. Cada viernes se genera un snaps
 
 # 🙏 Fuente de Datos
 
-La clasificación ATC de `data/atc/atc_por_droga.json` se completa con el índice oficial [ATC/DDD de la WHO Collaborating Centre for Drug Statistics Methodology (WHOCC)](https://atcddd.fhi.no/atc_ddd_index/), obtenido vía el scraper [fabkury/atcd](https://github.com/fabkury/atcd) (licencia [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/), uso no comercial). Los nombres de droga en inglés se cruzan contra el dataset local mediante reglas de sufijo INN estándar (ver `scripts/traducir_atc_who.py`).
+Datos proporcionados por [SIAFAR / COFA](https://siafar.com/precios/pdf/) (precios) y el [vademécum oficial de PAMI](https://datos.pami.org.ar/dataset/medicamentos-para-afiliados) (cobertura).
 
-Datos proporcionados por [SIAFAR / COFA](https://siafar.com/precios/pdf/). Cobertura PAMI desde el [vademécum oficial del PAMI](https://datos.pami.org.ar/dataset/medicamentos-para-afiliados).
+La clasificación ATC parte de la [página oficial de códigos ATC de ANMAT](https://www.anmat.gob.ar/atc/CodigosATC.asp), extraída al dataset propio [Codigos-ATC-ANMAT](https://github.com/psbella/Codigos-ATC-ANMAT) (`data/atc/atc_por_droga.json` / `atc_niveles.json`). Se completa con el índice oficial [ATC/DDD de la WHO Collaborating Centre for Drug Statistics Methodology (WHOCC)](https://atcddd.fhi.no/atc_ddd_index/), obtenido vía el scraper [fabkury/atcd](https://github.com/fabkury/atcd) (licencia [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/), uso no comercial). Los nombres de droga en inglés se cruzan contra el dataset local mediante reglas de sufijo INN estándar (ver `scripts/traducir_atc_who.py`).
 
 ---
 
