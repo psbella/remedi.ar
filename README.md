@@ -546,7 +546,7 @@ Cada tarjeta tiene un botón "Compartir" que abre el menú nativo en mobile o co
 
 ## ✅ Tests de sanidad automáticos
 
-28 tests pytest corren después de cada actualización del ETL y antes del commit. Si alguno falla, el workflow se detiene y el sitio sigue sirviendo los datos anteriores. 12 validan umbrales de calidad de negocio (cantidad de registros, % de campos vacíos, rango de precios), 1 valida el contrato estructural completo del JSON contra un [JSON Schema versionado](./tests/medicamentos.schema.json), y 15 son tests unitarios de las funciones puras de scripts/etl/ — si el ETL cambia la forma del output o rompe una función de reparación, alguno de estos avisa.
+31 tests pytest corren después de cada actualización del ETL y antes del commit. Si alguno falla, el workflow se detiene y el sitio sigue sirviendo los datos anteriores. 12 validan umbrales de calidad de negocio (cantidad de registros, % de campos vacíos, rango de precios), 1 valida el contrato estructural completo del JSON contra un [JSON Schema versionado](./tests/medicamentos.schema.json), y 18 son tests unitarios de las funciones puras de scripts/etl/ — si el ETL cambia la forma del output o rompe una función de reparación, alguno de estos avisa.
 ```
 ============================= test session starts ==============================
 platform linux -- Python 3.11.15, pytest-9.1.1, pluggy-1.6.0
@@ -697,7 +697,9 @@ remediar/
 │   ├── utils.js
 │   ├── about.js
 │   ├── admin-panel.js
-│   └── landing.js        # compartido por las 100 landing pages
+│   ├── landing.js        # compartido por las 100 landing pages
+│   ├── infoAdicional.js  # modal "+Info" (laboratorio, droga, clases terapéuticas)
+│   └── atcClasificacion.js  # jerarquía ATC oficial ANMAT en el modal +Info
 │
 ├── data/
 │   ├── medicamentos.json
@@ -705,7 +707,12 @@ remediar/
 │   ├── presentaciones_debug.csv
 │   ├── blacklist.json
 │   ├── droga_fixes.json
-│   └── pami.xlsx          # descargado en runtime, no versionado
+│   ├── pami.xlsx          # descargado en runtime, no versionado
+│   ├── atc/
+│   │   ├── atc_por_droga.json   # clasificación ATC propia por droga
+│   │   └── atc_niveles.json     # jerarquía Nivel1-4 (dataset codigos-atc-anmat)
+│   └── info-adicional/
+│       └── info_adicional.json  # laboratorio, droga(s), clases terapéuticas por medicamento
 │
 ├── scripts/
 │   ├── pdf_to_json.py       # orquestador: encadena las capas de etl/
@@ -1011,7 +1018,7 @@ git push origin feature/nueva-funcion
 # abrir Pull Request (se completa solo con el template del repo)
 ```
 
-Antes de abrir el PR: si tocaste el ETL, corré `pytest tests/` y confirmá que pasen los 28 tests (12 de sanidad + 1 de schema + 15 unitarios de scripts/etl/); si tocaste JS/CSS/HTML, probá el cambio en el navegador, no alcanza con leer el diff. También conviene correr `ruff check .` (Python) y `eslint js/` (JS) — todavía no bloquean el CI, pero sirven para agarrar errores antes de mergear.
+Antes de abrir el PR: si tocaste el ETL, corré `pytest tests/` y confirmá que pasen los 31 tests (12 de sanidad + 1 de schema + 18 unitarios de scripts/etl/); si tocaste JS/CSS/HTML, probá el cambio en el navegador, no alcanza con leer el diff. También conviene correr `ruff check .` (Python) y `eslint js/` (JS) — todavía no bloquean el CI, pero sirven para agarrar errores antes de mergear.
 
 ## Convenciones de commits
 
@@ -1056,7 +1063,7 @@ flowchart TD
     BL[Blacklist 710 entradas]
     OUT[Detección de outliers IQR]
     PRES[Parser de presentaciones]
-    T[🧪 pytest 28 tests]
+    T[🧪 pytest 31 tests]
     JSON[medicamentos.json]
     DEBUG[presentaciones_debug.csv]
     REPORT[outlier_report.json]

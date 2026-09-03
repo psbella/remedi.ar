@@ -4,6 +4,61 @@ Todos los cambios notables de remedi.ar se documentan en este archivo.
 
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.0] - 2026-09-03
+
+### Agregado
+- Modal "+Info" en las landing pages: muestra laboratorio, droga(s) y
+  clases terapéuticas por medicamento, cargado en segundo plano desde
+  `data/info-adicional/info_adicional.json` (`js/infoAdicional.js`) (#48).
+- Clasificación ATC propia: nuevo dataset `data/atc/atc_por_droga.json`
+  + `data/atc/atc_niveles.json`, integrado al modal +Info vía
+  `js/atcClasificacion.js`. Cuando hay match por droga propia contra el
+  dataset [[codigos-atc-anmat]], muestra la jerarquía oficial ANMAT
+  (Nivel1 › Nivel2-3 › Nivel4) en vez del texto scrapeado de AlfaBeta;
+  cae al texto scrapeado si no hay match.
+- Cobertura ATC completada con el índice oficial WHOCC ATC/DDD (206
+  drogas adicionales) vía `scripts/traducir_atc_who.py` y
+  `scripts/aplicar_atc_tabla_oms.py`.
+- `scripts/mantenimiento/fix_blacklist_encoding.py`: script de
+  reparación puntual para la corrupción de encoding en
+  `blacklist.json`.
+
+### Cambiado
+- Enriquecimiento ATC por consenso de principio activo (heurística de
+  outliers/tolerancia jerárquica) reemplazado por matching directo
+  droga→ATC contra el dataset propio, con fallback a AlfaBeta solo si
+  no hay match. Se retira el método viejo de consenso.
+- CSV de snapshot semanal renombrado a
+  `snapshot_semana{N}_{DD-MM-YYYY}`.
+- `sw.js`: `CACHE_NAME` sube de `v13` a `v15`.
+
+### Corregido
+- Corrupción de datos en `blacklist.json` causada por una regresión de
+  encoding en el panel admin; 184/223 claves reparadas por cruce
+  contra el historial git de `medicamentos.json` (39 quedan
+  pendientes de revisión manual).
+- Error "URI malformed" en el login del panel admin — faltaba
+  `escape()` en la cadena de decodificación base64.
+- Clasificación ATC de combos: ya no se clasifica cuando solo matchea
+  una droga parcial del combo, y se omiten sufijos "asoc." / de sal al
+  buscar coincidencia.
+- ATC de pregabalina corregido (N03AX16 → N02BF02) y exclusión de la
+  familia L01X (desactualizada) como fuente de consenso.
+- Referencias a `admin.html` en `README.md` / `README.en.md` /
+  `SECURITY.md` actualizadas a `admin-panel.html` (el rename ya
+  estaba aplicado en el código, la doc había quedado atrás).
+- README.md / README.en.md: conteo de tests desactualizado (28→31);
+  `CONTRIBUTING.md` ya tenía el número correcto.
+- README.md: árbol de directorios no incluía `data/atc/`,
+  `data/info-adicional/`, `js/atcClasificacion.js` ni
+  `js/infoAdicional.js`.
+
+### Quitado
+- `tabla atc.html` (raíz) y `scripts/tabla atc.html`: copias sin
+  referenciar de `data/info-adicional/tabla_atc.html` (486KB c/u),
+  commiteadas por error. `nota-combinado-modal.patch`: parche
+  huérfano, sin uso en el repo.
+
 ## [2.3.5]
 
 ### Cambiado

@@ -698,7 +698,9 @@ remediar/
 │   ├── utils.js
 │   ├── about.js
 │   ├── admin-panel.js
-│   └── landing.js        # shared by the 100 landing pages
+│   ├── landing.js        # shared by the 100 landing pages
+│   ├── infoAdicional.js  # "+Info" modal (manufacturer, drug, therapeutic classes)
+│   └── atcClasificacion.js  # official ANMAT ATC hierarchy in the +Info modal
 │
 ├── data/
 │   ├── medicamentos.json
@@ -706,7 +708,12 @@ remediar/
 │   ├── presentaciones_debug.csv
 │   ├── blacklist.json
 │   ├── droga_fixes.json
-│   └── pami.xlsx          # downloaded at runtime, not versioned
+│   ├── pami.xlsx          # downloaded at runtime, not versioned
+│   ├── atc/
+│   │   ├── atc_por_droga.json   # own ATC classification by drug
+│   │   └── atc_niveles.json     # Level1-4 hierarchy (codigos-atc-anmat dataset)
+│   └── info-adicional/
+│       └── info_adicional.json  # manufacturer, drug(s), therapeutic classes per medication
 │
 ├── scripts/
 │   ├── pdf_to_json.py       # orchestrator: chains the etl/ layers
@@ -1011,7 +1018,7 @@ git push origin feature/new-feature
 # open a Pull Request (auto-filled with the repo template)
 ```
 
-Before opening the PR: if you touched the ETL, run `pytest tests/` and confirm the 28 tests pass (12 sanity + 1 schema + 15 unit tests of scripts/etl/); if you touched JS/CSS/HTML, test the change in the browser — reading the diff isn't enough. It's also a good idea to run `ruff check .` (Python) and `eslint js/` (JS) — they don't block CI yet, but they help catch errors before merging.
+Before opening the PR: if you touched the ETL, run `pytest tests/` and confirm the 31 tests pass (12 sanity + 1 schema + 18 unit tests of scripts/etl/); if you touched JS/CSS/HTML, test the change in the browser — reading the diff isn't enough. It's also a good idea to run `ruff check .` (Python) and `eslint js/` (JS) — they don't block CI yet, but they help catch errors before merging.
 
 ## Commit conventions
 
@@ -1056,7 +1063,7 @@ flowchart TD
     BL[Blacklist 710 entries]
     OUT[IQR outlier detection]
     PRES[Presentation parser]
-    T[🧪 pytest 28 tests]
+    T[🧪 pytest 31 tests]
     JSON[medicamentos.json]
     DEBUG[presentaciones_debug.csv]
     REPORT[outlier_report.json]
