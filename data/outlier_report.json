@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-02T20:31:36.079692-03:00",
+  "timestamp": "2026-09-03T14:08:17.727142-03:00",
   "total_registros": 13127,
-  "total_outliers": 92,
+  "total_outliers": 96,
   "outliers": [
     {
       "droga": "aciclovir",
@@ -67,6 +67,19 @@
       ],
       "mediana_droga": 22685.65,
       "n_droga": 9
+    },
+    {
+      "droga": "amlodipina",
+      "marca": "AMLOC",
+      "presentacion": "5 mg tab.x 20",
+      "laboratorio": "Aspen Pharma",
+      "precio": 6561.14,
+      "precio_outlier_tipo": "bajo_relativo",
+      "razones": [
+        "precio $6,561.14 < 25% mediana $26,332.73 (n=79)"
+      ],
+      "mediana_droga": 26332.73,
+      "n_droga": 79
     },
     {
       "droga": "amoxicilina",
@@ -180,7 +193,7 @@
       "precio": 38634.83,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $257.57 << mediana_grupo $3,371.11"
+        "ppu $257.57 << mediana_grupo $3,406.11"
       ],
       "mediana_droga": 32835.35,
       "n_droga": 41
@@ -225,6 +238,19 @@
       "n_droga": 5
     },
     {
+      "droga": "benzocaína",
+      "marca": "ORALSONE BENZOCAINA GEL",
+      "presentacion": "gel x 10 g",
+      "laboratorio": "Laboratorio Gra",
+      "precio": 11965.52,
+      "precio_outlier_tipo": "bajo_iqr",
+      "razones": [
+        "precio $11,965.52 < fence_low $12,998.92"
+      ],
+      "mediana_droga": 14248.09,
+      "n_droga": 6
+    },
+    {
       "droga": "betametasona",
       "marca": "CORTEROID",
       "presentacion": "cr.x 30 g",
@@ -236,6 +262,19 @@
       ],
       "mediana_droga": 9765.36,
       "n_droga": 38
+    },
+    {
+      "droga": "bicalutamida",
+      "marca": "BICALUTAMIDA VARIFARMA",
+      "presentacion": "50 mg comp.x 28",
+      "laboratorio": "Varifarma",
+      "precio": 105319.22,
+      "precio_outlier_tipo": "bajo_iqr",
+      "razones": [
+        "precio $105,319.22 < fence_low $151,859.42"
+      ],
+      "mediana_droga": 335559.95,
+      "n_droga": 11
     },
     {
       "droga": "cabotegravir",
@@ -299,7 +338,7 @@
       "razones": [
         "ppu $205.00 << mediana_grupo $1,511.69"
       ],
-      "mediana_droga": 236303.53,
+      "mediana_droga": 247263.16,
       "n_droga": 8
     },
     {
@@ -325,7 +364,7 @@
       "razones": [
         "ppu $35.52 << mediana_grupo $1,229.12"
       ],
-      "mediana_droga": 19419.53,
+      "mediana_droga": 19500.15,
       "n_droga": 46
     },
     {
@@ -346,10 +385,10 @@
       "marca": "CLONER",
       "presentacion": "gts.x 20 ml",
       "laboratorio": "Vannier",
-      "precio": 15422.84,
+      "precio": 15625.87,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $771.14 << mediana_grupo $4,851.25"
+        "ppu $781.29 << mediana_grupo $4,851.25"
       ],
       "mediana_droga": 15817.77,
       "n_droga": 116
@@ -775,10 +814,10 @@
       "marca": "5-ASA 1000",
       "presentacion": "1000 mg sup.x 30",
       "laboratorio": "Domínguez",
-      "precio": 250097.35,
+      "precio": 257600.27,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $250.10 << mediana_grupo $107,735.83"
+        "ppu $257.60 << mediana_grupo $110,967.91"
       ],
       "mediana_droga": 271979.7,
       "n_droga": 39
@@ -866,12 +905,12 @@
       "marca": "NITROFURAZONA SERTEX",
       "presentacion": "pda.x 500 g",
       "laboratorio": "Sertex",
-      "precio": 52720.84,
+      "precio": 53775.25,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $105.44 << mediana_grupo $633.70"
+        "ppu $107.55 << mediana_grupo $646.38"
       ],
-      "mediana_droga": 22603.42,
+      "mediana_droga": 22835.81,
       "n_droga": 4
     },
     {
@@ -936,8 +975,21 @@
       "razones": [
         "precio $19,638.50 < fence_low $19,765.58"
       ],
-      "mediana_droga": 56392.68,
+      "mediana_droga": 57416.16,
       "n_droga": 32
+    },
+    {
+      "droga": "piroxicam",
+      "marca": "PIROXICAM DUPOMAR",
+      "presentacion": "gel x 50 g",
+      "laboratorio": "Siegfried",
+      "precio": 2921.34,
+      "precio_outlier_tipo": "bajo_relativo",
+      "razones": [
+        "precio $2,921.34 < 25% mediana $11,957.91 (n=8)"
+      ],
+      "mediana_droga": 11957.91,
+      "n_droga": 8
     },
     {
       "droga": "rifampicina",
@@ -962,7 +1014,7 @@
       "razones": [
         "ppu $1,209.51 << mediana_grupo $17,213.55"
       ],
-      "mediana_droga": 42801.21,
+      "mediana_droga": 42964.1,
       "n_droga": 58
     },
     {
@@ -975,7 +1027,7 @@
       "razones": [
         "ppu $1,927.55 << mediana_grupo $30,124.63"
       ],
-      "mediana_droga": 42801.21,
+      "mediana_droga": 42964.1,
       "n_droga": 58
     },
     {
@@ -988,7 +1040,7 @@
       "razones": [
         "ppu $2,159.19 << mediana_grupo $30,124.63"
       ],
-      "mediana_droga": 42801.21,
+      "mediana_droga": 42964.1,
       "n_droga": 58
     },
     {
@@ -1022,12 +1074,12 @@
       "marca": "RAPAMUNE",
       "presentacion": "sol.oral x 60 ml",
       "laboratorio": "Pfizer",
-      "precio": 2521058.4,
+      "precio": 2568958.51,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $42,017.64 << mediana_grupo $1,261,750.64"
+        "ppu $42,815.98 << mediana_grupo $1,285,723.90"
       ],
-      "mediana_droga": 2523501.28,
+      "mediana_droga": 2571447.8,
       "n_droga": 4
     },
     {
@@ -1194,9 +1246,9 @@
       "precio": 13700.15,
       "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "precio $13,700.15 < fence_low $14,231.86"
+        "precio $13,700.15 < fence_low $14,370.51"
       ],
-      "mediana_droga": 15530.56,
+      "mediana_droga": 15806.69,
       "n_droga": 6
     }
   ]
