@@ -598,14 +598,14 @@ body {
 .modal-info-vigencia.vigente { background: var(--teal-light); color: var(--teal-darker); }
 .modal-info-vigencia.discontinuado { background: var(--verify-bg); color: var(--verify-text); }
 
-.modal-info-lista { display: flex; flex-direction: column; gap: 12px; }
+.modal-info-lista { display: flex; flex-direction: column; gap: 6px; }
 .modal-info-lista dt {
     font-size: 11px;
     font-weight: 600;
-    color: var(--text-4);
+    color: var(--teal);
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    margin-bottom: 3px;
+    margin-bottom: 1px;
 }
 .modal-info-lista dd {
     font-size: 13px;
