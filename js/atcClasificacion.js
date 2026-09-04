@@ -121,6 +121,56 @@ const SUFIJOS_SAL_PEGADOS = [
 ];
 
 /**
+ * El campo `droga` en medicamentos.json se trunca a 30 caracteres en
+ * ciertos registros (limitación del PDF fuente de SIAFAR, no de este
+ * pipeline — ver scripts/etl/parser.py, que usa extracción de texto
+ * estándar sin ningún límite propio). Esto corta palabras a la mitad
+ * cuando el combo es largo, ej: "hioscina,n-butilbr., paracetam".
+ *
+ * Cada entrada de este mapa fue generada (2026-09-04) buscando, para el
+ * fragmento cortado, el candidato MÁS CORTO en atc_por_droga.json que
+ * empiece con ese prefijo, y aceptada solo cuando no había empate (un
+ * único candidato de longitud mínima). Se revisó cada una a mano por
+ * plausibilidad farmacológica antes de incorporarla (todas corresponden
+ * a combos reales y conocidos — ej. Buscapina Compositum, Stalevo,
+ * antirretrovirales en combinación).
+ *
+ * Riesgo conocido: es una tabla cerrada, no una regla general — si
+ * atc_por_droga.json crece, un prefijo que hoy tiene un único candidato
+ * podría dejar de tenerlo. No se generaliza a "usar siempre el más
+ * corto" para evitar ese riesgo silencioso.
+ *
+ * Excluidos deliberadamente: "ergotamina", "ibuprofen", "estradiol"
+ * (ya estaban completos, fallaban por otro motivo, no por truncamiento)
+ * y "clorfeniramina" (el único candidato es "clorfeniramina,
+ * combinaciones" — código específico para forma combinada, pendiente
+ * de confirmación antes de incorporar).
+ */
+const TRUNCAMIENTOS_CONOCIDOS = {
+    'zidovudi': 'zidovudina',
+    'hidroclo': 'hidroclorotiazida',
+    'cetilpiridi': 'cetilpiridinio',
+    'lidoca': 'lidocaina',
+    'ciclobenza': 'ciclobenzaprina',
+    'glucosamin': 'glucosamina',
+    'emtrici': 'emtricitabina',
+    'orfenadrina': 'orfenadrina (cloruro)',
+    'betametas': 'betametasona',
+    'fenoba': 'fenobarbital',
+    'lamivu': 'lamivudina',
+    'tenofo': 'tenofovir disoproxil',
+    'brimonid': 'brimonidina',
+    'tenofovir alafe': 'tenofovir alafenamide',
+    'vilantero': 'vilanterol ybromuro de umeclidinio',
+    'paracetam': 'paracetamol',
+    'etinilestradio': 'etinilestradiol',
+    'dihidroergocristin': 'dihidroergocristina',
+    'fenilefr': 'fenilefrina',
+    'lamivudi': 'lamivudina',
+    'trifluoperazi': 'trifluoperazina'
+};
+
+/**
  * Variantes de "ácido" a probar cuando el nombre normalizado no matchea
  * tal cual: remedi.ar a veces lo abrevia ("ac.clavulanico") y a veces lo
  * omite directamente ("acetilsalicilico" en vez de "acido acetilsalicilico").
@@ -144,6 +194,9 @@ function variantesAcido(norm) {
         if (norm.endsWith(' ' + sufijo)) {
             variantes.push(norm.slice(0, -(sufijo.length + 1)).trim());
         }
+    }
+    if (TRUNCAMIENTOS_CONOCIDOS[norm]) {
+        variantes.push(TRUNCAMIENTOS_CONOCIDOS[norm]);
     }
     return variantes;
 }
