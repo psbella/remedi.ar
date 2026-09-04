@@ -293,6 +293,38 @@ function _clasificacionPorExcepcion(drogaNormCompleta) {
 }
 
 /**
+ * "aluminio,hidr., magnesio,hidr., si" — el patrón "droga,sal" que ya
+ * manejamos con STOPWORDS_DROGA/SUFIJOS_SAL_PEGADOS sirve cuando la sal
+ * NO cambia el código ATC (ej. morfina y morfina sulfato comparten
+ * código). Con minerales esto NO es así: "hidróxido de aluminio"
+ * (A02AB01, antiácido) y, por decir algo, un hipotético "cloruro de
+ * aluminio" tendrían categorías ATC totalmente distintas. Por eso acá
+ * no se descarta el sufijo — se RECONSTRUYE el compuesto completo
+ * ("hidroxido de <mineral>") y se busca ese nombre exacto, que ya
+ * existe en atc_por_droga.json (verificado 2026-09-04: "hidroxido de
+ * aluminio" -> A02AB01, "hidroxido de magnesio" -> A02AA04, G04BX01).
+ *
+ * Fusiona cada par [mineral, 'hidr'/'hidróxido'] consecutivo en el
+ * array de partes ya normalizado, reemplazando ambos tokens por el
+ * compuesto reconstruido. El resto de las partes (ej. "asoc.", "si" de
+ * "simeticona" truncada) sigue su camino normal sin tocar.
+ */
+function fusionarHidroxidos(partes) {
+    const resultado = [];
+    for (let i = 0; i < partes.length; i++) {
+        const actual = partes[i].replace(/\.$/, '');
+        const siguiente = i + 1 < partes.length ? partes[i + 1].replace(/\.$/, '') : null;
+        if (siguiente === 'hidr' || siguiente === 'hidroxido') {
+            resultado.push(`hidroxido de ${actual}`);
+            i++; // saltar el token 'hidr.' ya consumido
+        } else {
+            resultado.push(partes[i]);
+        }
+    }
+    return resultado;
+}
+
+/**
  * Clasificación ATC a partir de la droga propia del medicamento (campo
  * `droga` de medicamentos.json — combos separados por ', '), matcheada
  * contra el dataset ANMAT. Es la fuente primaria: propia y verificable,
@@ -324,11 +356,12 @@ export function obtenerClasificacionPorDroga(drogaMed, mapaPorDroga, mapaNiveles
         return jerarquia ? { codigos: codigosExcepcion.join('\n'), jerarquia } : null;
     }
 
-    const partes = drogaMed.split(',')
+    let partes = drogaMed.split(',')
         .map(normalizarDroga)
         .filter(Boolean)
         .filter(p => !STOPWORDS_DROGA.has(p.replace(/\.$/, '')));
     if (partes.length === 0) return null;
+    partes = fusionarHidroxidos(partes);
 
     const codigos = [];
     for (const norm of partes) {
