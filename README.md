@@ -625,6 +625,11 @@ flowchart LR
         J["blacklist.json (710)"]
     end
 
+    subgraph ATC["🏷️ CLASIFICACIÓN ATC (generado offline)"]
+        H2["info_adicional.json\n(laboratorio, droga(s), clases)"]
+        I2["atc_por_droga.json\n(dataset propio, fuente ANMAT)"]
+    end
+
     subgraph FIVE["🌐 FRONTEND"]
         K["index.html"]
         L["store.js (pub/sub)"]
@@ -650,6 +655,8 @@ flowchart LR
     K --> L
     L --> M
     M --> N
+    H2 --> N
+    I2 --> N
     G --> Q
     Q --> R
 ```
