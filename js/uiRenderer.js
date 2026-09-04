@@ -513,9 +513,7 @@ export function abrirModalInfo(hash, drogaMed) {
                 <dd>${_escapeConSaltos(valor)}</dd>
             `).join('')}
         </dl>
-        <p class="modal-info-fuente">${info.inferido
-            ? 'Clasificación general de la droga, no específica de este producto — puede no reflejar cambios recientes.'
-            : 'Información de referencia, puede no reflejar cambios recientes.'}</p>`;
+        <p class="modal-info-fuente">Información de referencia, puede no reflejar cambios recientes.${atcMostrado ? ` Clasificación ATC: <a href="https://www.anmat.gob.ar/atc/CodigosATC.asp" target="_blank" rel="noopener noreferrer">ANMAT</a> · <a href="https://atcddd.fhi.no/atc_ddd_index/" target="_blank" rel="noopener noreferrer">OMS/WHOCC</a>.` : ''}</p>`;
 
     _elQueVolverFoco = document.activeElement;
     modal.classList.add('visible');

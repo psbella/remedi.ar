@@ -622,6 +622,11 @@ body {
     line-height: 1.5;
 }
 
+.modal-info-fuente a {
+    color: var(--teal-accent);
+    text-decoration: underline;
+}
+
 @media (max-width: 600px) {
     .modal-info-panel { padding: 20px; max-height: 90vh; }
 }
