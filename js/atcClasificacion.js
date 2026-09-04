@@ -269,6 +269,18 @@ const EXCEPCIONES_COMBO = [
         requiere: ['amoxicilina', 'clavulanico'],
         codigos: ['J01CR02'],
     },
+    {
+        // "hioscina,n-butilbr." (Buscapina y genéricos) — hioscina
+        // N-butilbromuro es UN principio activo (no hioscina + otra
+        // droga llamada "n-butilbr."), escrito en dos partes por el CSV
+        // ANMAT igual que el patrón "droga,sal". "n-butilbr." no está
+        // en SUFIJOS_SAL_PEGADOS porque no es un sufijo pegado con
+        // espacio sino un token propio separado por coma, y no es un
+        // principio activo por sí solo. Verificado contra WHOCC
+        // (2026-09-04): hyoscine butylbromide = A03BB01.
+        requiere: ['hioscina', 'butilbr'],
+        codigos: ['A03BB01'],
+    },
 ];
 
 function _clasificacionPorExcepcion(drogaNormCompleta) {
