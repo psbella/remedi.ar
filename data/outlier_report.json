@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-03T20:29:11.596127-03:00",
+  "timestamp": "2026-09-04T13:59:52.209625-03:00",
   "total_registros": 13127,
   "total_outliers": 96,
   "outliers": [
@@ -242,10 +242,10 @@
       "marca": "ORALSONE BENZOCAINA GEL",
       "presentacion": "gel x 10 g",
       "laboratorio": "Laboratorio Gra",
-      "precio": 11965.52,
+      "precio": 12145.01,
       "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "precio $11,965.52 < fence_low $12,998.92"
+        "precio $12,145.01 < fence_low $12,998.92"
       ],
       "mediana_droga": 14248.09,
       "n_droga": 6
@@ -671,10 +671,10 @@
       "marca": "IBUPROFENO VENT-3",
       "presentacion": "600 mg comp.x 20",
       "laboratorio": "Vent 3",
-      "precio": 7273.37,
+      "precio": 7411.56,
       "precio_outlier_tipo": "inconsistencia_escala",
       "razones": [
-        "ppu $12.12 << mediana_grupo $1,002.13"
+        "ppu $12.35 << mediana_grupo $1,021.17"
       ],
       "mediana_droga": 8470.0,
       "n_droga": 148
@@ -1168,9 +1168,9 @@
       "precio": 21548.21,
       "precio_outlier_tipo": "bajo_relativo",
       "razones": [
-        "precio $21,548.21 < 25% mediana $86,531.06 (n=66)"
+        "precio $21,548.21 < 25% mediana $87,724.12 (n=66)"
       ],
-      "mediana_droga": 86531.06,
+      "mediana_droga": 87724.12,
       "n_droga": 66
     },
     {
@@ -1183,7 +1183,7 @@
       "razones": [
         "ppu $2,105.06 << mediana_grupo $11,902.45"
       ],
-      "mediana_droga": 86531.06,
+      "mediana_droga": 87724.12,
       "n_droga": 66
     },
     {
