@@ -96,7 +96,7 @@ function normalizarDroga(s) {
  * código específico de esa sal.
  */
 const STOPWORDS_DROGA = new Set([
-    'asoc', 'ac',
+    'asoc', 'ac', 'as',
     'clorhidrato', 'clorh', 'diclorh', 'sulfato', 'acetato', 'citrato',
     'bromuro', 'cloruro', 'fosfato', 'sodio', 'potasio', 'calcio',
     'maleato', 'fumarato', 'tartrato', 'besilato', 'mesilato', 'succinato',
@@ -118,7 +118,7 @@ const STOPWORDS_DROGA = new Set([
 const SUFIJOS_SAL_PEGADOS = [
     'sodico', 'sodica', 'potasico', 'potasica', 'calcico', 'calcica',
     'dietilamina', 'magnesico', 'magnesica', 'colinico', 'colinica',
-    'clorhidrato', 'micronizado', 'micronizada'
+    'clorhidrato', 'micronizado', 'micronizada', 'maleato'
 ];
 
 /**
@@ -168,7 +168,12 @@ const TRUNCAMIENTOS_CONOCIDOS = {
     'dihidroergocristin': 'dihidroergocristina',
     'fenilefr': 'fenilefrina',
     'lamivudi': 'lamivudina',
-    'trifluoperazi': 'trifluoperazina'
+    'trifluoperazi': 'trifluoperazina',
+    // 'ibupro' tenía 4 candidatos por prefijo (ibuprofen, ibuprofeno,
+    // "ibuprofeno, combinaciones", ibuproxam) — sin ganador único por
+    // longitud, se eligió "ibuprofeno" a mano por ser la droga base
+    // esperable en el contexto ("clorfeniramina maleato, ibupro...").
+    'ibupro': 'ibuprofeno'
 };
 
 /**
