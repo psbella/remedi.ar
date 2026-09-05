@@ -287,6 +287,16 @@ const EXCEPCIONES_COMBO = [
         requiere: ['hioscina', 'butilbr'],
         codigos: ['A03BB01'],
     },
+    {
+        // "trifluridina, tipiracilo" (Lonsurf, oncológico) — código de
+        // combinación fija, distinto del código de trifluridina sola
+        // (S01AD02, colirio oftálmico para queratitis herpética — un
+        // uso completamente distinto). Sin esta excepción, el combo
+        // acumularía S01AD02 (incorrecto acá) junto con el código
+        // correcto. Verificado contra WHOCC (2026-09-04): L01BC59.
+        requiere: ['trifluridina', 'tipiracilo'],
+        codigos: ['L01BC59'],
+    },
 ];
 
 function _clasificacionPorExcepcion(drogaNormCompleta) {
