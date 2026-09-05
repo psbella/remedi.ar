@@ -101,7 +101,7 @@ const STOPWORDS_DROGA = new Set([
     'bromuro', 'cloruro', 'fosfato', 'sodio', 'potasio', 'calcio',
     'maleato', 'fumarato', 'tartrato', 'besilato', 'mesilato', 'succinato',
     'bicarbonato', 'carbonato', 'nitrato', 'yoduro', 'gluconato', 'lactato',
-    'picosulfato', 'valproato', 'fluoruro', 'ranelato'
+    'picosulfato', 'fluoruro', 'ranelato'
 ]);
 
 /**
