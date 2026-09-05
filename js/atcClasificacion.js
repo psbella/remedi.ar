@@ -101,7 +101,7 @@ const STOPWORDS_DROGA = new Set([
     'bromuro', 'cloruro', 'fosfato', 'sodio', 'potasio', 'calcio',
     'maleato', 'fumarato', 'tartrato', 'besilato', 'mesilato', 'succinato',
     'bicarbonato', 'carbonato', 'nitrato', 'yoduro', 'gluconato', 'lactato',
-    'picosulfato', 'fluoruro', 'ranelato'
+    'picosulfato', 'fluoruro', 'ranelato', 'furoato'
 ]);
 
 /**
@@ -118,7 +118,7 @@ const STOPWORDS_DROGA = new Set([
 const SUFIJOS_SAL_PEGADOS = [
     'sodico', 'sodica', 'potasico', 'potasica', 'calcico', 'calcica',
     'dietilamina', 'magnesico', 'magnesica', 'colinico', 'colinica',
-    'clorhidrato', 'micronizado', 'micronizada', 'maleato'
+    'clorhidrato', 'micronizado', 'micronizada', 'maleato', 'furoato'
 ];
 
 /**
@@ -331,6 +331,31 @@ function fusionarHidroxidos(partes) {
 }
 
 /**
+ * "vit.b,complejo" — mismo problema que los hidróxidos: el CSV separa
+ * por coma lo que es un solo concepto ("vitamina B complejo", WHOCC
+ * A11EA). "complejo" NO se puede tratar como stopword genérico porque
+ * en otro contexto es parte de un nombre real ("anfotericina b
+ * complejo lipídico" — ahí no está separado por coma, así que esta
+ * fusión no lo toca). Verificado (2026-09-04): en todo medicamentos.json,
+ * "complejo" como token EXACTO tras el split por coma solo aparece
+ * junto a "vit.b" — no hay riesgo de fusionar algo que no corresponda.
+ */
+function fusionarVitaminaBComplejo(partes) {
+    const resultado = [];
+    for (let i = 0; i < partes.length; i++) {
+        const actual = partes[i].replace(/\.$/, '');
+        const siguiente = i + 1 < partes.length ? partes[i + 1].replace(/\.$/, '') : null;
+        if (actual === 'vit.b' && siguiente === 'complejo') {
+            resultado.push('vitamina b complejo');
+            i++; // saltar 'complejo' ya consumido
+        } else {
+            resultado.push(partes[i]);
+        }
+    }
+    return resultado;
+}
+
+/**
  * Clasificación ATC a partir de la droga propia del medicamento (campo
  * `droga` de medicamentos.json — combos separados por ', '), matcheada
  * contra el dataset ANMAT. Es la fuente primaria: propia y verificable,
@@ -368,6 +393,7 @@ export function obtenerClasificacionPorDroga(drogaMed, mapaPorDroga, mapaNiveles
         .filter(p => !STOPWORDS_DROGA.has(p.replace(/\.$/, '')));
     if (partes.length === 0) return null;
     partes = fusionarHidroxidos(partes);
+    partes = fusionarVitaminaBComplejo(partes);
 
     const codigos = [];
     for (const norm of partes) {
