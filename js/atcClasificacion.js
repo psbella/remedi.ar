@@ -366,6 +366,30 @@ function fusionarVitaminaBComplejo(partes) {
 }
 
 /**
+ * "benzoílo,peróxido" — mismo patrón que hidróxidos/vit.b complejo:
+ * "benzoílo" + "peróxido" es UNA droga (peróxido de benzoílo, D10AE01),
+ * no dos. Acepta también "peróxid" truncado (el campo droga se corta
+ * a 30 caracteres en varios productos de este grupo, ej. "clindamicina,
+ * benzoílo,peróxid cp acne duo multidosis"). Verificado (2026-09-04):
+ * "benzoilo" como token exacto tras split por coma SIEMPRE aparece
+ * junto a peróxido/peróxid en medicamentos.json, sin excepciones.
+ */
+function fusionarBenzoiloPeroxido(partes) {
+    const resultado = [];
+    for (let i = 0; i < partes.length; i++) {
+        const actual = partes[i].replace(/\.$/, '');
+        const siguiente = i + 1 < partes.length ? partes[i + 1].replace(/\.$/, '') : null;
+        if (actual === 'benzoilo' && (siguiente === 'peroxido' || siguiente === 'peroxid')) {
+            resultado.push('benzoilo peroxido');
+            i++; // saltar el token de peróxido ya consumido
+        } else {
+            resultado.push(partes[i]);
+        }
+    }
+    return resultado;
+}
+
+/**
  * Clasificación ATC a partir de la droga propia del medicamento (campo
  * `droga` de medicamentos.json — combos separados por ', '), matcheada
  * contra el dataset ANMAT. Es la fuente primaria: propia y verificable,
@@ -404,6 +428,7 @@ export function obtenerClasificacionPorDroga(drogaMed, mapaPorDroga, mapaNiveles
     if (partes.length === 0) return null;
     partes = fusionarHidroxidos(partes);
     partes = fusionarVitaminaBComplejo(partes);
+    partes = fusionarBenzoiloPeroxido(partes);
 
     const codigos = [];
     for (const norm of partes) {
