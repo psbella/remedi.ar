@@ -5,7 +5,7 @@
 // para que quede cubierto por script-src 'self' en la CSP y no dependa de
 // mantener un hash SHA-256 sincronizado cada vez que se edita.
 (function() {
-    var btn = document.getElementById('btnTop');
+    const btn = document.getElementById('btnTop');
     if (!btn) return;
     window.addEventListener('scroll', function() {
         btn.classList.toggle('visible', window.scrollY > 300);
@@ -15,8 +15,8 @@
     });
 }());
 (function() {
-    var wrapper = document.getElementById('tablaWrapper');
-    var scroll  = document.getElementById('tablaScroll');
+    const wrapper = document.getElementById('tablaWrapper');
+    const scroll  = document.getElementById('tablaScroll');
     if (!wrapper || !scroll) return;
     function check() {
         wrapper.classList.toggle('no-overflow', scroll.scrollWidth <= scroll.clientWidth);
@@ -25,17 +25,17 @@
     window.addEventListener('resize', check);
 }());
 (function() {
-    var inp = document.getElementById('buscador');
-    var btn = document.getElementById('btnBuscar');
+    const inp = document.getElementById('buscador');
+    const btn = document.getElementById('btnBuscar');
     function ir() {
-        var q = inp ? inp.value.trim() : '';
+        const q = inp ? inp.value.trim() : '';
         if (q.length >= 2) window.location.href = 'index.html?q=' + encodeURIComponent(q);
     }
     if (btn) btn.addEventListener('click', ir);
     if (inp) inp.addEventListener('keydown', function(e) { if (e.key === 'Enter') ir(); });
 }());
 (function() {
-    var el = document.getElementById('footer-version');
+    const el = document.getElementById('footer-version');
     if (!el) return;
     fetch('package.json', { cache: 'no-cache' })
         .then(function(res) { if (!res.ok) throw new Error('no ok'); return res.json(); })
