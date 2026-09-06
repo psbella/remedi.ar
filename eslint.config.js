@@ -18,6 +18,11 @@ export default [
         setTimeout: "readonly",
         clearTimeout: "readonly",
         gtag: "readonly",
+        atob: "readonly",
+        btoa: "readonly",
+        TextDecoder: "readonly",
+        Event: "readonly",
+        localStorage: "readonly",
       },
     },
     rules: {
