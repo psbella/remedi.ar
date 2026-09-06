@@ -1,0 +1,37 @@
+name: Headers de producción
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "_headers"
+      - "scripts/checks/headers-check.mjs"
+  schedule:
+    - cron: "0 6 * * 0" # domingo 06:00 UTC -- después del chequeo de accesibilidad
+  workflow_dispatch:
+
+concurrency:
+  group: headers-check-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Setup Node
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: "20"
+
+      # A diferencia de accessibility.yml, este SÍ falla el build a propósito
+      # (ver comentario en headers-check.mjs): es un chequeo de seguridad, no
+      # de estilo, y no bloquea ningún deploy al correr solo.
+      - name: Verificar headers de producción contra _headers
+        run: node scripts/checks/headers-check.mjs
