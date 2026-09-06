@@ -41,6 +41,24 @@ const log = {
 // UTILITIES
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+// Misma implementación que utils.js::escapeHtml — duplicada acá a propósito
+// para no romper el criterio "sin dependencias" de este archivo (ver
+// encabezado). Escapa marca/droga/laboratorio/presentacion/tipo antes de
+// insertarlos en innerHTML: esos campos vienen de outlier_report.json
+// (generado por el ETL a partir del PDF oficial), no de un texto libre
+// tipeado por un usuario, pero ese dato ya demostró no ser 100% predecible
+// (ver el episodio de corrupción de encoding en blacklist.json) y este panel
+// corre con un token de GitHub con permiso de escritura sobre el repo.
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 function makeKey(item) {
   return [item.droga, item.marca, item.presentacion, item.laboratorio]
     .map(s => (s || '').trim().toLowerCase())
@@ -343,17 +361,17 @@ function renderTable(list) {
         </td>
         <td class="col-med">
           <div class="med-info">
-            <div class="med-name">${o.marca || '—'}</div>
-            <div class="med-brand">${o.droga || '—'}</div>
-            <div class="med-lab">${o.laboratorio || '—'}</div>
+            <div class="med-name">${escapeHtml(o.marca) || '—'}</div>
+            <div class="med-brand">${escapeHtml(o.droga) || '—'}</div>
+            <div class="med-lab">${escapeHtml(o.laboratorio) || '—'}</div>
           </div>
         </td>
-        <td class="col-pres">${o.presentacion || '—'}</td>
+        <td class="col-pres">${escapeHtml(o.presentacion) || '—'}</td>
         <td class="col-precio">${formatPrice(o.precio)}</td>
         <td class="col-mediana">${formatPrice(o.mediana_droga)}</td>
         <td class="col-ratio"><span class="${ratioCls}">${ratio}</span></td>
         <td class="col-tipo">
-          <span class="tipo-badge ${typeClass}">${o.precio_outlier_tipo || '—'}</span>
+          <span class="tipo-badge ${typeClass}">${escapeHtml(o.precio_outlier_tipo) || '—'}</span>
         </td>
         <td class="col-action">
           ${isBlocked
