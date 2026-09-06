@@ -471,6 +471,51 @@ def generar_faq(nombre: str, accion: str, precio_rango: str, n_marcas: int, prec
 </section>'''
 
 
+def generar_faq_ld(nombre: str, accion: str, precio_rango: str, n_marcas: int, precio_min: float) -> dict:
+    """Schema.org FAQPage con las mismas 4 preguntas de generar_faq(), en texto
+    plano (sin el <strong> de la tercera respuesta). Debe mantenerse
+    sincronizado a mano con generar_faq() si se edita el texto de alguna
+    pregunta -- mismo criterio que los hashes CSP en _headers: dos
+    representaciones del mismo contenido, sin generarse una a partir de la
+    otra, documentado aca para que no diverjan sin que se note."""
+    preguntas = [
+        (
+            f"\u00bfCu\u00e1nto cuesta {nombre} en Argentina hoy?",
+            f"{precio_rango} Los precios var\u00edan seg\u00fan la marca, la presentaci\u00f3n y el laboratorio. "
+            f"El precio m\u00e1s bajo disponible actualmente es de ${precio_min:,.0f} ARS. Consult\u00e1 la "
+            f"tabla actualizada arriba para ver todas las opciones.",
+        ),
+        (
+            f"\u00bfCu\u00e1l es la acci\u00f3n terap\u00e9utica de {nombre}?",
+            f"{accion}. Consult\u00e1 siempre con tu m\u00e9dico antes de iniciar, modificar o interrumpir "
+            f"cualquier tratamiento.",
+        ),
+        (
+            f"\u00bfCu\u00e1ntas marcas de {nombre} hay en Argentina?",
+            f"Seg\u00fan los datos actuales de SIAFAR/COFA, hay {n_marcas} marcas comerciales de {nombre} "
+            f"disponibles en el mercado argentino. Incluyen tanto versiones de marca como gen\u00e9ricos.",
+        ),
+        (
+            f"\u00bfLos precios de {nombre} se actualizan seguido?",
+            "Los precios en remedi.ar se actualizan autom\u00e1ticamente dos veces al d\u00eda (a las 10:30 y "
+            "18:00 hs de Argentina) a partir de los datos oficiales publicados por SIAFAR/COFA. Los "
+            "precios son orientativos; te recomendamos confirmar en tu farmacia antes de comprar.",
+        ),
+    ]
+    return {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": pregunta,
+                "acceptedAnswer": {"@type": "Answer", "text": respuesta},
+            }
+            for pregunta, respuesta in preguntas
+        ],
+    }
+
+
 # ── Mapeo de slugs a la forma exacta del campo 'droga' en medicamentos.json ──
 # El slug se mantiene sin tilde (URL/SEO), pero el campo 'droga' real del
 # dataset (SIAFAR/COFA) sí lleva acentuación, y algunas combinaciones usan
@@ -630,6 +675,10 @@ for droga_slug in DROGAS:
 
     json_ld = json.dumps(drug_ld, ensure_ascii=False, indent=2)
     json_ld_breadcrumb = json.dumps(breadcrumb_ld, ensure_ascii=False, indent=2)
+    json_ld_faq = json.dumps(
+        generar_faq_ld(nombre, accion, precio_rango, n_marcas, precio_min),
+        ensure_ascii=False, indent=2,
+    )
 
     fname = droga_slug + ".html"
 
@@ -662,6 +711,9 @@ for droga_slug in DROGAS:
     </script>
     <script type="application/ld+json">
 {json_ld_breadcrumb}
+    </script>
+    <script type="application/ld+json">
+{json_ld_faq}
     </script>
 </head>
 <body>
