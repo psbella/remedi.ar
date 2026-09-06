@@ -398,6 +398,35 @@ function fusionarBenzoiloPeroxido(partes) {
 }
 
 /**
+ * "metilo,salicilato" / "amilo,salicilato" / "dietilamina,salicilato"
+ * — patrón invertido "base,salicilato" = "salicilato de <base>", cada
+ * uno un compuesto DISTINTO (a diferencia de las sales genéricas de
+ * STOPWORDS_DROGA, acá "salicilato" no se puede descartar sin más:
+ * "metilo" o "amilo" solos no son drogas). Los tres verificados
+ * (2026-09-04) caen en WHOCC M02AC "preparaciones con derivados del
+ * ácido salicílico" — grupo sin subdivisión de nivel 5 (WHOCC: "No
+ * separate 5th levels are established in this group").
+ * "colina,salicilato" (gel bucal para úlceras) deliberadamente
+ * EXCLUIDO: no se encontró código WHOCC específico confirmado —
+ * mismo criterio que otros casos sin verificación limpia.
+ */
+const BASES_SALICILATO = new Set(['metilo', 'amilo', 'dietilamina']);
+function fusionarSalicilatos(partes) {
+    const resultado = [];
+    for (let i = 0; i < partes.length; i++) {
+        const actual = partes[i].replace(/\.$/, '');
+        const siguiente = i + 1 < partes.length ? partes[i + 1].replace(/\.$/, '') : null;
+        if (BASES_SALICILATO.has(actual) && siguiente === 'salicilato') {
+            resultado.push('salicilato de ' + actual);
+            i++; // saltar 'salicilato' ya consumido
+        } else {
+            resultado.push(partes[i]);
+        }
+    }
+    return resultado;
+}
+
+/**
  * Clasificación ATC a partir de la droga propia del medicamento (campo
  * `droga` de medicamentos.json — combos separados por ', '), matcheada
  * contra el dataset ANMAT. Es la fuente primaria: propia y verificable,
@@ -437,6 +466,7 @@ export function obtenerClasificacionPorDroga(drogaMed, mapaPorDroga, mapaNiveles
     partes = fusionarHidroxidos(partes);
     partes = fusionarVitaminaBComplejo(partes);
     partes = fusionarBenzoiloPeroxido(partes);
+    partes = fusionarSalicilatos(partes);
 
     const codigos = [];
     for (const norm of partes) {
