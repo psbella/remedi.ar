@@ -2,7 +2,7 @@
   "name": "remediar",
   "type": "module",
   "version": "2.4.0",
-  "description": "Buscador de precios de medicamentos en Argentina. Procesa el PDF oficial de SIAFAR/COFA dos veces al día y genera un comparador estático, sin publicidad y sin tracking. Incluye cobertura PAMI.",
+  "description": "Buscador de precios de medicamentos en Argentina. Procesa el PDF oficial de SIAFAR/COFA dos veces al día y genera un comparador estático, sin publicidad. Analítica anónima, sin tracking de terceros. Incluye cobertura PAMI.",
   "homepage": "https://remedi.ar",
   "repository": {
     "type": "git",
@@ -11,10 +11,12 @@
   "license": "MIT",
   "author": "Pablo Bella <pablo.s.bella@gmail.com>",
   "scripts": {
-    "a11y": "node scripts/checks/a11y-check.mjs"
+    "a11y": "node scripts/checks/a11y-check.mjs",
+    "lint": "eslint ."
   },
   "devDependencies": {
     "axe-core": "^4.12.1",
+    "eslint": "^9.39.5",
     "puppeteer": "^25.3.0"
   }
 }
