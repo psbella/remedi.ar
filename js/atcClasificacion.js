@@ -297,6 +297,14 @@ const EXCEPCIONES_COMBO = [
         requiere: ['trifluridina', 'tipiracilo'],
         codigos: ['L01BC59'],
     },
+    {
+        // "factor viii, fact.von willebra" (truncado, "fact.von
+        // willebrand") — combinación de factor VIII + factor Von
+        // Willebrand, código propio distinto de factor VIII solo
+        // (B02BD02). Verificado contra WHOCC (2026-09-04): B02BD06.
+        requiere: ['factor viii', 'willebra'],
+        codigos: ['B02BD06'],
+    },
 ];
 
 function _clasificacionPorExcepcion(drogaNormCompleta) {
