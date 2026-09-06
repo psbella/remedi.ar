@@ -118,7 +118,8 @@ const STOPWORDS_DROGA = new Set([
 const SUFIJOS_SAL_PEGADOS = [
     'sodico', 'sodica', 'potasico', 'potasica', 'calcico', 'calcica',
     'dietilamina', 'magnesico', 'magnesica', 'colinico', 'colinica',
-    'clorhidrato', 'micronizado', 'micronizada', 'maleato', 'furoato'
+    'clorhidrato', 'micronizado', 'micronizada', 'maleato', 'furoato',
+    'cilexetil', 'trometamina'
 ];
 
 /**
