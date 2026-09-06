@@ -306,6 +306,19 @@ const EXCEPCIONES_COMBO = [
         requiere: ['factor viii', 'willebra'],
         codigos: ['B02BD06'],
     },
+    {
+        // "diosmina, hesperidina" (Daflon y genéricos) — WHOCC define
+        // C05CA53 como "diosmin, combinations", NO como código de
+        // hesperidina en sí (hesperidina no tiene código WHO propio
+        // como monodroga, no está en el grupo C05CA de flavonoides).
+        // Por eso esto es una excepción de combo, no una entrada
+        // suelta de "hesperidina" — el dataset también tiene combos
+        // con hesperidina SIN diosmina (ej. "ruscogenina, hesperidina,
+        // asoc.") donde este código sería incorrecto. Verificado
+        // contra WHOCC (2026-09-05).
+        requiere: ['diosmina', 'hesperidina'],
+        codigos: ['C05CA53'],
+    },
 ];
 
 function _clasificacionPorExcepcion(drogaNormCompleta) {
