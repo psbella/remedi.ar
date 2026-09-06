@@ -56,5 +56,25 @@ jobs:
           git add *.html
           git add sitemap.xml
           git commit -m "Actualizar precios $(date +'%Y-%m-%d')" || echo "No changes"
-          git pull --rebase origin "${{ github.ref_name }}"
-          git push origin "${{ github.ref_name }}"
+
+          # Reintenta pull --rebase + push hasta 3 veces: el concurrency group
+          # de arriba serializa las corridas de ESTE workflow entre si, asi que
+          # el unico conflicto posible es un push manual a main mientras corre
+          # el job. Si el rebase queda a medias, se aborta antes de reintentar
+          # -- si el conflicto es real (mismo archivo, misma linea), esto no
+          # lo resuelve solo: agota los 3 intentos y falla el job a proposito,
+          # para que alguien lo mire (probado ambos casos antes de mergear).
+          intentos=0
+          hasta=3
+          while [ "$intentos" -lt "$hasta" ]; do
+            intentos=$((intentos + 1))
+            if git pull --rebase origin "${{ github.ref_name }}" && git push origin "${{ github.ref_name }}"; then
+              echo "Push OK en el intento $intentos."
+              exit 0
+            fi
+            echo "Intento $intentos de $hasta fallo (rebase o push). Abortando rebase si quedo a medias..."
+            git rebase --abort 2>/dev/null || true
+            sleep $((intentos * 5))
+          done
+          echo "No se pudo pushear despues de $hasta intentos."
+          exit 1
