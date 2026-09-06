@@ -22,7 +22,7 @@ function _cargarJsonConCache(url, cacheKey) {
                 const { ts, data } = JSON.parse(cached);
                 if (Date.now() - ts < CACHE_TTL_MS) return data;
             }
-        } catch (_) { /* sessionStorage bloqueado: continuar */ }
+        } catch { /* sessionStorage bloqueado: continuar */ }
 
         try {
             const res = await fetch(url, { cache: 'default' });
@@ -30,7 +30,7 @@ function _cargarJsonConCache(url, cacheKey) {
             const data = await res.json();
             try {
                 sessionStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data }));
-            } catch (_) { /* sessionStorage lleno: no es crítico */ }
+            } catch { /* sessionStorage lleno: no es crítico */ }
             return data;
         } catch (err) {
             console.warn(`[atcClasificacion] No se pudo cargar ${url}:`, err);

@@ -1,7 +1,6 @@
 // js/main.js — Orquestador principal
 import { cargarDatos }                            from './dataLoader.js';
-import { construirIndice, buscar }                from './searchEngine.js';
-import { aplicarFiltros, ordenar }               from './filters.js';
+import { construirIndice }                        from './searchEngine.js';
 import {
     mostrarSkeleton, mostrarMensajeInicial, mostrarError,
     mostrarResultados, cargarOpcionesFiltros, actualizarFechaEnFooter,
@@ -11,7 +10,7 @@ import {
 import { cargarInfoAdicional } from './infoAdicional.js';
 import { cargarClasificacionATC, cargarAtcPorDroga } from './atcClasificacion.js';
 import {
-    getState, getResultados, getFiltros, getTodos,
+    getState, getTodos,
     setFiltroTexto, setFiltroPresentacion,
     setFiltroLaboratorio, setFiltroOrden, setSoloPami, limpiarFiltros, getResultadosSinFiltros,
     setLoading, setError, initStore, suscribirse,
@@ -258,7 +257,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
 document.getElementById('btnInstalarApp')?.addEventListener('click', async () => {
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
+    await deferredPrompt.userChoice;
     deferredPrompt = null;
     document.getElementById('btnInstalarApp').style.display = 'none';
 });

@@ -19,7 +19,7 @@ export async function cargarDatos() {
                 return data;
             }
         }
-    } catch (_) { /* sessionStorage bloqueado: continuar */ }
+    } catch { /* sessionStorage bloqueado: continuar */ }
 
     // Fetch con prioridad alta
     const res = await fetch('data/medicamentos.json', {
@@ -33,7 +33,7 @@ export async function cargarDatos() {
     // Guardar en cache
     try {
         sessionStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data }));
-    } catch (_) { /* sessionStorage lleno: no es crítico */ }
+    } catch { /* sessionStorage lleno: no es crítico */ }
 
     return data;
 }

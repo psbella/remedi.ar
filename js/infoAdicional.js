@@ -20,7 +20,7 @@ export function cargarInfoAdicional() {
                 const { ts, data } = JSON.parse(cached);
                 if (Date.now() - ts < CACHE_TTL_MS) return data;
             }
-        } catch (_) { /* sessionStorage bloqueado: continuar */ }
+        } catch { /* sessionStorage bloqueado: continuar */ }
 
         try {
             const res = await fetch('data/info-adicional/info_adicional.json', { cache: 'default' });
@@ -28,7 +28,7 @@ export function cargarInfoAdicional() {
             const data = await res.json();
             try {
                 sessionStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data }));
-            } catch (_) { /* sessionStorage lleno: no es crítico */ }
+            } catch { /* sessionStorage lleno: no es crítico */ }
             return data;
         } catch (err) {
             console.warn('[infoAdicional] No se pudo cargar la info complementaria:', err);
