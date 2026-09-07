@@ -22,7 +22,7 @@ function _cargarJsonConCache(url, cacheKey) {
                 const { ts, data } = JSON.parse(cached);
                 if (Date.now() - ts < CACHE_TTL_MS) return data;
             }
-        } catch { /* sessionStorage bloqueado: continuar */ }
+        } catch (_) { /* sessionStorage bloqueado: continuar */ }
 
         try {
             const res = await fetch(url, { cache: 'default' });
@@ -30,7 +30,7 @@ function _cargarJsonConCache(url, cacheKey) {
             const data = await res.json();
             try {
                 sessionStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data }));
-            } catch { /* sessionStorage lleno: no es crítico */ }
+            } catch (_) { /* sessionStorage lleno: no es crítico */ }
             return data;
         } catch (err) {
             console.warn(`[atcClasificacion] No se pudo cargar ${url}:`, err);
@@ -119,7 +119,7 @@ const SUFIJOS_SAL_PEGADOS = [
     'sodico', 'sodica', 'potasico', 'potasica', 'calcico', 'calcica',
     'dietilamina', 'magnesico', 'magnesica', 'colinico', 'colinica',
     'clorhidrato', 'micronizado', 'micronizada', 'maleato', 'furoato',
-    'cilexetil', 'trometamina'
+    'cilexetil', 'trometamina', 'acetato'
 ];
 
 /**
