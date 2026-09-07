@@ -119,7 +119,7 @@ const SUFIJOS_SAL_PEGADOS = [
     'sodico', 'sodica', 'potasico', 'potasica', 'calcico', 'calcica',
     'dietilamina', 'magnesico', 'magnesica', 'colinico', 'colinica',
     'clorhidrato', 'micronizado', 'micronizada', 'maleato', 'furoato',
-    'cilexetil', 'trometamina', 'acetato'
+    'cilexetil', 'trometamina', 'acetato', 'clorh'
 ];
 
 /**
@@ -197,9 +197,10 @@ function variantesAcido(norm) {
     } else if (!norm.startsWith('acido ')) {
         variantes.push('acido ' + norm);
     }
+    const sinPuntoFinal = norm.replace(/\.$/, '');
     for (const sufijo of SUFIJOS_SAL_PEGADOS) {
-        if (norm.endsWith(' ' + sufijo)) {
-            variantes.push(norm.slice(0, -(sufijo.length + 1)).trim());
+        if (sinPuntoFinal.endsWith(' ' + sufijo)) {
+            variantes.push(sinPuntoFinal.slice(0, -(sufijo.length + 1)).trim());
         }
     }
     if (TRUNCAMIENTOS_CONOCIDOS[norm]) {
@@ -441,6 +442,27 @@ function fusionarSalicilatos(partes) {
 }
 
 /**
+ * "bencilo,benzoato" (permetrina, bencilo,benzoato — escabicida) es el
+ * mismo patrón invertido "droga,sal": "benzoato de bencilo" ya existe
+ * en atc_por_droga.json (P03AX01), solo faltaba armar la búsqueda
+ * compuesta.
+ */
+function fusionarBenzoatoBencilo(partes) {
+    const resultado = [];
+    for (let i = 0; i < partes.length; i++) {
+        const actual = partes[i].replace(/\.$/, '');
+        const siguiente = i + 1 < partes.length ? partes[i + 1].replace(/\.$/, '') : null;
+        if (actual === 'bencilo' && siguiente === 'benzoato') {
+            resultado.push('benzoato de bencilo');
+            i++; // saltar 'benzoato' ya consumido
+        } else {
+            resultado.push(partes[i]);
+        }
+    }
+    return resultado;
+}
+
+/**
  * Clasificación ATC a partir de la droga propia del medicamento (campo
  * `droga` de medicamentos.json — combos separados por ', '), matcheada
  * contra el dataset ANMAT. Es la fuente primaria: propia y verificable,
@@ -481,6 +503,7 @@ export function obtenerClasificacionPorDroga(drogaMed, mapaPorDroga, mapaNiveles
     partes = fusionarVitaminaBComplejo(partes);
     partes = fusionarBenzoiloPeroxido(partes);
     partes = fusionarSalicilatos(partes);
+    partes = fusionarBenzoatoBencilo(partes);
 
     const codigos = [];
     for (const norm of partes) {
