@@ -474,6 +474,27 @@ function fusionarBenzoatoBencilo(partes) {
 }
 
 /**
+ * "hierro,polimaltosato" es UN principio activo (hierro polimaltosato
+ * / complejo férrico de polimaltosa, B03AB05) — "hierro" solo no está
+ * en el diccionario (no tiene código único, ver STOPWORDS_DROGA), pero
+ * el compuesto completo sí.
+ */
+function fusionarHierroPolimaltosato(partes) {
+    const resultado = [];
+    for (let i = 0; i < partes.length; i++) {
+        const actual = partes[i].replace(/\.$/, '');
+        const siguiente = i + 1 < partes.length ? partes[i + 1].replace(/\.$/, '') : null;
+        if (actual === 'hierro' && siguiente === 'polimaltosato') {
+            resultado.push('hierro polimaltosato');
+            i++; // saltar 'polimaltosato' ya consumido
+        } else {
+            resultado.push(partes[i]);
+        }
+    }
+    return resultado;
+}
+
+/**
  * Clasificación ATC a partir de la droga propia del medicamento (campo
  * `droga` de medicamentos.json — combos separados por ', '), matcheada
  * contra el dataset ANMAT. Es la fuente primaria: propia y verificable,
@@ -515,6 +536,7 @@ export function obtenerClasificacionPorDroga(drogaMed, mapaPorDroga, mapaNiveles
     partes = fusionarBenzoiloPeroxido(partes);
     partes = fusionarSalicilatos(partes);
     partes = fusionarBenzoatoBencilo(partes);
+    partes = fusionarHierroPolimaltosato(partes);
 
     const codigos = [];
     for (const norm of partes) {
