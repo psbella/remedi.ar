@@ -1,8 +1,21 @@
 {
-  "timestamp": "2026-09-04T20:13:15.467643-03:00",
+  "timestamp": "2026-09-06T20:57:35.474606-03:00",
   "total_registros": 13127,
-  "total_outliers": 96,
+  "total_outliers": 97,
   "outliers": [
+    {
+      "droga": "abiraterona,acetato",
+      "marca": "ASTRODIL",
+      "presentacion": "comp.x 120",
+      "laboratorio": "Teva argentina",
+      "precio": 6712527.86,
+      "precio_outlier_tipo": "bajo_iqr",
+      "razones": [
+        "precio $6,712,527.86 < fence_low $6,933,338.05"
+      ],
+      "mediana_droga": 12006076.0,
+      "n_droga": 19
+    },
     {
       "droga": "aciclovir",
       "marca": "XICLOVIR",
@@ -931,10 +944,10 @@
       "marca": "IPALXANE",
       "presentacion": "125 mg cáps.x 21",
       "laboratorio": "Eczane",
-      "precio": 6929634.85,
+      "precio": 7075157.19,
       "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "precio $6,929,634.85 < fence_low $7,133,562.45"
+        "precio $7,075,157.19 < fence_low $7,649,278.59"
       ],
       "mediana_droga": 9536912.6,
       "n_droga": 32
@@ -944,10 +957,10 @@
       "marca": "IPALXANE",
       "presentacion": "75 mg cáps.x 21",
       "laboratorio": "Eczane",
-      "precio": 6929634.85,
+      "precio": 7075157.19,
       "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "precio $6,929,634.85 < fence_low $7,133,562.45"
+        "precio $7,075,157.19 < fence_low $7,649,278.59"
       ],
       "mediana_droga": 9536912.6,
       "n_droga": 32
