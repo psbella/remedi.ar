@@ -170,6 +170,15 @@ const TRUNCAMIENTOS_CONOCIDOS = {
     'fenilefr': 'fenilefrina',
     'lamivudi': 'lamivudina',
     'trifluoperazi': 'trifluoperazina',
+    // Estas 4 NO son truncamiento por el límite de 30 caracteres —
+    // son abreviaturas propias del PDF fuente de SIAFAR, confirmadas
+    // porque aparecen idénticas sin importar la longitud total del
+    // campo droga (ej. "gentamic." en combos de 23, 35, 39, 40 y 45
+    // caracteres). Mismo mecanismo de tabla, distinto origen.
+    'hidrocort': 'hidrocortisona',
+    'gentamic': 'gentamicina',
+    'hidrocloroti': 'hidroclorotiazida',
+    'amlo': 'amlodipina',
     // 'ibupro' tenía 4 candidatos por prefijo (ibuprofen, ibuprofeno,
     // "ibuprofeno, combinaciones", ibuproxam) — sin ganador único por
     // longitud, se eligió "ibuprofeno" a mano por ser la droga base
@@ -205,6 +214,8 @@ function variantesAcido(norm) {
     }
     if (TRUNCAMIENTOS_CONOCIDOS[norm]) {
         variantes.push(TRUNCAMIENTOS_CONOCIDOS[norm]);
+    } else if (TRUNCAMIENTOS_CONOCIDOS[sinPuntoFinal]) {
+        variantes.push(TRUNCAMIENTOS_CONOCIDOS[sinPuntoFinal]);
     }
     return variantes;
 }
