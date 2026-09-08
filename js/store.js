@@ -47,8 +47,6 @@ function notificar() {
 // Todos devuelven una copia superficial (spread), nunca la referencia
 // interna, para que nadie mute el estado del store desde afuera.
 export function getState()     { return { ...state }; }
-export function getFiltros()   { return { ...state.filtros }; }
-export function getResultados(){ return [...state.resultados]; }
 export function getResultadosSinFiltros(){ return [...state.resultadosSinFiltros]; }
 export function getTodos()     { return [...state.todos]; }
 

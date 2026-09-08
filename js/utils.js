@@ -33,19 +33,7 @@ export function escapeHtml(str) {
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
-		.replace(/'/g, '&#039;');
-}
-
-/**
- * Calcula el porcentaje de ahorro del precio PAMI contra el precio público.
- * Devuelve null si falta algún precio o si PAMI no es más barato.
- */
-export function calcularAhorroPami(pub, pami) {
-    if (!pub || !pami || pub <= 0 || pami >= pub) return null;
-    return Math.round(((pub - pami) / pub) * 100).toString();
-}
-
-// ── Normalización de laboratorios truncados ───────────────────────────
+ormalización de laboratorios truncados ───────────────────────────
 const LAB_CORRECCIONES = {
     "abbvie (ex alle": "Abbvie / Recalcine",
     "alef medical ar": "Alef Medical Argentina",

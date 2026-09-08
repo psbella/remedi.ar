@@ -147,18 +147,6 @@ export function actualizarFechaEnFooter(fecha) {
     });
 }
 
-/**
- * Muestra u oculta el chip que indica el criterio de orden activo.
- */
-export function actualizarSortChip(texto) {
-    const chip  = document.getElementById('sortChip');
-    const label = document.getElementById('sortChipLabel');
-    if (!chip || !label) return;
-    if (!texto) { chip.classList.remove('visible'); return; }
-    label.textContent = texto;
-    chip.classList.add('visible');
-}
-
 function _ocultarChip() {
     document.getElementById('sortChip')?.classList.remove('visible');
 }

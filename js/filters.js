@@ -59,17 +59,3 @@ export function ordenar(lista, modo = 'relevancia') {
         return 0;
     });
 }
-
-/**
- * Devuelve la lista de laboratorios únicos y ordenados alfabéticamente,
- * excluyendo los que parecen corruptos (ver esValorCorrupto). Se usa para
- * poblar el dropdown de filtro por laboratorio.
- */
-export function obtenerLaboratoriosValidos(lista) {
-    const labs = new Set();
-    lista.forEach(m => {
-        const lab = m.laboratorio;
-        if (lab && !esValorCorrupto(lab)) labs.add(lab);
-    });
-    return [...labs].sort();
-}
