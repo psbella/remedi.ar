@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-08T20:36:12.363305-03:00",
+  "timestamp": "2026-09-09T03:03:46.339057-03:00",
   "total_registros": 13127,
-  "total_outliers": 97,
+  "total_outliers": 96,
   "outliers": [
     {
       "droga": "abiraterona,acetato",
@@ -13,7 +13,7 @@
       "razones": [
         "precio $6,712,527.86 < fence_low $6,933,338.05"
       ],
-      "mediana_droga": 12006076.0,
+      "mediana_droga": 12074028.78,
       "n_droga": 19
     },
     {
@@ -180,7 +180,7 @@
       "precio": 114122.05,
       "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "precio $114,122.05 < fence_low $115,185.13"
+        "precio $114,122.05 < fence_low $115,925.30"
       ],
       "mediana_droga": 136351.84,
       "n_droga": 26
@@ -286,7 +286,7 @@
       "razones": [
         "precio $105,319.22 < fence_low $151,859.42"
       ],
-      "mediana_droga": 335559.95,
+      "mediana_droga": 347153.84,
       "n_droga": 11
     },
     {
@@ -947,9 +947,9 @@
       "precio": 7075157.19,
       "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "precio $7,075,157.19 < fence_low $7,649,278.59"
+        "precio $7,075,157.19 < fence_low $7,697,697.08"
       ],
-      "mediana_droga": 9536912.6,
+      "mediana_droga": 9674695.19,
       "n_droga": 32
     },
     {
@@ -960,9 +960,9 @@
       "precio": 7075157.19,
       "precio_outlier_tipo": "bajo_iqr",
       "razones": [
-        "precio $7,075,157.19 < fence_low $7,649,278.59"
+        "precio $7,075,157.19 < fence_low $7,697,697.08"
       ],
-      "mediana_droga": 9536912.6,
+      "mediana_droga": 9674695.19,
       "n_droga": 32
     },
     {
@@ -977,19 +977,6 @@
       ],
       "mediana_droga": 9675.17,
       "n_droga": 80
-    },
-    {
-      "droga": "paroxetina",
-      "marca": "DATEVAN",
-      "presentacion": "20 mg comp.x 10",
-      "laboratorio": "Rontag",
-      "precio": 19638.5,
-      "precio_outlier_tipo": "bajo_iqr",
-      "razones": [
-        "precio $19,638.50 < fence_low $19,765.58"
-      ],
-      "mediana_droga": 57416.16,
-      "n_droga": 32
     },
     {
       "droga": "piroxicam",
