@@ -1,7 +1,7 @@
 {
   "name": "remediar",
   "type": "module",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "description": "Buscador de precios de medicamentos en Argentina. Procesa el PDF oficial de SIAFAR/COFA dos veces al día y genera un comparador estático, sin publicidad. Analítica anónima, sin tracking de terceros. Incluye cobertura PAMI.",
   "homepage": "https://remedi.ar",
   "repository": {
