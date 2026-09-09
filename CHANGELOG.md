@@ -4,6 +4,35 @@ Todos los cambios notables de remedi.ar se documentan en este archivo.
 
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.1] - 2026-09-09
+
+### Agregado
+- `.github/workflows/js-syntax-check.yml`: corre `node --check` sobre
+  todo `js/*.js` y `scripts/checks/*.mjs` en cada push/PR a `main`
+  que toque esas rutas, y bloquea el build si algún archivo no
+  parsea — a diferencia de ESLint/axe en este repo, que avisan pero
+  no rompen a propósito (ver `accessibility.yml`).
+
+### Quitado
+- Código muerto sin ninguna referencia en el resto del repo:
+  `getFiltros()` y `getResultados()` (`js/store.js`),
+  `calcularAhorroPami()` (`js/utils.js`), `actualizarSortChip()`
+  (`js/uiRenderer.js` — apuntaba a un `#sortChip` que ya no existe en
+  ningún `.html`), `obtenerLaboratoriosValidos()` (`js/filters.js` —
+  duplicaba el propósito de `extraerFiltros()` en `js/utils.js`).
+- `atc-mermaid.patch` (raíz): diff de 300 líneas commiteado por
+  error, nunca aplicado ni referenciado por ningún workflow.
+
+### Corregido
+- `js/utils.js`: `SyntaxError` en `escapeHtml()` (faltaban 3 líneas:
+  el `.replace()` final, el cierre de función y el inicio del
+  comentario siguiente), introducido por el propio commit de
+  limpieza de código muerto de esta misma versión al perderse esas
+  líneas en el pegado de un heredoc de Git Bash. Rompía la carga de
+  JS en prácticamente todo el sitio durante la ventana entre ese
+  commit y este fix. Verificado con `node --check` sobre los 8
+  archivos de `js/` tras el fix.
+
 ## [2.4.0] - 2026-09-03
 
 ### Agregado

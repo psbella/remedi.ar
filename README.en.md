@@ -757,7 +757,8 @@ remediar/
     ├── update_prices.yml
     ├── maintenance-on.yml
     ├── maintenance-off.yml
-    └── codeql.yml
+    ├── codeql.yml
+    └── js-syntax-check.yml
 ```
 
 ---
@@ -1371,6 +1372,7 @@ A single mobile-first breakpoint at `600px` — there's no separate intermediate
 | `maintenance-on.yml` | Manual | Replaces `index.html` with a maintenance page |
 | `maintenance-off.yml` | Manual | Restores `index.html` from backup |
 | `codeql.yml` | Push/PR to `main` + weekly cron (Saturday 01:33 UTC) | Static security analysis (CodeQL) over JS, Python, and the GitHub Actions workflows themselves |
+| `js-syntax-check.yml` | Push/PR to `main` touching `js/**` or `scripts/checks/**` + manual | Runs `node --check` over all JS. Unlike ESLint/axe in this repo, this DOES block the build — a syntax error breaks JS loading site-wide, it's not a style issue |
 | `accessibility.yml` | Push/PR to `main` touching any `*.html`, `css/style.css`, `js/**`, or the check itself + weekly cron (Sunday 05:00 UTC) + manual | Runs `scripts/checks/a11y-check.mjs` (axe-core + Puppeteer). Quick mode (`index.html`, `about.html`, `terminos.html`, `privacidad.html`) on push/PR/manual; full mode (all `.html` files) only on the weekly run. `admin-panel.html` is always excluded. Doesn't block the build — warns, doesn't break, same policy as Ruff/ESLint |
 | `dependabot.yml` (config, not a workflow) | Weekly | Proposes updates for `requirements.txt` (pip), the actions used in the workflows (`github-actions`), and `package.json` (`npm` — `axe-core`/`puppeteer`, used only by `a11y-check.mjs`) |
 
