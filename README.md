@@ -477,6 +477,16 @@ jobs:
 | `data/presentaciones_debug.csv` | Auditoría del parser: `presentacion_original` vs. campos parseados (`forma`, `dosis`, `unidad`, `cantidad`) |
 | `.debug/medicamentos.pretty.json` | Versión formateada con `indent=2` del dataset, solo para debug local — **no se publica** en el sitio ni se versiona en git |
 
+### Nuevos datasets v2.4.0+ (ATC e Info Adicional)
+
+[#nuevos-datasets-v240-atc-e-info-adicional](#nuevos-datasets-v240-atc-e-info-adicional)
+
+| Archivo | Descripción |
+|---|---|
+| `data/atc/atc_por_droga.json` | Mapeo droga → código ATC. WHOCC. Usado por modal +Info. |
+| `data/atc/atc_niveles.json` | Jerarquía ATC Nivel1-4. Decodificación en interfaz. |
+| `data/info-adicional/info_adicional.json` | Laboratorio, ATC, clases terapéuticas. Carga on-demand. |
+
 ### Cómo agregar una corrección a `droga_fixes.json`
 
 `droga_fixes.json` es editable manualmente — no hace falta tocar el código para cubrir nuevas marcas sin principio activo en el PDF.
@@ -499,6 +509,12 @@ La clave es siempre el valor del campo `marca` o `droga` en mayúsculas tal como
 ---
 
 # ⚡ Optimizaciones Implementadas
+
+## ✅ Modal +Info con clasificación ATC
+
+[#-modal-info-con-clasificación-atc](#-modal-info-con-clasificación-atc)
+
+Cada medicamento muestra "+ info" que abre modal con laboratorio, drogas, clases terapéuticas y ATC (ANMAT + WHOCC). Datos on-demand desde `data/info-adicional/info_adicional.json`. v2.4.0 via `js/infoAdicional.js` + `js/atcClasificacion.js`.
 
 ## ✅ Búsqueda en memoria
 
@@ -679,7 +695,7 @@ remediar/
 ├── about.html
 ├── admin-panel.html      # panel interno (outliers/lista negra), noindex, auth por GitHub PAT
 ├── mantenimiento.html    # pagina de mantenimiento, se copia a index.html vía workflow
-├── {droga}.html          # 100 landing pages SEO (una por droga), generadas — ver más abajo
+├── {droga}.html          # 100 landing pages SEO (una por droga), generadas
 ├── README.md
 ├── _headers
 ├── .nojekyll
@@ -707,9 +723,9 @@ remediar/
 │   ├── utils.js
 │   ├── about.js
 │   ├── admin-panel.js
-│   ├── landing.js        # compartido por las 100 landing pages
-│   ├── infoAdicional.js  # modal "+Info" (laboratorio, droga, clases terapéuticas)
-│   └── atcClasificacion.js  # jerarquía ATC oficial ANMAT en el modal +Info
+│   ├── atcClasificacion.js          # clasificación ATC oficial ANMAT en modal +Info
+│   ├── infoAdicional.js             # modal "+Info" (laboratorio, droga, clases terapéuticas)
+│   └── landing.js                   # compartido por las 100 landing pages
 │
 ├── data/
 │   ├── medicamentos.json
@@ -717,34 +733,36 @@ remediar/
 │   ├── presentaciones_debug.csv
 │   ├── blacklist.json
 │   ├── droga_fixes.json
-│   ├── pami.xlsx          # descargado en runtime, no versionado
+│   ├── pami.xlsx                    # descargado en runtime
 │   ├── atc/
-│   │   ├── atc_por_droga.json   # clasificación ATC propia por droga
-│   │   └── atc_niveles.json     # jerarquía Nivel1-4 (dataset codigos-atc-anmat)
+│   │   ├── atc_por_droga.json       # clasificación ATC por droga
+│   │   └── atc_niveles.json         # jerarquía Nivel1-4
 │   └── info-adicional/
-│       └── info_adicional.json  # laboratorio, droga(s), clases terapéuticas por medicamento
+│       └── info_adicional.json      # laboratorio, drogas, clases terapéuticas
 │
 ├── scripts/
-│   ├── pdf_to_json.py       # orquestador: encadena las capas de etl/
-│   ├── generar_landings.py  # genera las 100 landing pages + sitemap.xml
-│   ├── github_release_helper.py  # helper compartido de releases (usado por snapshot_semanal.py y subir_debug.py)
+│   ├── pdf_to_json.py               # orquestador ETL
+│   ├── generar_landings.py          # genera 100 landings + sitemap.xml
+│   ├── github_release_helper.py     # helper de releases
 │   ├── subir_debug.py
+│   ├── snapshot_semanal.py
+│   ├── traducir_atc_who.py          # traduce drogas a códigos ATC WHOCC
+│   ├── aplicar_atc_tabla_oms.py     # aplica tabla ATC/DDD WHOCC (206 drogas)
 │   ├── checks/
-│   │   └── a11y-check.mjs   # chequeo de accesibilidad con axe-core, no bloqueante
+│   │   └── a11y-check.mjs
 │   ├── mantenimiento/
-│   │   └── fix_blacklist_encoding.py  # reparación puntual de encoding en blacklist.json
-│   ├── etl/
-│   │   ├── config.py            # constantes y paths compartidos
-│   │   ├── parser.py             # descarga del PDF y parseo a lista de medicamentos
-│   │   ├── reparaciones.py       # capas de reparación de campos mal parseados
-│   │   ├── droga_fixes.py        # fixes manuales + reparación de droga faltante
-│   │   ├── presentacion.py       # extracción/parseo/debug de presentaciones
-│   │   ├── pami.py               # crosswalk contra el vademécum PAMI
-│   │   ├── blacklist.py          # carga y filtrado de la lista negra
-│   │   ├── outliers.py           # detección de outliers y cálculo de vigencia
-│   │   ├── enriquecimiento.py    # enriquecimiento de campos de presentación/dosis
-│   │   └── utils.py              # helpers de parseo/limpieza básicos
-│   └── snapshot_semanal.py
+│   │   └── fix_blacklist_encoding.py
+│   └── etl/
+│       ├── config.py
+│       ├── parser.py
+│       ├── reparaciones.py
+│       ├── droga_fixes.py
+│       ├── presentacion.py
+│       ├── pami.py
+│       ├── blacklist.py
+│       ├── outliers.py
+│       ├── enriquecimiento.py
+│       └── utils.py
 │
 ├── tests/
 │   ├── conftest.py
@@ -757,8 +775,9 @@ remediar/
     ├── maintenance-on.yml
     ├── maintenance-off.yml
     ├── accessibility.yml
-    ├── codeql.yml
-    └── js-syntax-check.yml
+    ├── js-syntax-check.yml
+    ├── headers-check.yml
+    └── codeql.yml
 ```
 
 ---
@@ -1389,6 +1408,18 @@ Un único breakpoint mobile-first en `600px` — no hay un nivel intermedio de t
 | Snapshot semanal | Viernes — CSV subido a GitHub Releases (`historial-YYYY-MM`) |
 
 ---
+
+# 🔧 Documentación de Workflows
+
+| Workflow | Archivo | Trigger | Función |
+|---|---|---|---|
+| **ETL + Tests** | `.github/workflows/update_prices.yml` | Cron: 10:30 y 18:30 AR (L-V) + manual | Descarga PDF SIAFAR → ETL 8+ capas → medicamentos.json → 100 landings → 28 pytest → commit |
+| **Maintenance ON** | `.github/workflows/maintenance-on.yml` | Manual | Reemplaza index.html con mantenimiento.html |
+| **Maintenance OFF** | `.github/workflows/maintenance-off.yml` | Manual | Restaura index.html a estado normal |
+| **Accesibilidad** | `.github/workflows/accessibility.yml` | Push/PR a assets | axe-core contra todas las páginas → reporte; no bloquea |
+| **Sintaxis JS** | `.github/workflows/js-syntax-check.yml` | Push/PR a js/ | `node --check` → bloquea build si hay SyntaxError (v2.4.1+) |
+| **Headers Prod** | `.github/workflows/headers-check.yml` | Push a main | Valida headers en `_headers` vs Cloudflare Transform Rules |
+| **CodeQL** | `.github/workflows/codeql.yml` | Automático | Análisis estático de seguridad Python + JS |
 
 # ❓ Preguntas Frecuentes (FAQ)
 
