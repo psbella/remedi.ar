@@ -6,6 +6,16 @@
 # en modo Proxied), no desde este archivo. Si se edita el CSP acá,
 # hay que actualizar la Transform Rule a mano y volver a verificar
 # con curl -I contra remedi.ar y www.remedi.ar — ver CHANGELOG.
+
+# ⚠️ Los Cache-Control de acá abajo NO están replicados en producción
+# (a diferencia de los headers de seguridad). Confirmado con curl -sI
+# el 2026-09-09: css/style.css devuelve max-age=14400 en vez de 86400,
+# y data/medicamentos.json devuelve max-age=600 sin stale-while-
+# revalidate en vez de max-age=7200/stale-while-revalidate=3600. O sea
+# que los valores de esta sección son la intención, no lo que se sirve
+# hoy. Para que apliquen de verdad hay que agregar Transform Rules de
+# Cache-Control en el dashboard de Cloudflare, igual que las de
+# seguridad, y volver a verificar con curl -sI.
 #
 # El script-src incluye DOS hashes porque index.html tiene DOS
 # scripts inline ejecutables: la config de gtag y el registro de
