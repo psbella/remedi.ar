@@ -1,0 +1,97 @@
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index d263231..f250b83 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -4,6 +4,35 @@ Todos los cambios notables de remedi.ar se documentan en este archivo.
+ 
+ El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y el proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+ 
++## [2.4.1] - 2026-09-09
++
++### Agregado
++- `.github/workflows/js-syntax-check.yml`: corre `node --check` sobre
++  todo `js/*.js` y `scripts/checks/*.mjs` en cada push/PR a `main`
++  que toque esas rutas, y bloquea el build si algún archivo no
++  parsea — a diferencia de ESLint/axe en este repo, que avisan pero
++  no rompen a propósito (ver `accessibility.yml`).
++
++### Quitado
++- Código muerto sin ninguna referencia en el resto del repo:
++  `getFiltros()` y `getResultados()` (`js/store.js`),
++  `calcularAhorroPami()` (`js/utils.js`), `actualizarSortChip()`
++  (`js/uiRenderer.js` — apuntaba a un `#sortChip` que ya no existe en
++  ningún `.html`), `obtenerLaboratoriosValidos()` (`js/filters.js` —
++  duplicaba el propósito de `extraerFiltros()` en `js/utils.js`).
++- `atc-mermaid.patch` (raíz): diff de 300 líneas commiteado por
++  error, nunca aplicado ni referenciado por ningún workflow.
++
++### Corregido
++- `js/utils.js`: `SyntaxError` en `escapeHtml()` (faltaban 3 líneas:
++  el `.replace()` final, el cierre de función y el inicio del
++  comentario siguiente), introducido por el propio commit de
++  limpieza de código muerto de esta misma versión al perderse esas
++  líneas en el pegado de un heredoc de Git Bash. Rompía la carga de
++  JS en prácticamente todo el sitio durante la ventana entre ese
++  commit y este fix. Verificado con `node --check` sobre los 8
++  archivos de `js/` tras el fix.
++
+ ## [2.4.0] - 2026-09-03
+ 
+ ### Agregado
+diff --git a/README.en.md b/README.en.md
+index 8027f66..bb7113b 100644
+--- a/README.en.md
++++ b/README.en.md
+@@ -757,7 +757,8 @@ remediar/
+     ├── update_prices.yml
+     ├── maintenance-on.yml
+     ├── maintenance-off.yml
+-    └── codeql.yml
++    ├── codeql.yml
++    └── js-syntax-check.yml
+ ```
+ 
+ ---
+@@ -1371,6 +1372,7 @@ A single mobile-first breakpoint at `600px` — there's no separate intermediate
+ | `maintenance-on.yml` | Manual | Replaces `index.html` with a maintenance page |
+ | `maintenance-off.yml` | Manual | Restores `index.html` from backup |
+ | `codeql.yml` | Push/PR to `main` + weekly cron (Saturday 01:33 UTC) | Static security analysis (CodeQL) over JS, Python, and the GitHub Actions workflows themselves |
++| `js-syntax-check.yml` | Push/PR to `main` touching `js/**` or `scripts/checks/**` + manual | Runs `node --check` over all JS. Unlike ESLint/axe in this repo, this DOES block the build — a syntax error breaks JS loading site-wide, it's not a style issue |
+ | `accessibility.yml` | Push/PR to `main` touching any `*.html`, `css/style.css`, `js/**`, or the check itself + weekly cron (Sunday 05:00 UTC) + manual | Runs `scripts/checks/a11y-check.mjs` (axe-core + Puppeteer). Quick mode (`index.html`, `about.html`, `terminos.html`, `privacidad.html`) on push/PR/manual; full mode (all `.html` files) only on the weekly run. `admin-panel.html` is always excluded. Doesn't block the build — warns, doesn't break, same policy as Ruff/ESLint |
+ | `dependabot.yml` (config, not a workflow) | Weekly | Proposes updates for `requirements.txt` (pip), the actions used in the workflows (`github-actions`), and `package.json` (`npm` — `axe-core`/`puppeteer`, used only by `a11y-check.mjs`) |
+ 
+diff --git a/README.md b/README.md
+index 56350d2..7c897d3 100644
+--- a/README.md
++++ b/README.md
+@@ -757,7 +757,8 @@ remediar/
+     ├── maintenance-on.yml
+     ├── maintenance-off.yml
+     ├── accessibility.yml
+-    └── codeql.yml
++    ├── codeql.yml
++    └── js-syntax-check.yml
+ ```
+ 
+ ---
+@@ -1371,6 +1372,7 @@ Un único breakpoint mobile-first en `600px` — no hay un nivel intermedio de t
+ | `maintenance-on.yml` | Manual | Reemplaza `index.html` con página de mantenimiento |
+ | `maintenance-off.yml` | Manual | Restaura `index.html` desde backup |
+ | `codeql.yml` | Push/PR a `main` + cron semanal (sábado 01:33 UTC) | Análisis estático de seguridad (CodeQL) sobre JS, Python y los propios workflows de GitHub Actions |
++| `js-syntax-check.yml` | Push/PR a `main` que toque `js/**` o `scripts/checks/**` + manual | Corre `node --check` sobre todo el JS. A diferencia de ESLint/axe en este repo, SÍ bloquea el build — un error de sintaxis rompe la carga de JS en todo el sitio, no es una cuestión de estilo |
+ | `accessibility.yml` | Push/PR a `main` que toque cualquier `*.html`, `css/style.css`, `js/**` o el propio check + cron semanal (domingo 05:00 UTC) + manual | Corre `scripts/checks/a11y-check.mjs` (axe-core + Puppeteer). Modo rápido (`index.html`, `about.html`, `terminos.html`, `privacidad.html`) en push/PR/manual; modo completo (todas las .html) solo en la corrida semanal. `admin-panel.html` queda excluido siempre. No bloquea el build — avisa, no rompe, mismo criterio que Ruff/ESLint |
+ | `dependabot.yml` (config, no workflow) | Semanal | Propone actualizaciones de `requirements.txt` (pip), de las actions usadas en los workflows (`github-actions`) y de `package.json` (`npm` — `axe-core`/`puppeteer`, usados solo por `a11y-check.mjs`) |
+ 
+diff --git a/package.json b/package.json
+index 817a171..8d2cb4e 100644
+--- a/package.json
++++ b/package.json
+@@ -1,7 +1,7 @@
+ {
+   "name": "remediar",
+   "type": "module",
+-  "version": "2.4.0",
++  "version": "2.4.1",
+   "description": "Buscador de precios de medicamentos en Argentina. Procesa el PDF oficial de SIAFAR/COFA dos veces al día y genera un comparador estático, sin publicidad. Analítica anónima, sin tracking de terceros. Incluye cobertura PAMI.",
+   "homepage": "https://remedi.ar",
+   "repository": {
