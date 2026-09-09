@@ -85,7 +85,7 @@ export function normalizarLaboratorio(lab) {
  * terminaron en el campo laboratorio), vía blacklist de valores conocidos
  * más heurísticas de dígitos/unidades.
  */
-function esLaboratorioCorrupto(valor) {
+export function esLaboratorioCorrupto(valor) {
     if (!valor) return true;
     const limpio = valor.toString().trim();
     const blacklist = [

@@ -1,22 +1,13 @@
 // js/filters.js — Filtros y ordenamiento con soporte de vigencia
-
-/**
- * Detecta si un valor de laboratorio quedó corrupto por un mal parseo del PDF
- * (por ejemplo, un precio o una dosis que terminó en el campo equivocado).
- */
-function esValorCorrupto(valor) {
-    if (!valor) return true;
-    const limpio = valor.toString().trim();
-    if (/^[\d\.,\$]+$/.test(limpio)) return true;
-    if (/mg|ml|compr?|comp\.|rec\.|x\s?\d+|susp\.|sol\.|gts\.|crema|ung\.|iny\./i.test(limpio)) return true;
-    if (/^\d+\s*(mg|ml|g|ui)/i.test(limpio)) return true;
-    return false;
-}
+import { esLaboratorioCorrupto, normalizarLaboratorio } from './utils.js';
 
 /**
  * Aplica los filtros de presentación, laboratorio y cobertura PAMI sobre la
  * lista de medicamentos. Los laboratorios con valor corrupto (ver
- * esValorCorrupto) nunca matchean, aunque coincida el texto.
+ * esLaboratorioCorrupto en utils.js) nunca matchean, aunque coincida el
+ * texto. `laboratorio` llega como el nombre NORMALIZADO (el que arma
+ * extraerFiltros() para el dropdown), así que el valor crudo de cada
+ * medicamento se normaliza antes de comparar.
  */
 export function aplicarFiltros(lista, presentacion = '', laboratorio = '', mostrarSospechosos = true, soloPami = false) {
     let r = [...lista];
@@ -24,7 +15,7 @@ export function aplicarFiltros(lista, presentacion = '', laboratorio = '', mostr
     if (laboratorio) {
         r = r.filter(m => {
             const lab = m.laboratorio || '';
-            return !esValorCorrupto(lab) && lab === laboratorio;
+            return !esLaboratorioCorrupto(lab) && normalizarLaboratorio(lab) === laboratorio;
         });
     }
     if (soloPami) r = r.filter(m => m.pami_cobertura != null);
