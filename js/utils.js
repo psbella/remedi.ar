@@ -33,7 +33,10 @@ export function escapeHtml(str) {
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
-ormalización de laboratorios truncados ───────────────────────────
+		.replace(/'/g, '&#039;');
+}
+
+// ── Normalización de laboratorios truncados ───────────────────────────
 const LAB_CORRECCIONES = {
     "abbvie (ex alle": "Abbvie / Recalcine",
     "alef medical ar": "Alef Medical Argentina",
